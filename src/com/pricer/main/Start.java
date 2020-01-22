@@ -71,6 +71,13 @@ public class Start {
 
 		scheduler.start();
 
+
+
+		ThreadCheckPriceFiles getPriceFiles = new ThreadCheckPriceFiles();
+		getPriceFiles.setPriority(1);
+		getPriceFiles.start();
+
+
 		ThreadCheckGestFiles getGestFiles = new ThreadCheckGestFiles();
 		getGestFiles.setPriority(1);
 		getGestFiles.start();
