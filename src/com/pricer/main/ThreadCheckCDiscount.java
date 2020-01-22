@@ -1,11 +1,16 @@
 package com.pricer.main;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.StringTokenizer;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -15,6 +20,7 @@ import org.ini4j.Wini;
 
 import com.pricer.model.FileProperty;
 import com.pricer.model.UtilityClass;
+import com.pricer.product.ProductCDiscount;
 
 public class ThreadCheckCDiscount extends Thread {
 	
@@ -89,6 +95,9 @@ public class ThreadCheckCDiscount extends Thread {
 		logger.info("Processing CDiscount file !");
 		
 		FileProperty fpTemporaryFile = new FileProperty(temporaryFile);
+		boolean bdatafile_Update_opened=false;
+		ProductCDiscount cdiscountData = null;
+		OperationOnDB opDB = null;
 		
 		Date d = new Date(); 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_Hmmss");
@@ -101,14 +110,15 @@ public class ThreadCheckCDiscount extends Thread {
         
         PrintStream datafile_Update		=	null;
        	PrintStream messagefile_Update	=	null;
+       	StringBuffer completeLine ;
        	
        	/**************FILE CONTENT *******************/
        	       	       	
        	
         
-        dataFileName_Update		=	pricerDataFilesFolder		+ "\\"	+ "data_stock_" + dateOfFile + ".i1";
-        messageFileName_Update	=	pricerMessageFilesFolder	+ "\\"	+ "data_stock_" + dateOfFile + ".m1";
-        resultFileName_Update	=	pricerResultFilesFolder		+ "\\"	+ "data_stock_" + dateOfFile + ".r7";
+        dataFileName_Update		=	pricerDataFilesFolder		+ "\\"	+ "data_cdiscount_" + dateOfFile + ".i1";
+        messageFileName_Update	=	pricerMessageFilesFolder	+ "\\"	+ "data_cdiscount_" + dateOfFile + ".m1";
+        resultFileName_Update	=	pricerResultFilesFolder		+ "\\"	+ "data_cdiscount_" + dateOfFile + ".r7";
         
         contentMessageFile_Update = "UPDATE,0001,," + dataFileName_Update + "," + resultFileName_Update;
 		
@@ -129,16 +139,120 @@ public class ThreadCheckCDiscount extends Thread {
 		
 		System.out.println("let's GO!!!" );
 		
+		List<String> lstMapFile = fpTemporaryFile.fileToMap();
 		
 		
 		
+		for (String line : lstMapFile) {
+			
+			//System.out.println("line = " + line);
+			
+			
+			List<String> splitedTabLine = splitLine(line, ";");
+
+			  try {
+			 
+				  if (bdatafile_Update_opened==false){
+				  
+					datafile_Update=new PrintStream(new BufferedOutputStream(new FileOutputStream(dataFileName_Update,true)),true);
+					System.out.println("dataFileName_Update =" + dataFileName_Update);
+					bdatafile_Update_opened=true;
+				  }
+		    	
+		    }
+		    	catch (FileNotFoundException e) {
+		    		logger.fatal("File Not Found, Unable to create File : " + dataFileName_Update );
+		    	}
+		 
+			
+			
+			completeLine = new StringBuffer(); 
+			
+	try {		
 		
 		
+		cdiscountData = new ProductCDiscount();
+		opDB = new OperationOnDB();
 		
+		
+		//cdiscountData.setItemIPF(splitedTabLine.get(0));
+		cdiscountData.setItemID(splitedTabLine.get(1));
+		cdiscountData.setProductID(splitedTabLine.get(2));
+		cdiscountData.setUrlFicheTechnique(splitedTabLine.get(7));
+		cdiscountData.setGarantie(splitedTabLine.get(9));
+		cdiscountData.setPictoTitre1(splitedTabLine.get(10));
+		cdiscountData.setPictoValeur1(splitedTabLine.get(11));
+		cdiscountData.setPictoTitre2(splitedTabLine.get(12));
+		cdiscountData.setPictoValeur2(splitedTabLine.get(13));
+		cdiscountData.setPictoTitre3(splitedTabLine.get(14));
+		cdiscountData.setPictoValeur3(splitedTabLine.get(15));
+		cdiscountData.setPictoTitre4(splitedTabLine.get(16));
+		cdiscountData.setPictoValeur4(splitedTabLine.get(17));
+		cdiscountData.setPictoTitre5(splitedTabLine.get(18));
+		cdiscountData.setPictoValeur5(splitedTabLine.get(19));
+		cdiscountData.setNoteMoyenne(splitedTabLine.get(40));
+		cdiscountData.setNbreAvisClients(splitedTabLine.get(41));
+		cdiscountData.setPrixPrecoFournisseur(splitedTabLine.get(42));
+		cdiscountData.setDispoPiecesDetachees(splitedTabLine.get(43));
+		        
+		 completeLine.append("0001 ").append(cdiscountData.getItemID());
+         completeLine.append(" 121 0 |").append("CDISCOUNT");
+         completeLine.append("| 244 0 |").append(cdiscountData.getProductID());
+         completeLine.append("| 239 0 |").append(cdiscountData.getUrlFicheTechnique());
+         completeLine.append("| 237 0 |").append(cdiscountData.getGarantie());
+         completeLine.append("| 227 0 |").append(cdiscountData.getPictoTitre1());
+         completeLine.append("| 228 0 |").append(cdiscountData.getPictoValeur1());
+         completeLine.append("| 229 0 |").append(cdiscountData.getPictoTitre2());
+         completeLine.append("| 230 0 |").append(cdiscountData.getPictoValeur2());
+         completeLine.append("| 231 0 |").append(cdiscountData.getPictoTitre3());
+         completeLine.append("| 232 0 |").append(cdiscountData.getPictoValeur3());
+         completeLine.append("| 233 0 |").append(cdiscountData.getPictoTitre4());
+         completeLine.append("| 234 0 |").append(cdiscountData.getPictoValeur4());
+         completeLine.append("| 235 0 |").append(cdiscountData.getPictoTitre5());
+         completeLine.append("| 236 0 |").append(cdiscountData.getPictoValeur5());
+         completeLine.append("| 240 0 |").append(cdiscountData.getNoteMoyenne());
+         completeLine.append("| 241 0 |").append(cdiscountData.getNbreAvisClients());
+         completeLine.append("| 245 0 |").append(cdiscountData.getPrixPrecoFournisseur());
+         completeLine.append("| 238 0 |").append(cdiscountData.getDispoPiecesDetachees());
+                 
+         completeLine.append("|,");
+         
+         
+         System.out.println( completeLine.toString());
+        // datafile_Update.println(completeLine.toString());
+        // datafile_Update.flush();
+
+		}
+			catch (IndexOutOfBoundsException indx){
+			logger.warn("line empty or out of bound...." + line);
+			 
+		 } 
+			
+		}
+		
+		
+		if (bdatafile_Update_opened==true){
+	 		datafile_Update.close(); 
+	 		try {
+				messagefile_Update=new PrintStream(new BufferedOutputStream(new FileOutputStream(messageFileName_Update)),true);
+			} catch (FileNotFoundException e) {
+				logger.fatal("unable to create Message File : " + e.getMessage() + ":" + e.getCause());
+				
+			}
+	 messagefile_Update.print(contentMessageFile_Update);	
+	 messagefile_Update.flush();
+	 messagefile_Update.close();
+	 	}
+		
+		
+		System.out.println("delete file " + temporaryFolder + "\\" + cdiscountFileName);
+		new File(temporaryFolder + "\\" + cdiscountFileName).delete();
+	
 		
 		
 		
 	}
+		
 	
 	public void InitializeIni() {
 		try {
@@ -158,6 +272,35 @@ public class ThreadCheckCDiscount extends Thread {
 
 		}
 		
+	}
+	
+	private static List<String> splitLine(String sLine, String sSeparator) {
+		
+		List<String> lSplitLine = new ArrayList<String>();
+		String tmp;
+		boolean pipetmp = false;
+		int j = 0;
+		
+		StringTokenizer st = new StringTokenizer(sLine, sSeparator, true);
+		while (st.hasMoreTokens()) {
+			
+			tmp = st.nextToken();
+			if (tmp.equals(sSeparator)) {
+				if (pipetmp == true) {
+					lSplitLine.add("");
+					j++;
+				}
+				pipetmp = true;
+			} else {
+				pipetmp = false;
+				lSplitLine.add(tmp);
+				
+				j++;
+			}
+		}
+		j = 0;
+		
+		return lSplitLine;
 	}
 	
 

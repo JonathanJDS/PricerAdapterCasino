@@ -7,7 +7,7 @@ public class ProductBase {
 	private String itemDptIdRef;
 	private String itemID;
 	private String itemName;
-	private String masterEAN;
+	private String EAN;
 	private List<String> lstEANsic;
 	private String itemIPF;
 	private String flagPromo;
@@ -48,11 +48,11 @@ public class ProductBase {
 		this.itemName = itemName;
 	}
 	
-	public String getMasterEAN() {
-		return masterEAN;
+	public String getEAN() {
+		return EAN;
 	}
-	public void setMasterEAN(String masterEAN) {
-		this.masterEAN = masterEAN;
+	public void setEAN(String EAN) {
+		this.EAN = EAN;
 	}
 	
 	public String getItemIPF() {
