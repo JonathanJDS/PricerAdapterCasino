@@ -1,18 +1,22 @@
 package com.pricer.main;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.ini4j.InvalidFileFormatException;
@@ -20,6 +24,7 @@ import org.ini4j.Wini;
 
 import com.pricer.model.FileProperty;
 import com.pricer.model.UtilityClass;
+import com.pricer.product.ProductBase;
 import com.pricer.product.ProductCDiscount;
 
 public class ThreadCheckCDiscount extends Thread {
@@ -77,7 +82,12 @@ public class ThreadCheckCDiscount extends Thread {
 				utility.ZipFile (sourceFolder, fileNameFilter, temporaryFolder, fileNameFilter, cdiscountArchiveFolder);
 				utility.MoveFile(sourceFolder + "\\" + fileNameFilter,temporaryFolder + "\\" + fileNameFilter);	
 				
-				ProcessFile(temporaryFolder + "\\" + fileNameFilter);
+				try {
+					ProcessFile(temporaryFolder + "\\" + fileNameFilter);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 				}
 
@@ -89,7 +99,7 @@ public class ThreadCheckCDiscount extends Thread {
 		timer.scheduleAtFixedRate(task, 0, tempo * 1000);
 	}
 	
-	private void ProcessFile(String temporaryFile) {
+	private void ProcessFile(String temporaryFile) throws IOException {
 		
 		System.out.println("Processing CDiscount file");
 		logger.info("Processing CDiscount file !");
@@ -98,6 +108,7 @@ public class ThreadCheckCDiscount extends Thread {
 		boolean bdatafile_Update_opened=false;
 		ProductCDiscount cdiscountData = null;
 		OperationOnDB opDB = null;
+		opDB = new OperationOnDB();
 		
 		Date d = new Date(); 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_Hmmss");
@@ -111,6 +122,8 @@ public class ThreadCheckCDiscount extends Thread {
         PrintStream datafile_Update		=	null;
        	PrintStream messagefile_Update	=	null;
        	StringBuffer completeLine ;
+       	String concatAllEAN = "";
+       	String allSIC ="";
        	
        	/**************FILE CONTENT *******************/
        	       	       	
@@ -139,9 +152,34 @@ public class ThreadCheckCDiscount extends Thread {
 		
 		System.out.println("let's GO!!!" );
 		
+		
+		//STORING CDEAN TO GET SIC FROM DB
+		
+		List<List<String>> records = new ArrayList<>();
+		try (BufferedReader br = new BufferedReader(new FileReader(temporaryFile))) {
+		    		    
+		    br.readLine();
+		    String line = null;;
+		    
+		    while ((line = br.readLine()) != null) {
+		        String[] values = line.split(";");
+		        records.add(Arrays.asList(values));
+		    }
+		}
+		
+		for(List<String> string : records) {
+			concatAllEAN = concatAllEAN + ("'"+string.get(0)+"',");
+		}
+		
+		//System.out.println(concatAllEAN);
+		
+		//GET SIC FROM DB
+		List<ProductBase> lstSIC = opDB.getCdiscountSic(concatAllEAN.substring(0,concatAllEAN.length() -1 ));
+		
 		List<String> lstMapFile = fpTemporaryFile.fileToMap();
 		
 		
+		int i =0;
 		
 		for (String line : lstMapFile) {
 			
@@ -168,15 +206,12 @@ public class ThreadCheckCDiscount extends Thread {
 			
 			completeLine = new StringBuffer(); 
 			
+			
 	try {		
 		
 		
 		cdiscountData = new ProductCDiscount();
-		opDB = new OperationOnDB();
 		
-		
-		//cdiscountData.setItemIPF(splitedTabLine.get(0));
-		cdiscountData.setItemID(splitedTabLine.get(1));
 		cdiscountData.setProductID(splitedTabLine.get(2));
 		cdiscountData.setUrlFicheTechnique(splitedTabLine.get(7));
 		cdiscountData.setGarantie(splitedTabLine.get(9));
@@ -195,7 +230,11 @@ public class ThreadCheckCDiscount extends Thread {
 		cdiscountData.setPrixPrecoFournisseur(splitedTabLine.get(42));
 		cdiscountData.setDispoPiecesDetachees(splitedTabLine.get(43));
 		        
-		 completeLine.append("0001 ").append(cdiscountData.getItemID());
+		 
+		 
+
+				
+		 completeLine.append("0001 ").append(lstSIC.get(i).getItemID());
          completeLine.append(" 121 0 |").append("CDISCOUNT");
          completeLine.append("| 244 0 |").append(cdiscountData.getProductID());
          completeLine.append("| 239 0 |").append(cdiscountData.getUrlFicheTechnique());
@@ -216,9 +255,9 @@ public class ThreadCheckCDiscount extends Thread {
          completeLine.append("| 238 0 |").append(cdiscountData.getDispoPiecesDetachees());
                  
          completeLine.append("|,");
+         i++;
          
-         
-         System.out.println( completeLine.toString());
+        System.out.println( completeLine.toString());
         // datafile_Update.println(completeLine.toString());
         // datafile_Update.flush();
 
