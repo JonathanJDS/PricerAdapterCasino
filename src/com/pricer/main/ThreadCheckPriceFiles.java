@@ -1,7 +1,7 @@
 package com.pricer.main;
 
 import com.pricer.model.FileProperty;
-import com.pricer.model.UtilityClass;
+import com.pricer.model.FileUtility;
 import com.pricer.product.ProductPrice;
 import org.apache.log4j.Logger;
 import org.ini4j.InvalidFileFormatException;
@@ -27,7 +27,7 @@ public class ThreadCheckPriceFiles extends Thread {
 	static String pricerResultFilesFolder;
 
 	Timer timer = new Timer();
-	UtilityClass utility = new UtilityClass();
+	FileUtility utility = new FileUtility();
 
 	public ThreadCheckPriceFiles() {
 

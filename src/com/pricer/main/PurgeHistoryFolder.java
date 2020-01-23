@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import com.pricer.model.FileProperty;
+import com.pricer.model.FileUtility;
 import com.pricer.model.ListDataManager;
 
 
@@ -24,7 +24,7 @@ public class PurgeHistoryFolder {
 
 logger.info("Purging Archives Folder :" + directoryPath + "\\*.zip");
 		
-	com.pricer.model.FileProperty fileToDelete=null;
+	com.pricer.model.FileUtility fileToDelete=null;
 	Calendar calendar=Calendar.getInstance();
 	//définir le format de la date
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd H:mm:ss");
@@ -60,7 +60,7 @@ logger.info("check file :" + fileName);
 	logger.info("found file : " + subfile.getName());
 
 	String fileNametoCheck=directoryPath + "\\" +  subfile.getName();    
-	FileProperty fichier=new FileProperty(fileNametoCheck);
+	FileUtility fichier=new FileUtility(fileNametoCheck);
 
 	//si le fichier n'est pas dans la plage de date correspondant au filtre alors on ne le stocke pas dans le tableau.
 	
@@ -78,7 +78,7 @@ logger.info("check file :" + fileName);
 	    
 	    
 	   
-	   fileToDelete=new FileProperty(directoryPath + "\\" + subfile.getName().toString());
+	   fileToDelete=new FileUtility(directoryPath + "\\" + subfile.getName().toString());
 		
 	   
 	   logger.info("deleting History file : " + fileToDelete.getPathFilename());
