@@ -70,19 +70,24 @@ public class ThreadCheckPriceFiles extends Thread {
 
 				// check first if something is present in temporary Folder, if not process source Folder
 
-				if (lstFilesTemporary.size() == 0) {
+				if (lstFilesTemporary.size() != 0) {
+
+					logger.warn ("File is present in temporary Folder !! priority for that !!!!");
+					// processing all files from temporary.
+					for (String fileNameFilter : lstFilesTemporary) {
+						ProcessFile(temporaryFolder + "\\" + fileNameFilter);
+					}
+
+				}
+
+
+				else {
 					for (String fileNameFilter : lstFiles) {
+						// process only one file in temporary (one by one ) .
+						if (lstFilesTemporary.size() == 0)
 						utility.ZipFile(sourceFolder, fileNameFilter, temporaryFolder, fileNameFilter, priceArchiveFolder);
 						utility.MoveFile(sourceFolder + "\\" + fileNameFilter, temporaryFolder + "\\" + fileNameFilter);
 						ProcessFile(temporaryFolder + "\\" + fileNameFilter);
-					}
-				}
-
-				else {
-				logger.warn ("File is present in temporary Folder !! priority for that !!!!");
-				// processing all files from temporary.
-				for (String fileNameFilter : lstFilesTemporary) {
-					ProcessFile(temporaryFolder + "\\" + fileNameFilter);
 					}
 
 				}
