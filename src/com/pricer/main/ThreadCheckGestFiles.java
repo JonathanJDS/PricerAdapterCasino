@@ -12,8 +12,8 @@ import org.apache.log4j.Logger;
 import org.ini4j.InvalidFileFormatException;
 import org.ini4j.Wini;
 
-import com.pricer.model.FileProperty;
-import com.pricer.model.UtilityClass;
+import com.pricer.model.FileUtility;
+import com.pricer.model.FileUtility;
 
 public class ThreadCheckGestFiles extends Thread {
 	
@@ -31,7 +31,7 @@ public class ThreadCheckGestFiles extends Thread {
 	static String pricerResultFilesFolder;
 	
 	Timer timer = new Timer();
-	UtilityClass utility = new UtilityClass();
+	FileUtility utility = new FileUtility();
 	
 	public ThreadCheckGestFiles() {
 
@@ -86,7 +86,7 @@ public class ThreadCheckGestFiles extends Thread {
 		
 		System.out.println("Processing gest file");
 		
-		FileProperty fpTemporaryFile = new FileProperty(temporaryFile);
+		FileUtility fpTemporaryFile = new FileUtility(temporaryFile);
 		
 		Date d = new Date(); 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_Hmmss");

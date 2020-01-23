@@ -1,42 +1,207 @@
-package  com.pricer.model;
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.LinkedList;
-import javax.swing.JFileChooser;
-
-import org.apache.log4j.Logger;
+package com.pricer.model;
 
 import java.io.BufferedReader;
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.LinkedList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import javax.swing.JFileChooser;
 
-/**
- * read property of a file
+import org.apache.log4j.Logger;
+import org.ini4j.Wini;
 
- * @author mohamed.derraz
- */
-public class FileProperty {
-	static Logger logger = Logger.getLogger(FileProperty.class);
-    
-private File file = null;
 
-    /**
-     * Contructor
-     * @param filename path+file 
-     */
-    public FileProperty(String filename) {
+public class FileUtility {
+	
+	private static Wini ini;
+	static Logger logger = Logger.getLogger(FileUtility.class);
+	private File file = null;
+	
+
+	
+	public void MoveFile(String source, String destination) {
+		
+		
+		FileUtility fpSourceFile = new FileUtility(source);
+	  
+		if (fpSourceFile.FileExist()) {
+		
+		if (!fpSourceFile.moveToFolder(destination)) {
+		  
+		  logger.warn("Unable to copy file to destination : " + destination);
+		  logger.warn("waiting for end of threatment...");
+	  }
+		
+		
+		}
+		
+		
+		else {
+			logger.debug("source file not present : " + source);
+			logger.debug("nothing to do ....");
+			
+		}
+		
+	}
+	
+	public  void ZipFile(String sourceFolder,String sourceFile, String temporaryFolder, String stockFileName, String archiveFolder) {
+
+		String dateOfFile ;			
+		String completeFileName = sourceFolder + "\\" + sourceFile;
+				
+		
+		FileUtility fpCurrentFile = new FileUtility(completeFileName);
+		FileUtility fpTempFile = new FileUtility(temporaryFolder + "\\" + stockFileName);
+		
+if (fpTempFile.FileExist() == false) {
+		if (fpCurrentFile.FileExist()) {
+
+			if (fpCurrentFile.fileIsGrowing() == false) {
+
+				dateOfFile = new SimpleDateFormat("yyyyMMdd_Hmmss").format(new Date());
+				//fpCurrentFile.zipFile(archiveFolder + "\\" + stockFileName + "_" + dateOfFile + ".zip");
+				fpCurrentFile.zipFile(archiveFolder, sourceFile + "_" + dateOfFile + ".zip");
+
+				
+
+			}
+		}
+}
+	
+	
+	else if (fpCurrentFile.FileExist() && fpTempFile.FileExist()){
+		logger.warn("unable to zip file : " +  completeFileName);
+		logger.warn(stockFileName + " is already present into temporary folder, waiting for end of threatment...");
+
+	}
+}
+	
+	  public ArrayList<String> listFilesFromDirectory(String directoryPath,String filterName) {
+	    	 
+    	  System.out.println("filtername = " + filterName);
+
+	    	try{ 
+
+	    	 ArrayList<String> data=new ArrayList<String>();
+	    	  
+	    	 File directory = new File(directoryPath);
+	    			
+	    	 
+	    	 
+	    	 
+	    			if (!directory.exists()) {
+	    				logger.warn("File Or Directory '" + directoryPath + "' doesn't exist !!!!");
+	    				
+	    			} else if (!directory.isDirectory()) {
+	    				logger.warn("PATH Of  '" + directoryPath + "' is a File, not a Folder !!!!");
+	    			} else{   
+	    	     
+	    	ListDataManager ldm=new ListDataManager(directoryPath, filterName);
+	    	ldm.sortFilesLeft();
+
+
+
+	    	for (int i=0;i<ldm.getFilesLeftSize();i++){
+
+	    	File subfile = ldm.getCurrentFile();
+	    					
+	    	
+
+
+	    	String fileName= subfile.getName();    
+	    	   
+	    	    data.add(fileName);
+	       	System.out.println("found file : " + fileName);
+	    	   
+	    	    
+	    	    ldm.nextFile();    
+
+
+	    	}
+	    	                }
+	    	            
+
+	    	 return data;  
+	    	 
+	    	 }
+	    	 catch(java.lang.Exception err){
+	    	// vect.add(err.getMessage());
+	    	
+	    		 logger.warn(err.getMessage() + " , detail :" + err.getCause());
+	    	  return null;
+	    	 }      
+	    	}
+	
+	
+	
+	
+
+	public Wini getIni() {
+		return ini;
+	}
+
+	public void setIni(Wini ini) {
+		FileUtility.ini = ini;
+	}
+	
+	public boolean zipFile(String zipFilePath, String zipFileName) {
+        try {
+ 
+
+            FileOutputStream fileOutputStream = new FileOutputStream(zipFilePath + "\\" + zipFileName);
+            ZipOutputStream zipOutputStream = new ZipOutputStream(fileOutputStream);
+ 
+            ZipEntry zipEntry = new ZipEntry(this.file.getName());
+            zipOutputStream.putNextEntry(zipEntry);
+ 
+            FileInputStream fileInputStream = new FileInputStream(this.file);
+            byte[] buf = new byte[1024];
+            int bytesRead;
+ 
+            // Read the input file by chucks of 1024 bytes
+            // and write the read bytes to the zip stream
+            while ((bytesRead = fileInputStream.read(buf)) > 0) {
+                zipOutputStream.write(buf, 0, bytesRead);
+            }
+ 
+            // close ZipEntry to store the stream to the file
+            
+            
+            fileInputStream.close();
+            zipOutputStream.closeEntry();
+ 
+            zipOutputStream.close();
+            fileOutputStream.close();
+ 
+            System.out.println("Regular file :" + this.file.getCanonicalPath()+" is zipped to archive :"+zipFilePath);
+ 
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+ 
+    }
+	
+    public FileUtility(String filename) {
         file = new File(filename);
     }
 
-   public boolean FileExist(){
+   public FileUtility() {
+		// TODO Auto-generated constructor stub
+	}
+
+public boolean FileExist(){
 	   boolean value=false;
 	   
 	 if (file.exists()==true) {
@@ -128,108 +293,7 @@ private File file = null;
     
     }
     
-  
-   
-    
-    
-    
-    
-    
-	
-	public boolean zipFile(String zipFilePath, String zipFileName) {
-        try {
- 
-
-            FileOutputStream fileOutputStream = new FileOutputStream(zipFilePath + "\\" + zipFileName);
-            ZipOutputStream zipOutputStream = new ZipOutputStream(fileOutputStream);
- 
-            ZipEntry zipEntry = new ZipEntry(this.file.getName());
-            zipOutputStream.putNextEntry(zipEntry);
- 
-            FileInputStream fileInputStream = new FileInputStream(this.file);
-            byte[] buf = new byte[1024];
-            int bytesRead;
- 
-            // Read the input file by chucks of 1024 bytes
-            // and write the read bytes to the zip stream
-            while ((bytesRead = fileInputStream.read(buf)) > 0) {
-                zipOutputStream.write(buf, 0, bytesRead);
-            }
- 
-            // close ZipEntry to store the stream to the file
-            
-            
-            fileInputStream.close();
-            zipOutputStream.closeEntry();
- 
-            zipOutputStream.close();
-            fileOutputStream.close();
- 
-            System.out.println("Regular file :" + this.file.getCanonicalPath()+" is zipped to archive :"+zipFilePath);
- 
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
- 
-    }
-	
-    
-    
-    
-    
-	/*
-	 * public boolean zipFile(String destinationFileName) {
-	 * 
-	 * byte[] buffer = new byte[1024];
-	 * 
-	 * 
-	 * 
-	 * try{
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * FileOutputStream fos = new FileOutputStream(destinationFileName);
-	 * 
-	 * ZipOutputStream zos = new ZipOutputStream(fos);
-	 * 
-	 * 
-	 * //System.out.println("new zip Entry : " + file.getName());
-	 * 
-	 * logger.info("Trying to zip source file :" + file.getPath() + "//" +
-	 * file.getName()); ZipEntry ze= new ZipEntry(file.getName());
-	 * 
-	 * 
-	 * zos.putNextEntry(ze);
-	 * 
-	 * logger.info("destination zip file : " + destinationFileName); FileInputStream
-	 * in = new FileInputStream(destinationFileName);
-	 * 
-	 * int len; while ((len = in.read(buffer)) > 0) { zos.write(buffer, 0, len); }
-	 * 
-	 * in.close(); zos.closeEntry();
-	 * 
-	 * //remember close it zos.close();
-	 * 
-	 * 
-	 * logger.info("Zip file ok "); }catch(IOException ex){ ex.printStackTrace();
-	 * return false; }
-	 * 
-	 * 
-	 * return true;
-	 * 
-	 * 
-	 * 
-	 * }
-	 */
-    
-    
-    
-    public boolean deleteFile() {
+public boolean deleteFile() {
     	
     	
 
@@ -267,7 +331,7 @@ private File file = null;
     
     /**
      * Taille du fichier
-     * @return unitÃ© byte
+     * @return unité byte
      */
     public Long getSize() {
         return this.file.length();
@@ -313,7 +377,6 @@ private File file = null;
         } else {
             return this.file.getName().toString();
         }
-
 
 }
     
@@ -412,11 +475,7 @@ catch (Exception e)
 	return  map;  
 
 }
-
+    
+	
+	
 }
-
-
-
-
-
-

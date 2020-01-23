@@ -2,13 +2,11 @@ package com.pricer.main;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 import org.ini4j.InvalidFileFormatException;
 import org.ini4j.Wini;
 
-import com.pricer.model.UtilityClass;
 
 import it.sauronsoftware.cron4j.Predictor;
 import it.sauronsoftware.cron4j.Scheduler;
@@ -17,7 +15,7 @@ public class Start {
 	
 	static Logger logger = Logger.getLogger(Start.class);
 	static Wini ini;
-	static UtilityClass utility = new UtilityClass();
+	//static FileUtility utility = new FileUtility();
 	
 	public static void InitializeIni() {
 		try {

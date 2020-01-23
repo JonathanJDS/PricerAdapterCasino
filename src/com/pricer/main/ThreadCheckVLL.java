@@ -21,13 +21,13 @@ import org.ini4j.Wini;
 import com.pricer.model.FileUtility;
 import com.pricer.product.ProductCDiscount;
 
-public class ThreadCheckCDiscount extends Thread {
+public class ThreadCheckVLL extends Thread {
 	
 	static Logger logger = Logger.getLogger(Start.class);
 
 	static Wini ini;
-	static String cdiscountArchiveFolder;	
-	static String cdiscountFileName;
+	static String vllArchiveFolder;	
+	static String vllFileName;
 	
 	static int tempo;
 	static String sourceFolder;
@@ -39,17 +39,17 @@ public class ThreadCheckCDiscount extends Thread {
 	Timer timer = new Timer();
 	FileUtility utility = new FileUtility();
 	
-	public ThreadCheckCDiscount() {
+	public ThreadCheckVLL() {
 
 		logger.info("Starting Thread ThreadCheckDataFiles");
 		
 		InitializeIni();
 		
 		/*******Archive folders **********/
-		cdiscountArchiveFolder		= ini.get("Folders", "CDiscountArchiveFolder");
+		vllArchiveFolder		= ini.get("Folders", "VLLArchiveFolder");
 		
 		/********* FileNames *************/
-		cdiscountFileName 		= ini.get("Files","CDiscountFileName");
+		vllFileName 		= ini.get("Files","VLLFileName");
 		
 		/*****Pricer Path **************/
 		tempo 						= Integer.valueOf(ini.get("Files", "timer"));
@@ -67,12 +67,12 @@ public class ThreadCheckCDiscount extends Thread {
 			@Override
 			public void run() {
 				
-				ArrayList<String> lstFiles =  utility.listFilesFromDirectory(sourceFolder + "\\",cdiscountFileName);
+				ArrayList<String> lstFiles =  utility.listFilesFromDirectory(sourceFolder + "\\",vllFileName);
 				
 				//PRE PROCESS COMPLETE WITH SIC BY DLS
 				
 				String current_Path=System.getProperty("user.dir");
-				ProcessBuilder processBuilder = new ProcessBuilder(current_Path+"\\launchMultiSeparator.bat");
+				ProcessBuilder processBuilder = new ProcessBuilder(current_Path+"\\launchMultiFixed.bat");
 				
 				Process process = null;
 				try {
