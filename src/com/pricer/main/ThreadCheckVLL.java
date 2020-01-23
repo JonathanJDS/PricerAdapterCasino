@@ -79,7 +79,7 @@ public class ThreadCheckVLL extends Thread {
 					process = processBuilder.start();
 					logger.info("Begin Preprocess : complete file with SIC");
 				} catch (IOException e2) {
-					// TODO Auto-generated catch block
+
 					e2.printStackTrace();
 					logger.error("An error occured when trying to launch PreProcess : " +e2);
 				}
@@ -87,7 +87,7 @@ public class ThreadCheckVLL extends Thread {
 					process.waitFor();
 					//System.out.println(process.exitValue());
 				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
+
 					e1.printStackTrace();
 					logger.error("An error occured when waiting for PreProcess to finish : "+e1);
 				}
@@ -100,7 +100,7 @@ public class ThreadCheckVLL extends Thread {
 				try {
 					ProcessFile(temporaryFolder + "\\" + fileNameFilter);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
+
 					e.printStackTrace();
 					logger.error("Error when trying to begin process of the file : "+ e);
 				}

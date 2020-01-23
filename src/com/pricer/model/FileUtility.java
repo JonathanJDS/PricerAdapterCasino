@@ -198,7 +198,7 @@ if (fpTempFile.FileExist() == false) {
     }
 
    public FileUtility() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 public boolean FileExist(){
@@ -410,7 +410,7 @@ public boolean fileIsGrowing(){
 				return false;
 			}
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 			
                         return false;
