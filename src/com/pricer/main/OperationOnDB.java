@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
 
@@ -123,7 +124,70 @@ public class OperationOnDB {
 		return lstSIC;
 	
 	}
-	
+
+	public TreeMap<String, String> getlstItemSics() {
+
+		Statement st = null;
+		ResultSet rs = null;
+		String request ;
+		TreeMap<String, String> lstItemSics = new TreeMap<String, String>();
+
+		try {
+			st = connection.createStatement();
+
+			request = "select * from item_sic";
+
+
+			rs = st.executeQuery(request.toLowerCase());
+
+			System.out.println("here is the request : " + request.toLowerCase());
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			logger.error("SQL ERROR");
+
+		} catch (NullPointerException n) {
+			n.printStackTrace();
+			logger.error("SQL ERROR");
+		}
+
+		try {
+
+			while (rs.next()) {
+
+				lstItemSics.put(rs.getString("sic"),rs.getString("itemid"));
+
+
+
+			}
+
+
+
+
+		}
+
+		catch (SQLException e) {
+			logger.error("SQL ERROR");
+			e.printStackTrace();
+
+		}
+
+		try {
+			st.close();
+			rs.close();
+			//connection.close();
+
+		} catch (SQLException e) {
+			logger.error("SQL ERROR");
+			e.printStackTrace();
+		}
+
+
+
+		return lstItemSics;
+
+	}
+
 
 
 }

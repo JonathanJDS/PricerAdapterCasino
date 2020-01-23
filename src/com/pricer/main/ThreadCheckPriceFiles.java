@@ -171,21 +171,16 @@ public class ThreadCheckPriceFiles extends Thread {
 			
 	try {
 
+
 		priceData = new ProductPrice();
 		opDB = new OperationOnDB();
-
-
 		priceData.setItemID(splitedTabLine.get(1));
-
-		 completeLine.append("0001 ").append(priceData.getItemID());
-
-         completeLine.append("|,");
-         
-         
-         System.out.println( completeLine.toString());
+		completeLine.append("0001 ").append(priceData.getItemID());
+		completeLine.append("|,");
+		System.out.println( completeLine.toString());
 
 
-		}
+	}
 			catch (IndexOutOfBoundsException indx){
 			logger.warn("line empty or out of bound...." + line);
 			 
