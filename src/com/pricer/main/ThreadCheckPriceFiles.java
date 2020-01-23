@@ -63,30 +63,42 @@ public class ThreadCheckPriceFiles extends Thread {
 		TimerTask task = new TimerTask() {
 			@Override
 			public void run() {
-				
-				ArrayList<String> lstFiles =  utility.listFilesFromDirectory(sourceFolder + "\\",priceFileName);
-				
-				for(String fileNameFilter : lstFiles) {
-					
-				utility.ZipFile (sourceFolder, fileNameFilter, temporaryFolder, fileNameFilter, priceArchiveFolder);
-				utility.MoveFile(sourceFolder + "\\" + fileNameFilter,temporaryFolder + "\\" + fileNameFilter);	
-				
-				ProcessFile(temporaryFolder + "\\" + fileNameFilter);
-				
+
+				ArrayList<String> lstFiles = utility.listFilesFromDirectory(sourceFolder + "\\", priceFileName);
+				ArrayList<String> lstFilesTemporary = utility.listFilesFromDirectory(temporaryFolder + "\\", priceFileName);
+
+
+				// check first if something is present in temporary Folder, if not process source Folder
+
+				if (lstFilesTemporary.size() == 0) {
+					for (String fileNameFilter : lstFiles) {
+						utility.ZipFile(sourceFolder, fileNameFilter, temporaryFolder, fileNameFilter, priceArchiveFolder);
+						utility.MoveFile(sourceFolder + "\\" + fileNameFilter, temporaryFolder + "\\" + fileNameFilter);
+						ProcessFile(temporaryFolder + "\\" + fileNameFilter);
+					}
+				}
+
+				else {
+				logger.warn ("File is present in temporary Folder !! priority for that !!!!");
+				// processing all files from temporary.
+				for (String fileNameFilter : lstFilesTemporary) {
+					ProcessFile(temporaryFolder + "\\" + fileNameFilter);
+					}
+
 				}
 
 			}
 
-
 		};
-		
-		timer.scheduleAtFixedRate(task, 0, tempo * 1000);
+
+		// execute this thread 2 s after original tempo value.
+		timer.scheduleAtFixedRate(task, 0, (tempo * 1000) + 2000);
 	}
 	
 	private void ProcessFile(String temporaryFile) {
 		
 		System.out.println("Processing data file");
-		logger.info("Processing data file !");
+		logger.info("Processing data file : " + temporaryFile );
 		
 		FileUtility fpTemporaryFile = new FileUtility(temporaryFile);
 		boolean bdatafile_Update_opened=false;
@@ -119,7 +131,7 @@ public class ThreadCheckPriceFiles extends Thread {
 		
 		
 		if (!fpTemporaryFile.FileExist() == true ) {
-			logger.debug("temporary file is empty");
+			logger.debug("temporary file is not present");
 			return;
 			
 		}
@@ -135,14 +147,10 @@ public class ThreadCheckPriceFiles extends Thread {
 		System.out.println("let's GO!!!" );
 		
 		List<String> lstMapFile = fpTemporaryFile.fileToMap();
-		
-		
+
 		
 		for (String line : lstMapFile) {
-			
-			//System.out.println("line = " + line);
-			
-			
+
 			List<String> splitedTabLine = splitLine(line, ";");
 
 			  try {
@@ -158,24 +166,17 @@ public class ThreadCheckPriceFiles extends Thread {
 		    	catch (FileNotFoundException e) {
 		    		logger.fatal("File Not Found, Unable to create File : " + dataFileName_Update );
 		    	}
-		 
-			
-			
+
 			completeLine = new StringBuffer(); 
 			
 	try {
 
-
 		priceData = new ProductPrice();
 		opDB = new OperationOnDB();
-		
-		
+
 
 		priceData.setItemID(splitedTabLine.get(1));
 
-
-
-		        
 		 completeLine.append("0001 ").append(priceData.getItemID());
 
          completeLine.append("|,");
