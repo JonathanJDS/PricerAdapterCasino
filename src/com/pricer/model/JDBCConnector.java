@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class JDBCConnector {
 
 
-	private String sDriver = "com.mysql.jdbc.Driver";
+	private String sDriver = "com.mysql.cj.jdbc.Driver";
 	private String sLogin;
 	private String sPassword;
 	private String sHostName;
@@ -95,8 +95,10 @@ public class JDBCConnector {
 		this.sHostName = "localhost";
 		this.sPortNumber = "7799";
 		this.sDatabaseName = "pricer";
+		//this.sUrl = "jdbc:mysql://" + this.sHostName + ":" + this.sPortNumber + "/" + this.sDatabaseName + "?user="
+		//		+ this.sLogin + ";password=" + this.sPassword;
 		this.sUrl = "jdbc:mysql://" + this.sHostName + ":" + this.sPortNumber + "/" + this.sDatabaseName + "?user="
-				+ this.sLogin + ";password=" + this.sPassword;
+				+ this.sLogin + ";password=" + this.sPassword  + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 
 		// charging pilote
 		try {

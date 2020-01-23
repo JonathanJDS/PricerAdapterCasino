@@ -173,7 +173,6 @@ public class ThreadCheckPriceFiles extends Thread {
 
 
 		priceData = new ProductPrice();
-		opDB = new OperationOnDB();
 		priceData.setItemID(splitedTabLine.get(1));
 		completeLine.append("0001 ").append(priceData.getItemID());
 		completeLine.append("|,");
@@ -204,8 +203,7 @@ public class ThreadCheckPriceFiles extends Thread {
 		
 		
 		System.out.println("delete file " + temporaryFolder + "\\" + priceFileName);
-		new File(temporaryFolder + "\\" + priceFileName).delete();
-	
+		fpTemporaryFile.deleteFile();
 		
 		
 		

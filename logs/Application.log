@@ -115,3 +115,142 @@
 [INFO] 2020-01-23 10:55:57,223 Start main - deleting the source file : C:\Pricer\FTP\EEG0303.001
 [INFO] 2020-01-23 10:55:58,225 Start main - Rename Temp File to Source File 
 [INFO] 2020-01-23 10:55:58,229 Start main - ###### End Operation for this file  : C:\Pricer\FTP\EEG0303.001 ######
+[INFO] 2020-01-23 15:16:14,499 Start main - Starting Application
+[INFO] 2020-01-23 15:16:14,506 Start main - fileSource = C:\Pricer\FTP\EEG0303.001
+[INFO] 2020-01-23 15:16:14,506 Start main - typeOperation = S
+[INFO] 2020-01-23 15:16:14,506 Start main - itemPositionBegin = 0
+[INFO] 2020-01-23 15:16:14,506 Start main - itemPositionEnd = 0
+[INFO] 2020-01-23 15:16:14,506 Start main - Element Size = 45
+[INFO] 2020-01-23 15:16:14,507 Start openConnectionDB - Connecting to Database
+[INFO] 2020-01-23 15:16:14,760 Start main - nbre of SIC items in dtabase = 372
+[ERROR] 2020-01-23 15:16:14,762 Start main - File Exception Please Check if file exist 
+[INFO] 2020-01-23 15:16:14,762 Start main - deleting the source file : C:\Pricer\FTP\EEG0303.001
+[INFO] 2020-01-23 15:16:15,762 Start main - Rename Temp File to Source File 
+[INFO] 2020-01-23 15:16:15,765 Start main - ###### End Operation for this file  : C:\Pricer\FTP\EEG0303.001 ######
+[INFO] 2020-01-23 15:16:44,383 Start main - Starting Application
+[INFO] 2020-01-23 15:16:44,388 Start main - fileSource = C:\Pricer\FTP\EEG0303.001
+[INFO] 2020-01-23 15:16:44,389 Start main - typeOperation = S
+[INFO] 2020-01-23 15:16:44,389 Start main - itemPositionBegin = 0
+[INFO] 2020-01-23 15:16:44,389 Start main - itemPositionEnd = 0
+[INFO] 2020-01-23 15:16:44,389 Start main - Element Size = 45
+[INFO] 2020-01-23 15:16:44,390 Start openConnectionDB - Connecting to Database
+[INFO] 2020-01-23 15:16:44,547 Start main - nbre of SIC items in dtabase = 372
+[INFO] 2020-01-23 15:16:44,548 Start main - deleting the source file : C:\Pricer\FTP\EEG0303.001
+[INFO] 2020-01-23 15:16:45,550 Start main - Rename Temp File to Source File 
+[INFO] 2020-01-23 15:16:45,553 Start main - ###### End Operation for this file  : C:\Pricer\FTP\EEG0303.001 ######
+[INFO] 2020-01-23 15:17:14,382 Start main - Starting Application
+[INFO] 2020-01-23 15:17:14,387 Start main - fileSource = C:\Pricer\FTP\EEG0303.001
+[INFO] 2020-01-23 15:17:14,387 Start main - typeOperation = S
+[INFO] 2020-01-23 15:17:14,388 Start main - itemPositionBegin = 0
+[INFO] 2020-01-23 15:17:14,388 Start main - itemPositionEnd = 0
+[INFO] 2020-01-23 15:17:14,388 Start main - Element Size = 45
+[INFO] 2020-01-23 15:17:14,388 Start openConnectionDB - Connecting to Database
+[INFO] 2020-01-23 15:17:14,556 Start main - nbre of SIC items in dtabase = 372
+[ERROR] 2020-01-23 15:17:14,558 Start main - File Exception Please Check if file exist 
+[INFO] 2020-01-23 15:17:14,558 Start main - deleting the source file : C:\Pricer\FTP\EEG0303.001
+[INFO] 2020-01-23 15:17:15,559 Start main - Rename Temp File to Source File 
+[INFO] 2020-01-23 15:17:15,560 Start main - ###### End Operation for this file  : C:\Pricer\FTP\EEG0303.001 ######
+[INFO] 2020-01-23 15:17:44,376 Start main - Starting Application
+[INFO] 2020-01-23 15:17:44,382 Start main - fileSource = C:\Pricer\FTP\EEG0303.001
+[INFO] 2020-01-23 15:17:44,382 Start main - typeOperation = S
+[INFO] 2020-01-23 15:17:44,382 Start main - itemPositionBegin = 0
+[INFO] 2020-01-23 15:17:44,382 Start main - itemPositionEnd = 0
+[INFO] 2020-01-23 15:17:44,382 Start main - Element Size = 45
+[INFO] 2020-01-23 15:17:44,383 Start openConnectionDB - Connecting to Database
+[INFO] 2020-01-23 15:17:44,548 Start main - nbre of SIC items in dtabase = 372
+[INFO] 2020-01-23 15:17:44,549 Start main - deleting the source file : C:\Pricer\FTP\EEG0303.001
+[INFO] 2020-01-23 15:17:45,551 Start main - Rename Temp File to Source File 
+[INFO] 2020-01-23 15:17:45,552 Start main - ###### End Operation for this file  : C:\Pricer\FTP\EEG0303.001 ######
+[INFO] 2020-01-23 15:18:11,148 Start main - Starting Application
+[INFO] 2020-01-23 15:18:11,155 Start main - fileSource = C:\Pricer\FTP\EEG0303.001
+[INFO] 2020-01-23 15:18:11,156 Start main - typeOperation = S
+[INFO] 2020-01-23 15:18:11,156 Start main - itemPositionBegin = 0
+[INFO] 2020-01-23 15:18:11,156 Start main - itemPositionEnd = 0
+[INFO] 2020-01-23 15:18:11,156 Start main - Element Size = 45
+[INFO] 2020-01-23 15:18:11,157 Start openConnectionDB - Connecting to Database
+[INFO] 2020-01-23 15:18:11,384 Start main - nbre of SIC items in dtabase = 372
+[ERROR] 2020-01-23 15:18:11,385 Start main - File Exception Please Check if file exist 
+[INFO] 2020-01-23 15:18:11,386 Start main - deleting the source file : C:\Pricer\FTP\EEG0303.001
+[INFO] 2020-01-23 15:18:12,386 Start main - Rename Temp File to Source File 
+[INFO] 2020-01-23 15:18:12,387 Start main - ###### End Operation for this file  : C:\Pricer\FTP\EEG0303.001 ######
+[INFO] 2020-01-23 15:18:41,125 Start main - Starting Application
+[INFO] 2020-01-23 15:18:41,131 Start main - fileSource = C:\Pricer\FTP\EEG0303.001
+[INFO] 2020-01-23 15:18:41,131 Start main - typeOperation = S
+[INFO] 2020-01-23 15:18:41,131 Start main - itemPositionBegin = 0
+[INFO] 2020-01-23 15:18:41,131 Start main - itemPositionEnd = 0
+[INFO] 2020-01-23 15:18:41,131 Start main - Element Size = 45
+[INFO] 2020-01-23 15:18:41,132 Start openConnectionDB - Connecting to Database
+[INFO] 2020-01-23 15:18:41,291 Start main - nbre of SIC items in dtabase = 372
+[ERROR] 2020-01-23 15:18:41,292 Start main - File Exception Please Check if file exist 
+[INFO] 2020-01-23 15:18:41,293 Start main - deleting the source file : C:\Pricer\FTP\EEG0303.001
+[INFO] 2020-01-23 15:18:42,293 Start main - Rename Temp File to Source File 
+[INFO] 2020-01-23 15:18:42,297 Start main - ###### End Operation for this file  : C:\Pricer\FTP\EEG0303.001 ######
+[INFO] 2020-01-23 15:19:11,097 Start main - Starting Application
+[INFO] 2020-01-23 15:19:11,103 Start main - fileSource = C:\Pricer\FTP\EEG0303.001
+[INFO] 2020-01-23 15:19:11,103 Start main - typeOperation = S
+[INFO] 2020-01-23 15:19:11,103 Start main - itemPositionBegin = 0
+[INFO] 2020-01-23 15:19:11,103 Start main - itemPositionEnd = 0
+[INFO] 2020-01-23 15:19:11,104 Start main - Element Size = 45
+[INFO] 2020-01-23 15:19:11,104 Start openConnectionDB - Connecting to Database
+[INFO] 2020-01-23 15:19:11,262 Start main - nbre of SIC items in dtabase = 372
+[ERROR] 2020-01-23 15:19:11,263 Start main - File Exception Please Check if file exist 
+[INFO] 2020-01-23 15:19:11,264 Start main - deleting the source file : C:\Pricer\FTP\EEG0303.001
+[INFO] 2020-01-23 15:19:12,265 Start main - Rename Temp File to Source File 
+[INFO] 2020-01-23 15:19:12,267 Start main - ###### End Operation for this file  : C:\Pricer\FTP\EEG0303.001 ######
+[INFO] 2020-01-23 15:19:41,094 Start main - Starting Application
+[INFO] 2020-01-23 15:19:41,101 Start main - fileSource = C:\Pricer\FTP\EEG0303.001
+[INFO] 2020-01-23 15:19:41,101 Start main - typeOperation = S
+[INFO] 2020-01-23 15:19:41,101 Start main - itemPositionBegin = 0
+[INFO] 2020-01-23 15:19:41,101 Start main - itemPositionEnd = 0
+[INFO] 2020-01-23 15:19:41,101 Start main - Element Size = 45
+[INFO] 2020-01-23 15:19:41,102 Start openConnectionDB - Connecting to Database
+[INFO] 2020-01-23 15:19:41,283 Start main - nbre of SIC items in dtabase = 372
+[INFO] 2020-01-23 15:19:41,285 Start main - deleting the source file : C:\Pricer\FTP\EEG0303.001
+[INFO] 2020-01-23 15:19:42,286 Start main - Rename Temp File to Source File 
+[INFO] 2020-01-23 15:19:42,286 Start main - ###### End Operation for this file  : C:\Pricer\FTP\EEG0303.001 ######
+[INFO] 2020-01-23 15:19:52,654 Start main - Starting Application
+[INFO] 2020-01-23 15:19:52,662 Start main - fileSource = C:\Pricer\FTP\EEG0303.001
+[INFO] 2020-01-23 15:19:52,662 Start main - typeOperation = S
+[INFO] 2020-01-23 15:19:52,662 Start main - itemPositionBegin = 0
+[INFO] 2020-01-23 15:19:52,663 Start main - itemPositionEnd = 0
+[INFO] 2020-01-23 15:19:52,663 Start main - Element Size = 45
+[INFO] 2020-01-23 15:19:52,664 Start openConnectionDB - Connecting to Database
+[INFO] 2020-01-23 15:19:52,865 Start main - nbre of SIC items in dtabase = 372
+[INFO] 2020-01-23 15:19:52,867 Start main - deleting the source file : C:\Pricer\FTP\EEG0303.001
+[INFO] 2020-01-23 15:19:53,868 Start main - Rename Temp File to Source File 
+[INFO] 2020-01-23 15:19:53,872 Start main - ###### End Operation for this file  : C:\Pricer\FTP\EEG0303.001 ######
+[INFO] 2020-01-23 15:22:07,039 Start main - Starting Application
+[INFO] 2020-01-23 15:22:07,047 Start main - fileSource = C:\Pricer\FTP\EEG0303.001
+[INFO] 2020-01-23 15:22:07,047 Start main - typeOperation = S
+[INFO] 2020-01-23 15:22:07,047 Start main - itemPositionBegin = 0
+[INFO] 2020-01-23 15:22:07,047 Start main - itemPositionEnd = 0
+[INFO] 2020-01-23 15:22:07,047 Start main - Element Size = 45
+[INFO] 2020-01-23 15:22:07,049 Start openConnectionDB - Connecting to Database
+[INFO] 2020-01-23 15:22:07,263 Start main - nbre of SIC items in dtabase = 372
+[ERROR] 2020-01-23 15:22:07,265 Start main - File Exception Please Check if file exist 
+[INFO] 2020-01-23 15:22:07,266 Start main - deleting the source file : C:\Pricer\FTP\EEG0303.001
+[INFO] 2020-01-23 15:22:08,266 Start main - Rename Temp File to Source File 
+[INFO] 2020-01-23 15:22:08,269 Start main - ###### End Operation for this file  : C:\Pricer\FTP\EEG0303.001 ######
+[INFO] 2020-01-23 15:22:36,978 Start main - Starting Application
+[INFO] 2020-01-23 15:22:36,984 Start main - fileSource = C:\Pricer\FTP\EEG0303.001
+[INFO] 2020-01-23 15:22:36,984 Start main - typeOperation = S
+[INFO] 2020-01-23 15:22:36,984 Start main - itemPositionBegin = 0
+[INFO] 2020-01-23 15:22:36,984 Start main - itemPositionEnd = 0
+[INFO] 2020-01-23 15:22:36,985 Start main - Element Size = 45
+[INFO] 2020-01-23 15:22:36,985 Start openConnectionDB - Connecting to Database
+[INFO] 2020-01-23 15:22:37,139 Start main - nbre of SIC items in dtabase = 372
+[INFO] 2020-01-23 15:22:37,140 Start main - deleting the source file : C:\Pricer\FTP\EEG0303.001
+[INFO] 2020-01-23 15:22:38,141 Start main - Rename Temp File to Source File 
+[INFO] 2020-01-23 15:22:38,145 Start main - ###### End Operation for this file  : C:\Pricer\FTP\EEG0303.001 ######
+[INFO] 2020-01-23 15:23:06,969 Start main - Starting Application
+[INFO] 2020-01-23 15:23:06,975 Start main - fileSource = C:\Pricer\FTP\EEG0303.001
+[INFO] 2020-01-23 15:23:06,975 Start main - typeOperation = S
+[INFO] 2020-01-23 15:23:06,975 Start main - itemPositionBegin = 0
+[INFO] 2020-01-23 15:23:06,975 Start main - itemPositionEnd = 0
+[INFO] 2020-01-23 15:23:06,975 Start main - Element Size = 45
+[INFO] 2020-01-23 15:23:06,976 Start openConnectionDB - Connecting to Database
+[INFO] 2020-01-23 15:23:07,130 Start main - nbre of SIC items in dtabase = 372
+[ERROR] 2020-01-23 15:23:07,132 Start main - File Exception Please Check if file exist 
+[INFO] 2020-01-23 15:23:07,132 Start main - deleting the source file : C:\Pricer\FTP\EEG0303.001
+[INFO] 2020-01-23 15:23:08,133 Start main - Rename Temp File to Source File 
+[INFO] 2020-01-23 15:23:08,137 Start main - ###### End Operation for this file  : C:\Pricer\FTP\EEG0303.001 ######
