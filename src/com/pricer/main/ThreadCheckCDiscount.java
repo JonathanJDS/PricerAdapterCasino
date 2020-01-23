@@ -1,22 +1,18 @@
 package com.pricer.main;
 
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.ini4j.InvalidFileFormatException;
@@ -24,7 +20,6 @@ import org.ini4j.Wini;
 
 import com.pricer.model.FileProperty;
 import com.pricer.model.UtilityClass;
-import com.pricer.product.ProductBase;
 import com.pricer.product.ProductCDiscount;
 
 public class ThreadCheckCDiscount extends Thread {
@@ -50,8 +45,6 @@ public class ThreadCheckCDiscount extends Thread {
 		logger.info("Starting Thread ThreadCheckDataFiles");
 		
 		InitializeIni();
-		System.out.println("init ini");
-		
 		
 		/*******Archive folders **********/
 		cdiscountArchiveFolder		= ini.get("Folders", "CDiscountArchiveFolder");
@@ -77,6 +70,29 @@ public class ThreadCheckCDiscount extends Thread {
 				
 				ArrayList<String> lstFiles =  utility.listFilesFromDirectory(sourceFolder + "\\",cdiscountFileName);
 				
+				//PRE PROCESS COMPLETE WITH SIC BY DLS
+				
+				String current_Path=System.getProperty("user.dir");
+				ProcessBuilder processBuilder = new ProcessBuilder(current_Path+"\\launchMultiSeparator.bat");
+				
+				Process process = null;
+				try {
+					process = processBuilder.start();
+					logger.info("Begin Preprocess : complete file with SIC");
+				} catch (IOException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+					logger.error("An error occured when trying to launch PreProcess : " +e2);
+				}
+				try {
+					process.waitFor();
+					//System.out.println(process.exitValue());
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					logger.error("An error occured when waiting for PreProcess to finish : "+e1);
+				}
+				
 				for(String fileNameFilter : lstFiles) {
 					
 				utility.ZipFile (sourceFolder, fileNameFilter, temporaryFolder, fileNameFilter, cdiscountArchiveFolder);
@@ -87,6 +103,7 @@ public class ThreadCheckCDiscount extends Thread {
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					logger.error("Error when trying to begin process of the file : "+ e);
 				}
 				
 				}
@@ -107,8 +124,6 @@ public class ThreadCheckCDiscount extends Thread {
 		FileProperty fpTemporaryFile = new FileProperty(temporaryFile);
 		boolean bdatafile_Update_opened=false;
 		ProductCDiscount cdiscountData = null;
-		OperationOnDB opDB = null;
-		opDB = new OperationOnDB();
 		
 		Date d = new Date(); 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_Hmmss");
@@ -122,8 +137,6 @@ public class ThreadCheckCDiscount extends Thread {
         PrintStream datafile_Update		=	null;
        	PrintStream messagefile_Update	=	null;
        	StringBuffer completeLine ;
-       	String concatAllEAN = "";
-       	String allSIC ="";
        	
        	/**************FILE CONTENT *******************/
        	       	       	
@@ -151,39 +164,39 @@ public class ThreadCheckCDiscount extends Thread {
 		
 		
 		System.out.println("let's GO!!!" );
+		System.out.println(fpTemporaryFile.getPathFilename());
 		
-		
+
 		//STORING CDEAN TO GET SIC FROM DB
 		
-		List<List<String>> records = new ArrayList<>();
-		try (BufferedReader br = new BufferedReader(new FileReader(temporaryFile))) {
-		    		    
-		    br.readLine();
-		    String line = null;;
-		    
-		    while ((line = br.readLine()) != null) {
-		        String[] values = line.split(";");
-		        records.add(Arrays.asList(values));
-		    }
-		}
-		
-		for(List<String> string : records) {
-			concatAllEAN = concatAllEAN + ("'"+string.get(0)+"',");
-		}
-		
-		//System.out.println(concatAllEAN);
-		
-		//GET SIC FROM DB
-		List<ProductBase> lstSIC = opDB.getCdiscountSic(concatAllEAN.substring(0,concatAllEAN.length() -1 ));
-		
+//		List<List<String>> records = new ArrayList<>();
+//		try (BufferedReader br = new BufferedReader(new FileReader(temporaryFile))) {
+//		    		    
+//		    br.readLine();
+//		    String line = null;;
+//		    
+//		    while ((line = br.readLine()) != null) {
+//		        String[] values = line.split(";");
+//		        records.add(Arrays.asList(values));
+//		    }
+//		}
+//		
+//		for(List<String> string : records) {
+//			concatAllEAN = concatAllEAN + ("'"+string.get(0)+"',");
+//		}
+//		
+//		//System.out.println(concatAllEAN);
+//		
+//		//GET SIC FROM DB
+//		List<ProductBase> lstSIC = opDB.getCdiscountSic(concatAllEAN.substring(0,concatAllEAN.length() -1 ));
+
 		List<String> lstMapFile = fpTemporaryFile.fileToMap();
 		
-		
-		int i =0;
 		
 		for (String line : lstMapFile) {
 			
 			//System.out.println("line = " + line);
+			
 			
 			
 			List<String> splitedTabLine = splitLine(line, ";");
@@ -212,7 +225,9 @@ public class ThreadCheckCDiscount extends Thread {
 		
 		cdiscountData = new ProductCDiscount();
 		
+		cdiscountData.setItemID(splitedTabLine.get(1));
 		cdiscountData.setProductID(splitedTabLine.get(2));
+		cdiscountData.setItemNameCDiscount(splitedTabLine.get(6));
 		cdiscountData.setUrlFicheTechnique(splitedTabLine.get(7));
 		cdiscountData.setGarantie(splitedTabLine.get(9));
 		cdiscountData.setPictoTitre1(splitedTabLine.get(10));
@@ -225,6 +240,7 @@ public class ThreadCheckCDiscount extends Thread {
 		cdiscountData.setPictoValeur4(splitedTabLine.get(17));
 		cdiscountData.setPictoTitre5(splitedTabLine.get(18));
 		cdiscountData.setPictoValeur5(splitedTabLine.get(19));
+		cdiscountData.setFlagSoldes(splitedTabLine.get(37));
 		cdiscountData.setNoteMoyenne(splitedTabLine.get(40));
 		cdiscountData.setNbreAvisClients(splitedTabLine.get(41));
 		cdiscountData.setPrixPrecoFournisseur(splitedTabLine.get(42));
@@ -234,7 +250,7 @@ public class ThreadCheckCDiscount extends Thread {
 		 
 
 				
-		 completeLine.append("0001 ").append(lstSIC.get(i).getItemID());
+		 completeLine.append("0001 ").append(cdiscountData.getItemID());
          completeLine.append(" 121 0 |").append("CDISCOUNT");
          completeLine.append("| 244 0 |").append(cdiscountData.getProductID());
          completeLine.append("| 239 0 |").append(cdiscountData.getUrlFicheTechnique());
@@ -253,13 +269,14 @@ public class ThreadCheckCDiscount extends Thread {
          completeLine.append("| 241 0 |").append(cdiscountData.getNbreAvisClients());
          completeLine.append("| 245 0 |").append(cdiscountData.getPrixPrecoFournisseur());
          completeLine.append("| 238 0 |").append(cdiscountData.getDispoPiecesDetachees());
+         completeLine.append("| 300 0 |").append(cdiscountData.getItemNameCDiscount());
+         completeLine.append("| 500 0 |").append(cdiscountData.getFlagSoldes());
                  
          completeLine.append("|,");
-         i++;
          
-        System.out.println( completeLine.toString());
-        // datafile_Update.println(completeLine.toString());
-        // datafile_Update.flush();
+        //System.out.println( completeLine.toString());
+        datafile_Update.println(completeLine.toString());
+        datafile_Update.flush();
 
 		}
 			catch (IndexOutOfBoundsException indx){
@@ -285,7 +302,7 @@ public class ThreadCheckCDiscount extends Thread {
 		
 		
 		System.out.println("delete file " + temporaryFolder + "\\" + cdiscountFileName);
-		new File(temporaryFolder + "\\" + cdiscountFileName).delete();
+		new File(temporaryFolder + "\\" + cdiscountFileName.replace("*", "")).delete();
 	
 		
 		
@@ -318,8 +335,6 @@ public class ThreadCheckCDiscount extends Thread {
 		List<String> lSplitLine = new ArrayList<String>();
 		String tmp;
 		boolean pipetmp = false;
-		int j = 0;
-		
 		StringTokenizer st = new StringTokenizer(sLine, sSeparator, true);
 		while (st.hasMoreTokens()) {
 			
@@ -327,18 +342,13 @@ public class ThreadCheckCDiscount extends Thread {
 			if (tmp.equals(sSeparator)) {
 				if (pipetmp == true) {
 					lSplitLine.add("");
-					j++;
 				}
 				pipetmp = true;
 			} else {
 				pipetmp = false;
 				lSplitLine.add(tmp);
-				
-				j++;
 			}
 		}
-		j = 0;
-		
 		return lSplitLine;
 	}
 	

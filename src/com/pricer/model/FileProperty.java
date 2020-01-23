@@ -382,7 +382,8 @@ long count =0;
 		File filDir=new File(file.getPath());
 		BufferedReader in = new BufferedReader(  new InputStreamReader( new FileInputStream(filDir)));
 		
-		String str;
+		in.readLine();
+		String str = null;
 		 
 		while ((str = in.readLine()) != null) {
 		    map.add(str);
