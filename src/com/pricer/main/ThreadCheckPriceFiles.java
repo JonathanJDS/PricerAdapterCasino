@@ -13,7 +13,7 @@ import java.util.*;
 
 public class ThreadCheckPriceFiles extends Thread {
 
-	static Logger logger = Logger.getLogger(Start.class);
+	static Logger logger = Logger.getLogger(ThreadCheckPriceFiles.class);
 
 	static Wini ini;
 	static String priceArchiveFolder;
@@ -151,7 +151,7 @@ public class ThreadCheckPriceFiles extends Thread {
 		
 		for (String line : lstMapFile) {
 
-			List<String> splitedTabLine = splitLine(line, ";");
+			List<String> splitedTabLine = splitLine(line, "|");
 
 			  try {
 			 
@@ -176,7 +176,7 @@ public class ThreadCheckPriceFiles extends Thread {
 		priceData.setItemID(splitedTabLine.get(1));
 		completeLine.append("0001 ").append(priceData.getItemID());
 		completeLine.append("|,");
-		System.out.println( completeLine.toString());
+
 
 
 	}
@@ -204,7 +204,7 @@ public class ThreadCheckPriceFiles extends Thread {
 		
 		System.out.println("delete file " + temporaryFolder + "\\" + priceFileName);
 		fpTemporaryFile.deleteFile();
-		
+
 		
 		
 	}
