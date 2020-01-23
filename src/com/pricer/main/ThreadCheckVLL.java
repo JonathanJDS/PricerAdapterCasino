@@ -94,7 +94,7 @@ public class ThreadCheckVLL extends Thread {
 				
 				for(String fileNameFilter : lstFiles) {
 					
-				utility.ZipFile (sourceFolder, fileNameFilter, temporaryFolder, fileNameFilter, cdiscountArchiveFolder);
+				utility.ZipFile (sourceFolder, fileNameFilter, temporaryFolder, fileNameFilter, vllArchiveFolder);
 				utility.MoveFile(sourceFolder + "\\" + fileNameFilter,temporaryFolder + "\\" + fileNameFilter);	
 				
 				try {
@@ -300,8 +300,8 @@ public class ThreadCheckVLL extends Thread {
 	 	}
 		
 		
-		System.out.println("delete file " + temporaryFolder + "\\" + cdiscountFileName);
-		new File(temporaryFolder + "\\" + cdiscountFileName.replace("*", "")).delete();
+		System.out.println("delete file " + temporaryFolder + "\\" + vllFileName);
+		new File(temporaryFolder + "\\" + vllFileName.replace("*", "")).delete();
 	
 		
 		

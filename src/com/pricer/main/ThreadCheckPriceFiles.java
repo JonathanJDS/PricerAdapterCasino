@@ -38,10 +38,10 @@ public class ThreadCheckPriceFiles extends Thread {
 		
 		
 		/*******Archive folders **********/
-		priceArchiveFolder		= ini.get("Folders", "priceArchiveFolder");
+		priceArchiveFolder		= ini.get("Folders", "PriceArchiveFolder");
 		
 		/********* FileNames *************/
-		priceFileName 		= ini.get("Files","priceFileName");
+		priceFileName 		= ini.get("Files","PriceFileName");
 		
 		/*****Pricer Path **************/
 		tempo 						= Integer.valueOf(ini.get("Files", "timer"));
