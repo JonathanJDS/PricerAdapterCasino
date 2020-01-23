@@ -76,9 +76,9 @@ public class Start {
 
 
 
-//		ThreadCheckPriceFiles getPriceFiles = new ThreadCheckPriceFiles();
-//		getPriceFiles.setPriority(1);
-//		getPriceFiles.start();
+		ThreadCheckPriceFiles getPriceFiles = new ThreadCheckPriceFiles();
+		getPriceFiles.setPriority(1);
+		getPriceFiles.start();
 
 
 		ThreadCheckGestFiles getGestFiles = new ThreadCheckGestFiles();

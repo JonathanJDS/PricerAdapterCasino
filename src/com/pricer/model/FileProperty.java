@@ -1,4 +1,4 @@
-﻿package com.pricer.model;
+package  com.pricer.model;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

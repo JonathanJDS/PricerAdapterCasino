@@ -51,10 +51,15 @@ public class ThreadCheckPriceFiles extends Thread {
 		pricerMessageFilesFolder 	= ini.get("Folders", "PricerMessageFiles");
 		pricerResultFilesFolder		= ini.get("Folders", "PricerResultFiles");
 
-		
-		
-		
-		
+		HashMap<String, String> lstFormatLabels = new HashMap<>();
+		for (String key : ini.get("FormatLabels").keySet()) {
+		lstFormatLabels.put(key, ini.get("FormatLabels").fetch(key));
+			System.out.println(key + ":" + ini.get("FormatLabels").fetch(key));
+		}
+
+
+
+
 		TimerTask task = new TimerTask() {
 			@Override
 			public void run() {
@@ -165,7 +170,7 @@ public class ThreadCheckPriceFiles extends Thread {
 		opDB = new OperationOnDB();
 		
 		
-		//cdiscountData.setItemIPF(splitedTabLine.get(0));
+
 		priceData.setItemID(splitedTabLine.get(1));
 
 
@@ -177,8 +182,7 @@ public class ThreadCheckPriceFiles extends Thread {
          
          
          System.out.println( completeLine.toString());
-        // datafile_Update.println(completeLine.toString());
-        // datafile_Update.flush();
+
 
 		}
 			catch (IndexOutOfBoundsException indx){
