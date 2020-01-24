@@ -83,11 +83,11 @@ public class Start {
 		getGestFiles.setPriority(1);
 		getGestFiles.start();
 		
-	/*
+	
 		ThreadCheckCDiscount getCDiscountFiles = new ThreadCheckCDiscount();
 		getCDiscountFiles.setPriority(1);
 		getCDiscountFiles.start();
-	*/
+	
 		
 
 

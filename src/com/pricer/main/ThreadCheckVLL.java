@@ -265,12 +265,11 @@ public class ThreadCheckVLL extends Thread {
 		
 		
 		System.out.println("delete file " + temporaryFolder + "\\" + vllFileName);
-<<<<<<< HEAD
+
 		new File(temporaryFolder + "\\" + vllFileName).delete();
-=======
+
 		new File(temporaryFolder + "\\" + vllFileName.replace("*", "")).delete();
->>>>>>> 694aa6ff9a76b755e6e97e1e930adc80972c3573
-	
+
 		
 		
 		
