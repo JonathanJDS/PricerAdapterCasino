@@ -89,11 +89,11 @@ logger.error("error");
 		getGestFiles.setPriority(1);
 		getGestFiles.start();
 		*/
-	/*
+
 		ThreadCheckCDiscount getCDiscountFiles = new ThreadCheckCDiscount();
 		getCDiscountFiles.setPriority(1);
 		getCDiscountFiles.start();
-	*/
+
 		
 
 

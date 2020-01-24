@@ -5,15 +5,15 @@
         <CustomLevel name="REJECTED" intLevel="50" />
     </CustomLevels>
     <Appenders>
-        <RollingFile name="RollingFile" fileName="logs/adapter.log"
-                               filePattern="D:/logs/adapter-%d{yyyy-MM-dd}-%i.log">
+        <RollingFile name="MainLogFile" fileName="logs/adapter.log" filePattern="logs/adapter-%d{yyyy-MM-dd}-%i.log">
         <PatternLayout>
             <pattern>%d{MM-dd-yyyy HH:mm:ss,SSS}|%p|%m%n</pattern>
         </PatternLayout>
         <Policies>
             <SizeBasedTriggeringPolicy size="5 MB" />
         </Policies>
-        <DefaultRolloverStrategy max="180"/>
+        <!-- max number of day to keep-->
+            <DefaultRolloverStrategy max="30"/>
             <Filters>
                 <!--Deny message logged under REJECTED log level-->
                 <ThresholdFilter level="REJECTED"  onMatch="DENY"   onMismatch="NEUTRAL"/>
@@ -38,7 +38,7 @@
         <Root level="all">
             <!-- Only events at DIAG level or more specific are sent to the console. -->
             <AppenderRef ref="Rejected" level="REJECTED" />
-            <AppenderRef ref="RollingFile" level="all" />
+            <AppenderRef ref="MainLogFile" level="all" />
             <AppenderRef ref="CONSOLE"/>
         </Root>
 
