@@ -7,6 +7,7 @@ public class ProductPrice extends ProductBase{
 	private String francPrice;
 	private String priceECOPART;
 	private String previousSalePrice;
+	private String pricePromoLot;
 	
 	
 	public String getPrice() {
@@ -38,6 +39,12 @@ public class ProductPrice extends ProductBase{
 	}
 	public void setPreviousSalePrice(String previousSalePrice) {
 		this.previousSalePrice = previousSalePrice;
+	}
+	public String getPricePromoLot() {
+		return pricePromoLot;
+	}
+	public void setPricePromoLot(String pricePromoLot) {
+		this.pricePromoLot = pricePromoLot;
 	}
 	
 	
