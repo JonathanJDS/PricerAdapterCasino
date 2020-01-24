@@ -444,7 +444,7 @@ long count =0;
 		File filDir=new File(file.getPath());
 		BufferedReader in = new BufferedReader(  new InputStreamReader( new FileInputStream(filDir)));
 		
-		in.readLine();
+//		in.readLine();
 		String str = null;
 		 
 		while ((str = in.readLine()) != null) {
