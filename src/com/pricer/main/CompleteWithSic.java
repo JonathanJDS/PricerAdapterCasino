@@ -11,13 +11,13 @@ import java.io.PrintStream;
 import java.util.Date;
 import java.util.TreeMap;
 
-
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class CompleteWithSic {
 
 	
-	final static Logger logger=Logger.getLogger(Start.class);
+	static Logger logger =  LogManager.getLogger(CompleteWithSic.class);
 	
 	
 	public void completeWithSic(String sourceFile, String operationType, String positionBegin, String positionEnd, String lineSize) {
@@ -40,21 +40,26 @@ public class CompleteWithSic {
         catch (IndexOutOfBoundsException iex) {
             logger.fatal("Bad Or Missing Parameter : completeWithSic.jar \"FileSource\" \"typeOperation(F=Fixed size or S=Separator)\" \"ItemPositionBegin\" \"ItemPositionEnd\" \"LineSizeWanted\"");
             logger.fatal("Exit application");
-            System.exit(0);
         }
+		
         System.out.println("begin Operation : " + new Date());
+        
         logger.info(("fileSource = " + FileSource));
         logger.info(("typeOperation = " + typeOperation));
         logger.info(("itemPositionBegin = " + ItemPositionBegin));
         logger.info(("itemPositionEnd = " + ItemPositionEnd));
         logger.info(("Element Size = " + LineSizeWanted));
+        
         System.out.println("fileSource = " + FileSource);
         System.out.println("typeOperation = " + typeOperation);
         System.out.println("itemPositionBegin = " + ItemPositionBegin);
         System.out.println("itemPositionEnd = " + ItemPositionEnd);
+        
         final TreeMap<String, String> lstItemSics = (TreeMap<String, String>)new OperationOnDB().getlstItemSics();
-        System.out.println("nbre of linked items = " + lstItemSics.size());
+        
+        System.out.println("nbre of linked items = " + lstItemSics.size());    
         logger.info(("nbre of SIC items in dtabase = " + lstItemSics.size()));
+        
         final File fFileSource = new File(FileSource);
         PrintStream datafile = null;
         try {

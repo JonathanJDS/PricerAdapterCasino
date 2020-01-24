@@ -13,7 +13,6 @@ import org.ini4j.InvalidFileFormatException;
 import org.ini4j.Wini;
 
 import com.pricer.model.FileUtility;
-import com.pricer.model.FileUtility;
 
 public class ThreadCheckGestFiles extends Thread {
 

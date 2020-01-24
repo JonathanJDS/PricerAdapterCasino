@@ -93,6 +93,10 @@ logger.error("error");
 		ThreadCheckCDiscount getCDiscountFiles = new ThreadCheckCDiscount();
 		getCDiscountFiles.setPriority(1);
 		getCDiscountFiles.start();
+		
+		ThreadCheckVLL getVLLFiles = new ThreadCheckVLL();
+		getVLLFiles.setPriority(1);
+		getVLLFiles.start();
 
 		
 

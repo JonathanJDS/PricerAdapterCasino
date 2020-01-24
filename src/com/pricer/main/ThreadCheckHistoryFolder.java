@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import org.apache.logging.log4j.*;
 //import org.apache.log4j.Logger;
 import org.ini4j.InvalidFileFormatException;
