@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
+//import org.apache.log4j.Logger;
 import org.ini4j.InvalidFileFormatException;
 import org.ini4j.Wini;
 
@@ -16,8 +16,8 @@ import com.pricer.model.FileUtility;
 import com.pricer.model.FileUtility;
 
 public class ThreadCheckGestFiles extends Thread {
-	
-	static Logger logger = Logger.getLogger(Start.class);
+
+	static Logger logger =  LogManager.getLogger(Start.class);
 
 	static Wini ini;
 	static String gestArchiveFolder ;	

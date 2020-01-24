@@ -4,19 +4,19 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
+//import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import com.pricer.model.FileUtility;
 import com.pricer.model.ListDataManager;
 
 
 
 public class PurgeHistoryFolder {
-	
 
-	
-	
-	static Logger logger = Logger.getLogger(PurgeHistoryFolder.class);
+
+
+
+	static Logger logger =  LogManager.getLogger(PurgeHistoryFolder.class);
 
 	
 

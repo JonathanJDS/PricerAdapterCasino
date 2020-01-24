@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
+//import org.apache.log4j.Logger;
 import org.ini4j.InvalidFileFormatException;
 import org.ini4j.Wini;
 
@@ -23,8 +23,8 @@ import com.pricer.product.ProductCDiscount;
 
 public class ThreadCheckVLL extends Thread {
 	
-	static Logger logger = Logger.getLogger(Start.class);
-
+	//static Logger logger = Logger.getLogger(Start.class);
+	static Logger logger =  LogManager.getLogger(ThreadCheckVLL.class);
 	static Wini ini;
 	static String vllArchiveFolder;	
 	static String vllFileName;

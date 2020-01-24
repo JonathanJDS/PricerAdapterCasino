@@ -3,20 +3,21 @@ package com.pricer.main;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.log4j.Logger;
+
 import org.ini4j.InvalidFileFormatException;
 import org.ini4j.Wini;
 
-
+import org.apache.logging.log4j.*;
 import it.sauronsoftware.cron4j.Predictor;
 import it.sauronsoftware.cron4j.Scheduler;
 
 public class Start {
 	
-	static Logger logger = Logger.getLogger(Start.class);
+	static Logger logger =  LogManager.getLogger(Start.class);
 	static Wini ini;
 	//static FileUtility utility = new FileUtility();
-	
+
+
 	public static void InitializeIni() {
 		try {
 			ini = new Wini(new File("preference.ini"));
@@ -46,9 +47,14 @@ public class Start {
 		String cronValue = ini.get("Folders", "CheckArchiveCronValue");
 		Scheduler scheduler = new Scheduler();
 		it.sauronsoftware.cron4j.Predictor predictor = new Predictor(cronValue);
-		logger.info("Next execution date for Checkin old files in Archives Folder : " + predictor.nextMatchingDate());
+		logger.info("Next execution date for Checking old files in Archives Folder : " + predictor.nextMatchingDate());
+		logger.debug("test debug");
+logger.warn("warning");
+logger.debug("debug");
+logger.fatal("fatal");
+logger.error("error");
 
-
+		logger.log(Level.getLevel("REJECTED"),"line rejected");
 
 		try {
 
@@ -78,11 +84,11 @@ public class Start {
 		getPriceFiles.setPriority(1);
 		getPriceFiles.start();
 
-
+/*
 		ThreadCheckGestFiles getGestFiles = new ThreadCheckGestFiles();
 		getGestFiles.setPriority(1);
 		getGestFiles.start();
-		
+		*/
 	/*
 		ThreadCheckCDiscount getCDiscountFiles = new ThreadCheckCDiscount();
 		getCDiscountFiles.setPriority(1);

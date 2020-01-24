@@ -16,15 +16,15 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import javax.swing.JFileChooser;
-
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
+//import org.apache.log4j.Logger;
 import org.ini4j.Wini;
 
 
 public class FileUtility {
 	
 	private static Wini ini;
-	static Logger logger = Logger.getLogger(FileUtility.class);
+	static Logger logger =  LogManager.getLogger(FileUtility.class);
 	private File file = null;
 	
 

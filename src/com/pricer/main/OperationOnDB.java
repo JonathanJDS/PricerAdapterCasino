@@ -7,17 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
-import org.apache.log4j.Logger;
-
+//import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
 import com.pricer.model.JDBCConnector;
 import com.pricer.product.ProductBase;
 
 
 
 public class OperationOnDB {
-	
-	static Logger logger = Logger.getLogger(Start.class);
-	
+
+	static Logger logger =  LogManager.getLogger(OperationOnDB.class);
 	
 	private Connection connection;
 

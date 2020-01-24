@@ -3,7 +3,9 @@ package com.pricer.main;
 
 import com.pricer.model.FileUtility;
 import com.pricer.product.ProductPrice;
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
+import org.apache.logging.log4j.*;
+
 import org.ini4j.InvalidFileFormatException;
 import org.ini4j.Wini;
 
@@ -13,7 +15,7 @@ import java.util.*;
 
 public class ThreadCheckPriceFiles extends Thread {
 
-	static Logger logger = Logger.getLogger(ThreadCheckPriceFiles.class);
+	static Logger logger =  LogManager.getLogger(ThreadCheckPriceFiles.class);
 
 	static Wini ini;
 	static String priceArchiveFolder;
@@ -151,9 +153,11 @@ public class ThreadCheckPriceFiles extends Thread {
 		
 		System.out.println("let's GO!!!" );
 		
+		//put all lines in a MAP of String
 		List<String> lstMapFile = fpTemporaryFile.fileToMap();
 
-		
+
+		// Map Iteration
 		for (String line : lstMapFile) {
 
 			List<String> splitedTabLine = splitLine(line, "|");
@@ -170,7 +174,8 @@ public class ThreadCheckPriceFiles extends Thread {
 		    }
 		    	catch (FileNotFoundException e) {
 		    		logger.fatal("File Not Found, Unable to create File : " + dataFileName_Update );
-		    	}
+
+			  }
 
 			completeLine = new StringBuffer(); 
 			
