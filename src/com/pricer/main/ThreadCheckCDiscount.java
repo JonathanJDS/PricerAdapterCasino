@@ -68,44 +68,54 @@ public class ThreadCheckCDiscount extends Thread {
 			@Override
 			public void run() {
 				
-				ArrayList<String> lstFiles =  utility.listFilesFromDirectory(sourceFolder + "\\",cdiscountFileName);
-				
-				//PRE PROCESS COMPLETE WITH SIC BY DLS
-				
-				String current_Path=System.getProperty("user.dir");
-				ProcessBuilder processBuilder = new ProcessBuilder(current_Path+"\\launchMultiSeparator.bat");
-				
-				Process process = null;
-				try {
-					process = processBuilder.start();
-					logger.info("Begin Preprocess : complete file with SIC");
-				} catch (IOException e2) {
+				ArrayList<String> lstFiles = utility.listFilesFromDirectory(sourceFolder + "\\", cdiscountFileName);
+				ArrayList<String> lstFilesTemporary = utility.listFilesFromDirectory(temporaryFolder + "\\", cdiscountFileName);
 
-					e2.printStackTrace();
-					logger.error("An error occured when trying to launch PreProcess : " +e2);
-				}
-				try {
-					process.waitFor();
-					//System.out.println(process.exitValue());
-				} catch (InterruptedException e1) {
 
-					e1.printStackTrace();
-					logger.error("An error occured when waiting for PreProcess to finish : "+e1);
+				// check first if something is present in temporary Folder, if not process source Folder
+
+				if (lstFilesTemporary.size() != 0) {
+
+					logger.warn ("File is present in temporary Folder !! priority for that !!!!");
+					// processing all files from temporary.
+					for (String fileNameFilter : lstFilesTemporary) {
+						try {
+							ProcessFile(temporaryFolder + "\\" + fileNameFilter);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+
 				}
-				
-				for(String fileNameFilter : lstFiles) {
+
+
+				else {
 					
-				utility.ZipFile (sourceFolder, fileNameFilter, temporaryFolder, fileNameFilter, cdiscountArchiveFolder);
-				utility.MoveFile(sourceFolder + "\\" + fileNameFilter,temporaryFolder + "\\" + fileNameFilter);	
-				
-				try {
-					ProcessFile(temporaryFolder + "\\" + fileNameFilter);
-				} catch (IOException e) {
+					//COMPLETE WITH SIC
+					CompleteWithSic completeWithSIC = new CompleteWithSic();
+					
+					//System.out.println("Path source file before completeWithSIC : "+ sourceFile);
+			
+					for (String fileNameFilter : lstFiles) {
+						// process only one file in temporary (one by one ) .
+						if (lstFilesTemporary.size() == 0) {
+							
+							String sourceFile = sourceFolder + "\\" +fileNameFilter;
+							utility.ZipFile(sourceFolder, "BO"+fileNameFilter, temporaryFolder, fileNameFilter, cdiscountArchiveFolder);
+							completeWithSIC.completeWithSic(sourceFile, "S", "0", "0", "45");
+							
+							utility.ZipFile(sourceFolder, "PRICER"+fileNameFilter, temporaryFolder, fileNameFilter, cdiscountArchiveFolder);
+							utility.MoveFile(sourceFolder + "\\" + fileNameFilter, temporaryFolder + "\\" + fileNameFilter);
+						}
+							try {
+								ProcessFile(temporaryFolder + "\\" + fileNameFilter);
+							} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							}
+					}
 
-					e.printStackTrace();
-					logger.error("Error when trying to begin process of the file : "+ e);
-				}
-				
 				}
 
 			}
@@ -167,35 +177,12 @@ public class ThreadCheckCDiscount extends Thread {
 		System.out.println(fpTemporaryFile.getPathFilename());
 		
 
-		//STORING CDEAN TO GET SIC FROM DB
-		
-//		List<List<String>> records = new ArrayList<>();
-//		try (BufferedReader br = new BufferedReader(new FileReader(temporaryFile))) {
-//		    		    
-//		    br.readLine();
-//		    String line = null;;
-//		    
-//		    while ((line = br.readLine()) != null) {
-//		        String[] values = line.split(";");
-//		        records.add(Arrays.asList(values));
-//		    }
-//		}
-//		
-//		for(List<String> string : records) {
-//			concatAllEAN = concatAllEAN + ("'"+string.get(0)+"',");
-//		}
-//		
-//		//System.out.println(concatAllEAN);
-//		
-//		//GET SIC FROM DB
-//		List<ProductBase> lstSIC = opDB.getCdiscountSic(concatAllEAN.substring(0,concatAllEAN.length() -1 ));
-
 		List<String> lstMapFile = fpTemporaryFile.fileToMap();
 		
 		
 		for (String line : lstMapFile) {
 			
-			//System.out.println("line = " + line);
+		System.out.println("line = " + line);
 			
 			
 			
@@ -274,7 +261,7 @@ public class ThreadCheckCDiscount extends Thread {
                  
          completeLine.append("|,");
          
-        //System.out.println( completeLine.toString());
+        System.out.println( completeLine.toString());
         datafile_Update.println(completeLine.toString());
         datafile_Update.flush();
 

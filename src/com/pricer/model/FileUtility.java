@@ -54,14 +54,14 @@ public class FileUtility {
 		
 	}
 	
-	public  void ZipFile(String sourceFolder,String sourceFile, String temporaryFolder, String stockFileName, String archiveFolder) {
+	public  void ZipFile(String sourceFolder,String sourceFile, String temporaryFolder, String fileName, String archiveFolder) {
 
 		String dateOfFile ;			
-		String completeFileName = sourceFolder + "\\" + sourceFile;
+		String completeFileName = sourceFolder + "\\" + fileName;
 				
 		
 		FileUtility fpCurrentFile = new FileUtility(completeFileName);
-		FileUtility fpTempFile = new FileUtility(temporaryFolder + "\\" + stockFileName);
+		FileUtility fpTempFile = new FileUtility(temporaryFolder + "\\" + fileName);
 		
 if (fpTempFile.FileExist() == false) {
 		if (fpCurrentFile.FileExist()) {
@@ -81,7 +81,7 @@ if (fpTempFile.FileExist() == false) {
 	
 	else if (fpCurrentFile.FileExist() && fpTempFile.FileExist()){
 		logger.warn("unable to zip file : " +  completeFileName);
-		logger.warn(stockFileName + " is already present into temporary folder, waiting for end of threatment...");
+		logger.warn(fileName + " is already present into temporary folder, waiting for end of threatment...");
 
 	}
 }
@@ -444,7 +444,7 @@ long count =0;
 		File filDir=new File(file.getPath());
 		BufferedReader in = new BufferedReader(  new InputStreamReader( new FileInputStream(filDir)));
 		
-		in.readLine();
+//		in.readLine();
 		String str = null;
 		 
 		while ((str = in.readLine()) != null) {

@@ -19,7 +19,7 @@ import org.ini4j.InvalidFileFormatException;
 import org.ini4j.Wini;
 
 import com.pricer.model.FileUtility;
-import com.pricer.product.ProductCDiscount;
+import com.pricer.product.ProductVLL;
 
 public class ThreadCheckVLL extends Thread {
 	
@@ -41,7 +41,7 @@ public class ThreadCheckVLL extends Thread {
 	
 	public ThreadCheckVLL() {
 
-		logger.info("Starting Thread ThreadCheckDataFiles");
+		logger.info("Starting Thread ThreadCheckVLLFiles");
 		
 		InitializeIni();
 		
@@ -117,12 +117,12 @@ public class ThreadCheckVLL extends Thread {
 	
 	private void ProcessFile(String temporaryFile) throws IOException {
 		
-		System.out.println("Processing CDiscount file");
-		logger.info("Processing CDiscount file !");
+		System.out.println("Processing VLL file");
+		logger.info("Processing VLL file !");
 		
 		FileUtility fpTemporaryFile = new FileUtility(temporaryFile);
 		boolean bdatafile_Update_opened=false;
-		ProductCDiscount cdiscountData = null;
+		ProductVLL vllData = null;
 		
 		Date d = new Date(); 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_Hmmss");
@@ -141,9 +141,9 @@ public class ThreadCheckVLL extends Thread {
        	       	       	
        	
         
-        dataFileName_Update		=	pricerDataFilesFolder		+ "\\"	+ "data_cdiscount_" + dateOfFile + ".i1";
-        messageFileName_Update	=	pricerMessageFilesFolder	+ "\\"	+ "data_cdiscount_" + dateOfFile + ".m1";
-        resultFileName_Update	=	pricerResultFilesFolder		+ "\\"	+ "data_cdiscount_" + dateOfFile + ".r7";
+        dataFileName_Update		=	pricerDataFilesFolder		+ "\\"	+ "data_vll_" + dateOfFile + ".i1";
+        messageFileName_Update	=	pricerMessageFilesFolder	+ "\\"	+ "data_vll_" + dateOfFile + ".m1";
+        resultFileName_Update	=	pricerResultFilesFolder		+ "\\"	+ "data_vll_" + dateOfFile + ".r7";
         
         contentMessageFile_Update = "UPDATE,0001,," + dataFileName_Update + "," + resultFileName_Update;
 		
@@ -222,54 +222,18 @@ public class ThreadCheckVLL extends Thread {
 	try {		
 		
 		
-		cdiscountData = new ProductCDiscount();
+		vllData = new ProductVLL();
 		
-		cdiscountData.setItemID(splitedTabLine.get(1));
-		cdiscountData.setProductID(splitedTabLine.get(2));
-		cdiscountData.setItemNameCDiscount(splitedTabLine.get(6));
-		cdiscountData.setUrlFicheTechnique(splitedTabLine.get(7));
-		cdiscountData.setGarantie(splitedTabLine.get(9));
-		cdiscountData.setPictoTitre1(splitedTabLine.get(10));
-		cdiscountData.setPictoValeur1(splitedTabLine.get(11));
-		cdiscountData.setPictoTitre2(splitedTabLine.get(12));
-		cdiscountData.setPictoValeur2(splitedTabLine.get(13));
-		cdiscountData.setPictoTitre3(splitedTabLine.get(14));
-		cdiscountData.setPictoValeur3(splitedTabLine.get(15));
-		cdiscountData.setPictoTitre4(splitedTabLine.get(16));
-		cdiscountData.setPictoValeur4(splitedTabLine.get(17));
-		cdiscountData.setPictoTitre5(splitedTabLine.get(18));
-		cdiscountData.setPictoValeur5(splitedTabLine.get(19));
-		cdiscountData.setFlagSoldes(splitedTabLine.get(37));
-		cdiscountData.setNoteMoyenne(splitedTabLine.get(40));
-		cdiscountData.setNbreAvisClients(splitedTabLine.get(41));
-		cdiscountData.setPrixPrecoFournisseur(splitedTabLine.get(42));
-		cdiscountData.setDispoPiecesDetachees(splitedTabLine.get(43));
+		vllData.setCodeMagasin(splitedTabLine.get(0));
+
 		        
 		 
 		 
 
 				
-		 completeLine.append("0001 ").append(cdiscountData.getItemID());
+		 completeLine.append("0001 ").append(vllData.getItemID());
          completeLine.append(" 121 0 |").append("CDISCOUNT");
-         completeLine.append("| 244 0 |").append(cdiscountData.getProductID());
-         completeLine.append("| 239 0 |").append(cdiscountData.getUrlFicheTechnique());
-         completeLine.append("| 237 0 |").append(cdiscountData.getGarantie());
-         completeLine.append("| 227 0 |").append(cdiscountData.getPictoTitre1());
-         completeLine.append("| 228 0 |").append(cdiscountData.getPictoValeur1());
-         completeLine.append("| 229 0 |").append(cdiscountData.getPictoTitre2());
-         completeLine.append("| 230 0 |").append(cdiscountData.getPictoValeur2());
-         completeLine.append("| 231 0 |").append(cdiscountData.getPictoTitre3());
-         completeLine.append("| 232 0 |").append(cdiscountData.getPictoValeur3());
-         completeLine.append("| 233 0 |").append(cdiscountData.getPictoTitre4());
-         completeLine.append("| 234 0 |").append(cdiscountData.getPictoValeur4());
-         completeLine.append("| 235 0 |").append(cdiscountData.getPictoTitre5());
-         completeLine.append("| 236 0 |").append(cdiscountData.getPictoValeur5());
-         completeLine.append("| 240 0 |").append(cdiscountData.getNoteMoyenne());
-         completeLine.append("| 241 0 |").append(cdiscountData.getNbreAvisClients());
-         completeLine.append("| 245 0 |").append(cdiscountData.getPrixPrecoFournisseur());
-         completeLine.append("| 238 0 |").append(cdiscountData.getDispoPiecesDetachees());
-         completeLine.append("| 300 0 |").append(cdiscountData.getItemNameCDiscount());
-         completeLine.append("| 500 0 |").append(cdiscountData.getFlagSoldes());
+
                  
          completeLine.append("|,");
          
@@ -301,8 +265,11 @@ public class ThreadCheckVLL extends Thread {
 		
 		
 		System.out.println("delete file " + temporaryFolder + "\\" + vllFileName);
+
+		new File(temporaryFolder + "\\" + vllFileName).delete();
+
 		new File(temporaryFolder + "\\" + vllFileName.replace("*", "")).delete();
-	
+
 		
 		
 		
