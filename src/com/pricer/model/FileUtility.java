@@ -198,7 +198,7 @@ if (fpTempFile.FileExist() == false) {
     }
 
    public FileUtility() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 public boolean FileExist(){
@@ -294,8 +294,8 @@ public boolean FileExist(){
     }
     
 public boolean deleteFile() {
-    	
-    	
+
+	logger.info("deleting file : " + this.file.getName());
 
         // Make sure the file or directory exists and isn't write protected
         if (!this.file.exists())
@@ -318,7 +318,7 @@ public boolean deleteFile() {
 
         // Attempt to delete it
         boolean success = file.delete();
-
+	logger.info("File deletion result : " + success);
         
       
         return success;
@@ -365,7 +365,6 @@ public boolean deleteFile() {
     
     /**
      * Extraire le nom du fichier sans l'extension
-     * @param filename.xxx
      * @return filename
      */
     public String getFileNameWithoutExt() {
@@ -410,7 +409,7 @@ public boolean fileIsGrowing(){
 				return false;
 			}
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 			
                         return false;
@@ -456,7 +455,7 @@ long count =0;
 			str="";
 			count=count+1;
 			 in.close();
-			 	
+
 		}
 		
 		

@@ -98,7 +98,7 @@ System.exit(0);
 	try {
 		copyFileUsingChannel(fFileSource,fFileDestination);
 	} catch (IOException e2) {
-		// TODO Auto-generated catch block
+
 		
 		System.out.println("unable to copy file source to history folder, make sure that the folder is created or file source/destination is not locked...");
 		e2.printStackTrace();
@@ -115,7 +115,7 @@ System.exit(0);
 	try {
 		datafile		=	new PrintStream(new BufferedOutputStream(new FileOutputStream(FileSource + ".tmp",true)));
 	} catch (FileNotFoundException e1) {
-		// TODO Auto-generated catch block
+
 		e1.printStackTrace();
 		logger.fatal("Unable to open the File, please check path name : " + FileSource + ".tmp");
 	}
@@ -203,7 +203,7 @@ System.exit(0);
 			
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 			logger.error("File Exception Please Check if file is not locked ");
 		}
@@ -214,7 +214,7 @@ System.exit(0);
 		
 		
 	} catch (FileNotFoundException e) {
-		// TODO Auto-generated catch block
+
 		e.printStackTrace();
 		logger.error("File Exception Please Check if file exist ");
 	}
@@ -232,7 +232,7 @@ fFileSource.delete();
 try {
 	Thread.sleep(1000);
 } catch (InterruptedException e) {
-	// TODO Auto-generated catch block
+
 	e.printStackTrace();
 }
 

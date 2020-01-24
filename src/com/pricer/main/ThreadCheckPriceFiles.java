@@ -13,7 +13,7 @@ import java.util.*;
 
 public class ThreadCheckPriceFiles extends Thread {
 
-	static Logger logger = Logger.getLogger(Start.class);
+	static Logger logger = Logger.getLogger(ThreadCheckPriceFiles.class);
 
 	static Wini ini;
 	static String priceArchiveFolder;
@@ -38,10 +38,10 @@ public class ThreadCheckPriceFiles extends Thread {
 		
 		
 		/*******Archive folders **********/
-		priceArchiveFolder		= ini.get("Folders", "priceArchiveFolder");
+		priceArchiveFolder		= ini.get("Folders", "PriceArchiveFolder");
 		
 		/********* FileNames *************/
-		priceFileName 		= ini.get("Files","priceFileName");
+		priceFileName 		= ini.get("Files","PriceFileName");
 		
 		/*****Pricer Path **************/
 		tempo 						= Integer.valueOf(ini.get("Files", "timer"));
@@ -70,19 +70,24 @@ public class ThreadCheckPriceFiles extends Thread {
 
 				// check first if something is present in temporary Folder, if not process source Folder
 
-				if (lstFilesTemporary.size() == 0) {
+				if (lstFilesTemporary.size() != 0) {
+
+					logger.warn ("File is present in temporary Folder !! priority for that !!!!");
+					// processing all files from temporary.
+					for (String fileNameFilter : lstFilesTemporary) {
+						ProcessFile(temporaryFolder + "\\" + fileNameFilter);
+					}
+
+				}
+
+
+				else {
 					for (String fileNameFilter : lstFiles) {
+						// process only one file in temporary (one by one ) .
+						if (lstFilesTemporary.size() == 0)
 						utility.ZipFile(sourceFolder, fileNameFilter, temporaryFolder, fileNameFilter, priceArchiveFolder);
 						utility.MoveFile(sourceFolder + "\\" + fileNameFilter, temporaryFolder + "\\" + fileNameFilter);
 						ProcessFile(temporaryFolder + "\\" + fileNameFilter);
-					}
-				}
-
-				else {
-				logger.warn ("File is present in temporary Folder !! priority for that !!!!");
-				// processing all files from temporary.
-				for (String fileNameFilter : lstFilesTemporary) {
-					ProcessFile(temporaryFolder + "\\" + fileNameFilter);
 					}
 
 				}
@@ -151,7 +156,7 @@ public class ThreadCheckPriceFiles extends Thread {
 		
 		for (String line : lstMapFile) {
 
-			List<String> splitedTabLine = splitLine(line, ";");
+			List<String> splitedTabLine = splitLine(line, "|");
 
 			  try {
 			 
@@ -173,11 +178,10 @@ public class ThreadCheckPriceFiles extends Thread {
 
 
 		priceData = new ProductPrice();
-		opDB = new OperationOnDB();
 		priceData.setItemID(splitedTabLine.get(1));
 		completeLine.append("0001 ").append(priceData.getItemID());
 		completeLine.append("|,");
-		System.out.println( completeLine.toString());
+
 
 
 	}
@@ -204,9 +208,8 @@ public class ThreadCheckPriceFiles extends Thread {
 		
 		
 		System.out.println("delete file " + temporaryFolder + "\\" + priceFileName);
-		new File(temporaryFolder + "\\" + priceFileName).delete();
-	
-		
+		fpTemporaryFile.deleteFile();
+
 		
 		
 	}

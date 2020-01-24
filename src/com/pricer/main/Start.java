@@ -83,17 +83,18 @@ public class Start {
 		getGestFiles.setPriority(1);
 		getGestFiles.start();
 		
+	/*
 		ThreadCheckCDiscount getCDiscountFiles = new ThreadCheckCDiscount();
 		getCDiscountFiles.setPriority(1);
 		getCDiscountFiles.start();
-		
+	*/
 		
 
 
 		try {
 			Thread.sleep(10000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 
