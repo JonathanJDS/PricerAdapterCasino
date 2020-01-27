@@ -182,7 +182,7 @@ public class ThreadCheckCDiscount extends Thread {
 
 		for (String line : lstMapFile) {
 			
-		System.out.println("line = " + line);
+		//System.out.println("line = " + line);
 		
 
 			List<String> splitedTabLine = splitLine(line, ";");
@@ -260,7 +260,7 @@ public class ThreadCheckCDiscount extends Thread {
                  
          completeLine.append("|,");
          
-        System.out.println( completeLine.toString());
+        //System.out.println( completeLine.toString());
         datafile_Update.println(completeLine.toString());
         datafile_Update.flush();
 
