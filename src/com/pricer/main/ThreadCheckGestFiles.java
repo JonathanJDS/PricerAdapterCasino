@@ -62,15 +62,25 @@ public class ThreadCheckGestFiles extends Thread {
 			@Override
 			public void run() {
 				
-				ArrayList<String> lstFiles =  utility.listFilesFromDirectory(sourceFolder + "\\",GestFileName);
-				
-				for(String fileNameFilter : lstFiles) {
-					
-				utility.ZipFile (sourceFolder, fileNameFilter, temporaryFolder, fileNameFilter, gestArchiveFolder);
-				utility.MoveFile(sourceFolder + "\\" + fileNameFilter,temporaryFolder + "\\" + fileNameFilter);	
-				
-				ProcessFile(temporaryFolder + "\\" + fileNameFilter);
-				
+				FileUtility FdataFile = new FileUtility(sourceFolder + "\\" +  GestFileName);
+				FileUtility FTemporaryFile = new FileUtility(temporaryFolder + "\\" + GestFileName);
+
+
+				// check first if something is present in temporary Folder, if not process source Folder
+				if (FTemporaryFile.FileExist()) {
+					logger.warn ("File is present in temporary Folder !! priority for that !!!!");
+					ProcessFile(FTemporaryFile);
+				}
+
+				else {
+
+						// process only one file in temporary (one by one ) .
+						if (FdataFile.FileExist() && !FTemporaryFile.FileExist()) {
+							utility.ZipFile(sourceFolder, FdataFile.getFileName(), FdataFile.getFileName(), gestArchiveFolder);
+							utility.MoveFile(sourceFolder + "\\" + FdataFile.getFileName(), temporaryFolder + "\\" + FdataFile.getFileName());
+							ProcessFile(FTemporaryFile);
+						}
+
 				}
 
 			}
@@ -81,12 +91,10 @@ public class ThreadCheckGestFiles extends Thread {
 		timer.scheduleAtFixedRate(task, 0, tempo * 1000);
 	}
 	
-	private void ProcessFile(String temporaryFile) {
+	private void ProcessFile(FileUtility FtemporaryFile) {
 		
 		System.out.println("Processing gest file");
-		
-		FileUtility fpTemporaryFile = new FileUtility(temporaryFile);
-		
+				
 		Date d = new Date(); 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_Hmmss");
         String dateOfFile		=	sdf.format(d);
@@ -104,16 +112,16 @@ public class ThreadCheckGestFiles extends Thread {
         contentMessageFile_Update = "UPDATE,0001,," + dataFileName_Update + "," + resultFileName_Update;
 		
 		
-		if (!fpTemporaryFile.FileExist() == true ) {
+		if (!FtemporaryFile.FileExist() == true ) {
 			logger.debug("temporary file is empty");
 			return;
 			
 		}
 		
 		
-		if (fpTemporaryFile.fileIsGrowing()==true) {
+		if (FtemporaryFile.fileIsGrowing()==true) {
 			
-			logger.warn("file is growing waiting... : " + temporaryFile);
+			logger.warn("file is growing waiting... : " + FtemporaryFile.getFileName());
 			return ;
 		}
 		

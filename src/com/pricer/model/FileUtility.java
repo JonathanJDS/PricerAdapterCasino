@@ -54,16 +54,15 @@ public class FileUtility {
 		
 	}
 	
-	public  void ZipFile(String sourceFolder,String sourceFile, String temporaryFolder, String fileName, String archiveFolder) {
+	public  void ZipFile(String sourceFolder,String sourceFile, String archiveFolder, String fileName) {
 
 		String dateOfFile ;			
 		String completeFileName = sourceFolder + "\\" + fileName;
 				
 		
 		FileUtility fpCurrentFile = new FileUtility(completeFileName);
-		FileUtility fpTempFile = new FileUtility(temporaryFolder + "\\" + fileName);
 		
-if (fpTempFile.FileExist() == false) {
+
 		if (fpCurrentFile.FileExist()) {
 
 			if (fpCurrentFile.fileIsGrowing() == false) {
@@ -76,14 +75,7 @@ if (fpTempFile.FileExist() == false) {
 
 			}
 		}
-}
-	
-	
-	else if (fpCurrentFile.FileExist() && fpTempFile.FileExist()){
-		logger.warn("unable to zip file : " +  completeFileName);
-		logger.warn(fileName + " is already present into temporary folder, waiting for end of threatment...");
 
-	}
 }
 	
 	  public ArrayList<String> listFilesFromDirectory(String directoryPath,String filterName) {

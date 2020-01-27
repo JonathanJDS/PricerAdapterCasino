@@ -68,24 +68,20 @@ public class ThreadCheckCDiscount extends Thread {
 			@Override
 			public void run() {
 				
-				ArrayList<String> lstFiles = utility.listFilesFromDirectory(sourceFolder + "\\", cdiscountFileName);
-				ArrayList<String> lstFilesTemporary = utility.listFilesFromDirectory(temporaryFolder + "\\", cdiscountFileName);
-
+				FileUtility FdataFile = new FileUtility(sourceFolder + "\\" +  cdiscountFileName);
+				FileUtility FTemporaryFile = new FileUtility(temporaryFolder + "\\" + cdiscountFileName);
 
 				// check first if something is present in temporary Folder, if not process source Folder
 
-				if (lstFilesTemporary.size() != 0) {
-
+				if (FTemporaryFile.FileExist()) {
 					logger.warn ("File is present in temporary Folder !! priority for that !!!!");
-					// processing all files from temporary.
-						try {
-							ProcessFile(temporaryFolder + "\\" + cdiscountFileName);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					
-
+					try {
+						ProcessFile(FTemporaryFile);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						logger.fatal("ERROR when trying to process file "+FdataFile.getFileName()+" in temporary : "+e);
+					}
 				}
 
 
@@ -96,27 +92,24 @@ public class ThreadCheckCDiscount extends Thread {
 					
 					//System.out.println("Path source file before completeWithSIC : "+ sourceFile);
 			
-					if(lstFiles.size() != 0) {
-						// process only one file in temporary (one by one ) .
-						if (lstFilesTemporary.size() == 0) {
+					if(FdataFile.FileExist() && !FTemporaryFile.FileExist()) {
+
 							
 							String sourceFile = sourceFolder + "\\" +cdiscountFileName;
-							utility.ZipFile(sourceFolder, "BO"+cdiscountFileName, temporaryFolder, cdiscountFileName, cdiscountArchiveFolder);
+							utility.ZipFile(sourceFolder, "BO"+cdiscountFileName, cdiscountArchiveFolder, cdiscountFileName);
 							completeWithSIC.completeWithSic(sourceFile, "S", "0", "0", "45");
 							
-							utility.ZipFile(sourceFolder, "PRICER"+cdiscountFileName, temporaryFolder, cdiscountFileName, cdiscountArchiveFolder);
-							utility.MoveFile(sourceFolder + "\\" + cdiscountFileName, temporaryFolder + "\\" + cdiscountFileName);
-						}
+							utility.ZipFile(sourceFolder, "PRICER"+cdiscountFileName, cdiscountArchiveFolder, cdiscountFileName);
+							utility.MoveFile(sourceFolder + "\\" + FdataFile.getFileName(), temporaryFolder + "\\" + FdataFile.getFileName());
 							try {
-								ProcessFile(temporaryFolder + "\\" + cdiscountFileName);
+								ProcessFile(FTemporaryFile);
 							} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-							logger.fatal("File not found !!" + e);
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+								logger.fatal("ERROR when trying to process file "+FdataFile.getFileName()+" : "+e);
+
 							}
-					}else {
-						logger.info("No CDiscount file found at this loop, waiting ...");
-					}
+						}					
 
 				}
 
@@ -128,12 +121,11 @@ public class ThreadCheckCDiscount extends Thread {
 		timer.scheduleAtFixedRate(task, 0, tempo * 1000);
 	}
 	
-	private void ProcessFile(String temporaryFile) throws IOException {
+	private void ProcessFile(FileUtility FtemporaryFile) throws IOException {
 		
 		System.out.println("Processing CDiscount file");
-		logger.info("Processing CDiscount file !");
+		logger.info("Processing data file : " + FtemporaryFile.getFileName() );
 		
-		FileUtility fpTemporaryFile = new FileUtility(temporaryFile);
 		boolean bdatafile_Update_opened=false;
 		ProductCDiscount cdiscountData = null;
 		
@@ -161,25 +153,25 @@ public class ThreadCheckCDiscount extends Thread {
         contentMessageFile_Update = "UPDATE,0001,," + dataFileName_Update + "," + resultFileName_Update;
 		
 		
-		if (!fpTemporaryFile.FileExist() == true ) {
+		if (!FtemporaryFile.FileExist() == true ) {
 			logger.debug("temporary file is empty");
 			return;
 			
 		}
 		
 		
-		if (fpTemporaryFile.fileIsGrowing()==true) {
+		if (FtemporaryFile.fileIsGrowing()==true) {
 			
-			logger.warn("file is growing waiting... : " + temporaryFile);
+			logger.warn("file is growing waiting... : " + FtemporaryFile.getFileName());
 			return ;
 		}
 		
 		
 		System.out.println("let's GO!!!" );
-		System.out.println(fpTemporaryFile.getPathFilename());
+		System.out.println(FtemporaryFile.getPathFilename());
 		
 
-		List<String> lstMapFile = fpTemporaryFile.fileToMap();
+		List<String> lstMapFile = FtemporaryFile.fileToMap();
 
 
 		for (String line : lstMapFile) {
