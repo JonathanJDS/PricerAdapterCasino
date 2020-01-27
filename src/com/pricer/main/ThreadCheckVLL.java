@@ -7,7 +7,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;
@@ -66,25 +65,21 @@ public class ThreadCheckVLL extends Thread {
 			@Override
 			public void run() {
 				
-				ArrayList<String> lstFiles = utility.listFilesFromDirectory(sourceFolder + "\\", vllFileName);
-				ArrayList<String> lstFilesTemporary = utility.listFilesFromDirectory(temporaryFolder + "\\", vllFileName);
+				FileUtility FdataFile = new FileUtility(sourceFolder + "\\" +  vllFileName);
+				FileUtility FTemporaryFile = new FileUtility(temporaryFolder + "\\" + vllFileName);
 
 
 				// check first if something is present in temporary Folder, if not process source Folder
 
-				if (lstFilesTemporary.size() != 0) {
-
+				if (FTemporaryFile.FileExist()) {
 					logger.warn ("File is present in temporary Folder !! priority for that !!!!");
-					// processing all files from temporary.
-
-						try {
-							ProcessFile(temporaryFolder + "\\" + vllFileName);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					
-
+					try {
+						ProcessFile(FTemporaryFile);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						logger.fatal("ERROR when trying to process file "+FTemporaryFile.getFileName()+" in temporary : "+e);
+					}
 				}
 
 
@@ -95,29 +90,24 @@ public class ThreadCheckVLL extends Thread {
 					
 					//System.out.println("Path source file before completeWithSIC : "+ sourceFile);
 			
-					if(lstFiles.size() != 0) {
-						// process only one file in temporary (one by one ) .
-						if (lstFilesTemporary.size() == 0) {
+					if(FdataFile.FileExist() && !FTemporaryFile.FileExist()) {
+
 							
 							String sourceFile = sourceFolder + "\\" +vllFileName;
 							utility.ZipFile(sourceFolder, "BO"+vllFileName, vllArchiveFolder, vllFileName);
 							completeWithSIC.completeWithSic(sourceFile, "F", "5", "18", "307");
 							
 							utility.ZipFile(sourceFolder, "PRICER"+vllFileName, vllArchiveFolder, vllFileName);
-							utility.MoveFile(sourceFolder + "\\" + vllFileName, temporaryFolder + "\\" + vllFileName);
-						}
+							utility.MoveFile(sourceFolder + "\\" + FdataFile.getFileName(), temporaryFolder + "\\" + FdataFile.getFileName());
 							try {
-								ProcessFile(temporaryFolder + "\\" + vllFileName);
+								ProcessFile(FTemporaryFile);
 							} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-							logger.fatal("No file found !! " +e);
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+								logger.fatal("ERROR when trying to process file "+FdataFile.getFileName()+" : "+e);
+
 							}
-					}else {
-						logger.info("No VLL file found at this loop, waiting ...");
-					}
-						
-					
+						}					
 
 				}
 
@@ -129,12 +119,12 @@ public class ThreadCheckVLL extends Thread {
 		timer.scheduleAtFixedRate(task, 0, tempo * 1000);
 	}
 	
-	private void ProcessFile(String temporaryFile) throws IOException {
+	private void ProcessFile(FileUtility FtemporaryFile) throws IOException {
 		
 		System.out.println("Processing VLL file");
-		logger.info("Processing VLL file !");
+		logger.info("Processing data file : " + FtemporaryFile.getFileName() );
 		
-		FileUtility fpTemporaryFile = new FileUtility(temporaryFile);
+		//FileUtility fpTemporaryFile = new FileUtility(temporaryFile);
 		boolean bdatafile_Update_opened=false;
 		ProductVLL vllData = null;
 		
@@ -162,25 +152,25 @@ public class ThreadCheckVLL extends Thread {
         contentMessageFile_Update = "UPDATE,0001,," + dataFileName_Update + "," + resultFileName_Update;
 		
 		
-		if (!fpTemporaryFile.FileExist() == true ) {
+		if (!FtemporaryFile.FileExist() == true ) {
 			logger.debug("temporary file is empty");
 			return;
 			
 		}
 		
 		
-		if (fpTemporaryFile.fileIsGrowing()==true) {
+		if (FtemporaryFile.fileIsGrowing()==true) {
 			
-			logger.warn("file is growing waiting... : " + temporaryFile);
+			logger.warn("file is growing waiting... : " + FtemporaryFile.getFileName());
 			return ;
 		}
 		
 		
 		System.out.println("let's GO!!!" );
-		System.out.println(fpTemporaryFile.getPathFilename());
+		System.out.println(FtemporaryFile.getPathFilename());
 
 
-		List<String> lstMapFile = fpTemporaryFile.fileToMap();
+		List<String> lstMapFile = FtemporaryFile.fileToMap();
 		
 		
 		for (String line : lstMapFile) {

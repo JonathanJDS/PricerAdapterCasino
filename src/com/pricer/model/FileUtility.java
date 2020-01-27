@@ -54,18 +54,24 @@ public class FileUtility {
 		
 	}
 	
-	public  void ZipFile(String sourceFolder,String sourceFileName, String destinationFolder, String destinationFileName ) {
+	public  void ZipFile(String sourceFolder,String sourceFile, String archiveFolder, String fileName) {
 
 		String dateOfFile ;			
-		FileUtility fpCurrentFile = new FileUtility(sourceFolder + "\\" + sourceFileName);
-
+		String completeFileName = sourceFolder + "\\" + fileName;
+				
+		
+		FileUtility fpCurrentFile = new FileUtility(completeFileName);
+		
 
 		if (fpCurrentFile.FileExist()) {
 
 			if (fpCurrentFile.fileIsGrowing() == false) {
 
 				dateOfFile = new SimpleDateFormat("yyyyMMdd_Hmmss").format(new Date());
-				fpCurrentFile.zipFile(destinationFolder, destinationFileName + "_" + dateOfFile + ".zip");
+				//fpCurrentFile.zipFile(archiveFolder + "\\" + stockFileName + "_" + dateOfFile + ".zip");
+				fpCurrentFile.zipFile(archiveFolder, sourceFile + "_" + dateOfFile + ".zip");
+
+				
 
 			}
 		}
