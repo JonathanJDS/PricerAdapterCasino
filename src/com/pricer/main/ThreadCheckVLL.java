@@ -100,10 +100,10 @@ public class ThreadCheckVLL extends Thread {
 						if (lstFilesTemporary.size() == 0) {
 							
 							String sourceFile = sourceFolder + "\\" +vllFileName;
-							utility.ZipFile(sourceFolder, "BO"+vllFileName, temporaryFolder, vllFileName, vllArchiveFolder);
+							utility.ZipFile(sourceFolder, "BO"+vllFileName, vllArchiveFolder, vllFileName);
 							completeWithSIC.completeWithSic(sourceFile, "F", "5", "18", "307");
 							
-							utility.ZipFile(sourceFolder, "PRICER"+vllFileName, temporaryFolder, vllFileName, vllArchiveFolder);
+							utility.ZipFile(sourceFolder, "PRICER"+vllFileName, vllArchiveFolder, vllFileName);
 							utility.MoveFile(sourceFolder + "\\" + vllFileName, temporaryFolder + "\\" + vllFileName);
 						}
 							try {

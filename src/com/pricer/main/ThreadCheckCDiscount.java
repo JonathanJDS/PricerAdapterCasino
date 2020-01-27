@@ -101,10 +101,10 @@ public class ThreadCheckCDiscount extends Thread {
 						if (lstFilesTemporary.size() == 0) {
 							
 							String sourceFile = sourceFolder + "\\" +cdiscountFileName;
-							utility.ZipFile(sourceFolder, "BO"+cdiscountFileName, temporaryFolder, cdiscountFileName, cdiscountArchiveFolder);
+							utility.ZipFile(sourceFolder, "BO"+cdiscountFileName,cdiscountArchiveFolder, cdiscountFileName);
 							completeWithSIC.completeWithSic(sourceFile, "S", "0", "0", "45");
 							
-							utility.ZipFile(sourceFolder, "PRICER"+cdiscountFileName, temporaryFolder, cdiscountFileName, cdiscountArchiveFolder);
+							utility.ZipFile(sourceFolder, "PRICER"+cdiscountFileName, cdiscountArchiveFolder, cdiscountFileName);
 							utility.MoveFile(sourceFolder + "\\" + cdiscountFileName, temporaryFolder + "\\" + cdiscountFileName);
 						}
 							try {

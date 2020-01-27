@@ -66,7 +66,7 @@ public class ThreadCheckGestFiles extends Thread {
 				
 				for(String fileNameFilter : lstFiles) {
 					
-				utility.ZipFile (sourceFolder, fileNameFilter, temporaryFolder, fileNameFilter, gestArchiveFolder);
+				utility.ZipFile (sourceFolder, fileNameFilter,gestArchiveFolder, fileNameFilter);
 				utility.MoveFile(sourceFolder + "\\" + fileNameFilter,temporaryFolder + "\\" + fileNameFilter);	
 				
 				ProcessFile(temporaryFolder + "\\" + fileNameFilter);

@@ -22,6 +22,7 @@ public class ThreadCheckPriceFiles extends Thread {
 	static String priceArchiveFolder;
 	static String priceFileName;
 	static String pricerRelFileName;
+	static String pricerRelArchiveFolder; // zip EEGEAN into REL Folder
 
 	static int tempo;
 	static String sourceFolder;
@@ -56,6 +57,7 @@ public class ThreadCheckPriceFiles extends Thread {
 		pricerDataFilesFolder 		= ini.get("Folders", "PricerDataFiles");
 		pricerMessageFilesFolder 	= ini.get("Folders", "PricerMessageFiles");
 		pricerResultFilesFolder		= ini.get("Folders", "PricerResultFiles");
+		pricerRelArchiveFolder		= ini.get("Folders", "RelArchiveFolder");
 
 
 
@@ -88,7 +90,7 @@ public class ThreadCheckPriceFiles extends Thread {
 
 						// process only one file in temporary (one by one ) .
 						if (FdataFile.FileExist() && !FTemporaryFile.FileExist()) {
-							utility.ZipFile(sourceFolder, FdataFile.getFileName(), temporaryFolder, FdataFile.getFileName(), priceArchiveFolder);
+							utility.ZipFile(sourceFolder, FdataFile.getFileName(), priceArchiveFolder, FdataFile.getFileName());
 							utility.MoveFile(sourceFolder + "\\" + FdataFile.getFileName(), temporaryFolder + "\\" + FdataFile.getFileName());
 							ProcessFile(FTemporaryFile);
 						}
@@ -96,7 +98,7 @@ public class ThreadCheckPriceFiles extends Thread {
 
 					// check and zip list of product to print
 					if (FEEGEANFile.FileExist() && !FTemporaryEEGEANFile.FileExist()) {
-							utility.ZipFile(sourceFolder, FEEGEANFile.getFileName(), temporaryFolder, FEEGEANFile.getFileName(), priceArchiveFolder);
+							utility.ZipFile(sourceFolder, FEEGEANFile.getFileName(), pricerRelArchiveFolder, FEEGEANFile.getFileName());
 							utility.MoveFile(sourceFolder + "\\" + FEEGEANFile.getFileName(), temporaryFolder + "\\" + FEEGEANFile.getFileName());
 					}
 
