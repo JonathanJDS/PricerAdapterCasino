@@ -20,6 +20,7 @@ public class ThreadCheckPriceFiles extends Thread {
 	static Wini ini;
 	static String priceArchiveFolder;
 	static String priceFileName;
+	static String pricerRelFileName;
 
 	static int tempo;
 	static String sourceFolder;
@@ -44,7 +45,11 @@ public class ThreadCheckPriceFiles extends Thread {
 		
 		/********* FileNames *************/
 		priceFileName 		= ini.get("Files","PriceFileName");
-		
+		pricerRelFileName	= ini.get("Files","RelFileName");
+
+
+
+
 		/*****Pricer Path **************/
 		tempo 						= Integer.valueOf(ini.get("Files", "timer"));
 		sourceFolder 				= ini.get("Folders", "SourceFolder");
@@ -52,6 +57,8 @@ public class ThreadCheckPriceFiles extends Thread {
 		pricerDataFilesFolder 		= ini.get("Folders", "PricerDataFiles");
 		pricerMessageFilesFolder 	= ini.get("Folders", "PricerMessageFiles");
 		pricerResultFilesFolder		= ini.get("Folders", "PricerResultFiles");
+
+
 
 		HashMap<String, String> lstFormatLabels = new HashMap<>();
 		for (String key : ini.get("FormatLabels").keySet()) {
@@ -66,9 +73,16 @@ public class ThreadCheckPriceFiles extends Thread {
 			@Override
 			public void run() {
 
+
+				File FdataFile = new File(sourceFolder + "\\", priceFileName);
+				File FEEGEANFile = new File(sourceFolder+ "\\",pricerRelFileName);
+				File FTemporaryFile = new File(temporaryFolder + "\\", priceFileName);
+
+
+
 				ArrayList<String> lstFiles = utility.listFilesFromDirectory(sourceFolder + "\\", priceFileName);
 				ArrayList<String> lstFilesTemporary = utility.listFilesFromDirectory(temporaryFolder + "\\", priceFileName);
-
+				ArrayList<String> lstFilesRel = utility.listFilesFromDirectory(sourceFolder+ "\\",pricerRelFileName); //list of Product to Print
 
 				// check first if something is present in temporary Folder, if not process source Folder
 
@@ -86,10 +100,20 @@ public class ThreadCheckPriceFiles extends Thread {
 				else {
 					for (String fileNameFilter : lstFiles) {
 						// process only one file in temporary (one by one ) .
-						if (lstFilesTemporary.size() == 0)
-						utility.ZipFile(sourceFolder, fileNameFilter, temporaryFolder, fileNameFilter, priceArchiveFolder);
-						utility.MoveFile(sourceFolder + "\\" + fileNameFilter, temporaryFolder + "\\" + fileNameFilter);
-						ProcessFile(temporaryFolder + "\\" + fileNameFilter);
+						if (lstFilesTemporary.size() == 0) {
+							utility.ZipFile(sourceFolder, fileNameFilter, temporaryFolder, fileNameFilter, priceArchiveFolder);
+							utility.MoveFile(sourceFolder + "\\" + fileNameFilter, temporaryFolder + "\\" + fileNameFilter);
+							ProcessFile(temporaryFolder + "\\" + fileNameFilter);
+						}
+					}
+
+
+					// check and zip list of product to print
+					for (String fileNameFilter : lstFilesRel) {
+						// process only one file in temporary (one by one ) .
+							utility.ZipFile(sourceFolder, fileNameFilter, temporaryFolder, fileNameFilter, priceArchiveFolder);
+							utility.MoveFile(sourceFolder + "\\" + fileNameFilter, temporaryFolder + "\\" + fileNameFilter);
+
 					}
 
 				}
@@ -125,12 +149,23 @@ public class ThreadCheckPriceFiles extends Thread {
         PrintStream datafile_Update		=	null;
        	PrintStream messagefile_Update	=	null;
        	StringBuffer completeLine ;
-       	
-       	/**************FILE CONTENT *******************/
-       	       	       	
-       	
-        
-        dataFileName_Update		=	pricerDataFilesFolder		+ "\\"	+ "data_price_" + dateOfFile + ".i1";
+
+
+		String model1 = "|XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX|XXXXXXXX|XXXXXXXX|XXXXXXXX|X|XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX|XXXXX|XXXXXXXXXXXXXXX|XXXXXXXXXXXXXXX|XXXXXXXXXXXXXXX|XXXXXXXXXXXXXXX|XX|XX|XXXXX|XX|";
+		String model2 = "|XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX|\":SUPP \"|\":SUPP \"|\":SUPP \"|X|XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX|XXXXX|XXXXXXXXXXXXXXX|XXXXXXXXXXXXXXX|XXXXXXXXXXXXXXX|XXXXXXXXXXXXXXX|XX|00|XXXXX|XX|";
+		Product product = null;
+		List<String> lstEANSics = null ;
+		List<Product> lstProducts = new ArrayList<Product>();
+		List<ProductToDelete> lstDelete = new ArrayList<ProductToDelete>();
+		List<ProductToDelete> lstDeletePFI = new ArrayList<ProductToDelete>();
+		List<String> lstEANTOPrint = null;
+
+
+
+
+
+
+		dataFileName_Update		=	pricerDataFilesFolder		+ "\\"	+ "data_price_" + dateOfFile + ".i1";
         messageFileName_Update	=	pricerMessageFilesFolder	+ "\\"	+ "data_price_" + dateOfFile + ".m1";
         resultFileName_Update	=	pricerResultFilesFolder		+ "\\"	+ "data_price_" + dateOfFile + ".r7";
         
