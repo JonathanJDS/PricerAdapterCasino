@@ -88,7 +88,7 @@ if (fpTempFile.FileExist() == false) {
 	
 	  public ArrayList<String> listFilesFromDirectory(String directoryPath,String filterName) {
 	    	 
-    	  System.out.println("filtername = " + filterName);
+    	  //System.out.println("filtername = " + filterName);
 
 	    	try{ 
 
