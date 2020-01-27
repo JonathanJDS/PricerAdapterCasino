@@ -2,7 +2,8 @@ package com.pricer.main;
 
 
 import com.pricer.model.FileUtility;
-import com.pricer.product.ProductPrice;
+import com.pricer.product.ProductBase;
+
 //import org.apache.log4j.Logger;
 import org.apache.logging.log4j.*;
 
@@ -48,8 +49,6 @@ public class ThreadCheckPriceFiles extends Thread {
 		pricerRelFileName	= ini.get("Files","RelFileName");
 
 
-
-
 		/*****Pricer Path **************/
 		tempo 						= Integer.valueOf(ini.get("Files", "timer"));
 		sourceFolder 				= ini.get("Folders", "SourceFolder");
@@ -63,9 +62,8 @@ public class ThreadCheckPriceFiles extends Thread {
 		HashMap<String, String> lstFormatLabels = new HashMap<>();
 		for (String key : ini.get("FormatLabels").keySet()) {
 		lstFormatLabels.put(key, ini.get("FormatLabels").fetch(key));
-			System.out.println(key + ":" + ini.get("FormatLabels").fetch(key));
+		System.out.println(key + ":" + ini.get("FormatLabels").fetch(key));
 		}
-
 
 
 
@@ -74,46 +72,32 @@ public class ThreadCheckPriceFiles extends Thread {
 			public void run() {
 
 
-				File FdataFile = new File(sourceFolder + "\\", priceFileName);
-				File FEEGEANFile = new File(sourceFolder+ "\\",pricerRelFileName);
-				File FTemporaryFile = new File(temporaryFolder + "\\", priceFileName);
+				FileUtility FdataFile = new FileUtility(sourceFolder + "\\" +  priceFileName);
+				FileUtility FTemporaryFile = new FileUtility(temporaryFolder + "\\" + priceFileName);
 
-
-
-				ArrayList<String> lstFiles = utility.listFilesFromDirectory(sourceFolder + "\\", priceFileName);
-				ArrayList<String> lstFilesTemporary = utility.listFilesFromDirectory(temporaryFolder + "\\", priceFileName);
-				ArrayList<String> lstFilesRel = utility.listFilesFromDirectory(sourceFolder+ "\\",pricerRelFileName); //list of Product to Print
+				FileUtility FEEGEANFile = new FileUtility(sourceFolder + "\\" + pricerRelFileName);
+				FileUtility FTemporaryEEGEANFile = new FileUtility(temporaryFolder + "\\" + pricerRelFileName);
 
 				// check first if something is present in temporary Folder, if not process source Folder
-
-				if (lstFilesTemporary.size() != 0) {
-
+				if (FTemporaryFile.FileExist()) {
 					logger.warn ("File is present in temporary Folder !! priority for that !!!!");
-					// processing all files from temporary.
-					for (String fileNameFilter : lstFilesTemporary) {
-						ProcessFile(temporaryFolder + "\\" + fileNameFilter);
-					}
-
+					ProcessFile(FTemporaryFile);
 				}
 
-
 				else {
-					for (String fileNameFilter : lstFiles) {
+
 						// process only one file in temporary (one by one ) .
-						if (lstFilesTemporary.size() == 0) {
-							utility.ZipFile(sourceFolder, fileNameFilter, temporaryFolder, fileNameFilter, priceArchiveFolder);
-							utility.MoveFile(sourceFolder + "\\" + fileNameFilter, temporaryFolder + "\\" + fileNameFilter);
-							ProcessFile(temporaryFolder + "\\" + fileNameFilter);
+						if (FdataFile.FileExist() && !FTemporaryFile.FileExist()) {
+							utility.ZipFile(sourceFolder, FdataFile.getFileName(), temporaryFolder, FdataFile.getFileName(), priceArchiveFolder);
+							utility.MoveFile(sourceFolder + "\\" + FdataFile.getFileName(), temporaryFolder + "\\" + FdataFile.getFileName());
+							ProcessFile(FTemporaryFile);
 						}
-					}
 
 
 					// check and zip list of product to print
-					for (String fileNameFilter : lstFilesRel) {
-						// process only one file in temporary (one by one ) .
-							utility.ZipFile(sourceFolder, fileNameFilter, temporaryFolder, fileNameFilter, priceArchiveFolder);
-							utility.MoveFile(sourceFolder + "\\" + fileNameFilter, temporaryFolder + "\\" + fileNameFilter);
-
+					if (FEEGEANFile.FileExist() && !FTemporaryEEGEANFile.FileExist()) {
+							utility.ZipFile(sourceFolder, FEEGEANFile.getFileName(), temporaryFolder, FEEGEANFile.getFileName(), priceArchiveFolder);
+							utility.MoveFile(sourceFolder + "\\" + FEEGEANFile.getFileName(), temporaryFolder + "\\" + FEEGEANFile.getFileName());
 					}
 
 				}
@@ -126,15 +110,15 @@ public class ThreadCheckPriceFiles extends Thread {
 		timer.scheduleAtFixedRate(task, 0, (tempo * 1000) + 2000);
 	}
 	
-	private void ProcessFile(String temporaryFile) {
+	private void ProcessFile(FileUtility FtemporaryFile) {
 		
 		System.out.println("Processing data file");
-		logger.info("Processing data file : " + temporaryFile );
+		logger.info("Processing data file : " + FtemporaryFile.getFileName() );
 		
-		FileUtility fpTemporaryFile = new FileUtility(temporaryFile);
+
 		boolean bdatafile_Update_opened=false;
 
-		ProductPrice priceData = null;
+		ProductBase priceData = null;
 		OperationOnDB opDB = null;
 		
 		Date d = new Date(); 
@@ -153,11 +137,11 @@ public class ThreadCheckPriceFiles extends Thread {
 
 		String model1 = "|XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX|XXXXXXXX|XXXXXXXX|XXXXXXXX|X|XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX|XXXXX|XXXXXXXXXXXXXXX|XXXXXXXXXXXXXXX|XXXXXXXXXXXXXXX|XXXXXXXXXXXXXXX|XX|XX|XXXXX|XX|";
 		String model2 = "|XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX|\":SUPP \"|\":SUPP \"|\":SUPP \"|X|XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX|XXXXX|XXXXXXXXXXXXXXX|XXXXXXXXXXXXXXX|XXXXXXXXXXXXXXX|XXXXXXXXXXXXXXX|XX|00|XXXXX|XX|";
-		Product product = null;
+		ProductBase product = null;
 		List<String> lstEANSics = null ;
-		List<Product> lstProducts = new ArrayList<Product>();
-		List<ProductToDelete> lstDelete = new ArrayList<ProductToDelete>();
-		List<ProductToDelete> lstDeletePFI = new ArrayList<ProductToDelete>();
+		List<ProductBase> lstProducts = new ArrayList<ProductBase>();
+		//List<ProductToDelete> lstDelete = new ArrayList<ProductToDelete>();
+		//List<ProductToDelete> lstDeletePFI = new ArrayList<ProductToDelete>();
 		List<String> lstEANTOPrint = null;
 
 
@@ -172,16 +156,16 @@ public class ThreadCheckPriceFiles extends Thread {
         contentMessageFile_Update = "UPDATE,0001,," + dataFileName_Update + "," + resultFileName_Update;
 		
 		
-		if (!fpTemporaryFile.FileExist() == true ) {
+		if (!FtemporaryFile.FileExist()) {
 			logger.debug("temporary file is not present");
 			return;
 			
 		}
 		
 		
-		if (fpTemporaryFile.fileIsGrowing()==true) {
+		if (FtemporaryFile.fileIsGrowing()) {
 			
-			logger.warn("file is growing waiting... : " + temporaryFile);
+			logger.warn("file is growing waiting... : " + FtemporaryFile.getFileName());
 			return ;
 		}
 		
@@ -189,7 +173,7 @@ public class ThreadCheckPriceFiles extends Thread {
 		System.out.println("let's GO!!!" );
 		
 		//put all lines in a MAP of String
-		List<String> lstMapFile = fpTemporaryFile.fileToMap();
+		List<String> lstMapFile = FtemporaryFile.fileToMap();
 
 
 		// Map Iteration
@@ -217,7 +201,7 @@ public class ThreadCheckPriceFiles extends Thread {
 	try {
 
 
-		priceData = new ProductPrice();
+		priceData = new ProductBase();
 		priceData.setItemID(splitedTabLine.get(1));
 		completeLine.append("0001 ").append(priceData.getItemID());
 		completeLine.append("|,");
@@ -248,7 +232,7 @@ public class ThreadCheckPriceFiles extends Thread {
 		
 		
 		System.out.println("delete file " + temporaryFolder + "\\" + priceFileName);
-		fpTemporaryFile.deleteFile();
+		FtemporaryFile.deleteFile();
 
 		
 		
