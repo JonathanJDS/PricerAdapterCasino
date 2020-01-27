@@ -12,8 +12,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import org.apache.logging.log4j.*;
-//import org.apache.log4j.Logger;
 import org.ini4j.InvalidFileFormatException;
 import org.ini4j.Wini;
 
@@ -22,7 +22,7 @@ import com.pricer.product.ProductVLL;
 
 public class ThreadCheckVLL extends Thread {
 	
-	//static Logger logger = Logger.getLogger(Start.class);
+
 	static Logger logger =  LogManager.getLogger(ThreadCheckVLL.class);
 	static Wini ini;
 	static String vllArchiveFolder;	
@@ -180,7 +180,7 @@ public class ThreadCheckVLL extends Thread {
 		
 		for (String line : lstMapFile) {
 			
-			System.out.println("line = " + line);
+			//System.out.println("line = " + line);
 						
 			
 			//List<String> splitedTabLine = splitLine(line, ";");
@@ -215,24 +215,23 @@ public class ThreadCheckVLL extends Thread {
 		vllData.setFinPromo(line.substring(26, 38));
 		vllData.setQteLot(line.substring(38, 42));
 		vllData.setPricePromoLot(line.substring(42, 48));
-		vllData.setQteLot(line.substring(48, 303));
-		
-
-		        
-		 System.out.println("Code magasin = " +vllData.getCodeMagasin());
-		 System.out.println("Item id + " + vllData.getItemID());
-		 
+		vllData.setNameLot(line.substring(48, 303).trim()); 
 
 				
-		 //completeLine.append("0001 ").append(vllData.getItemID());
-        // completeLine.append(" 121 0 |").append("CDISCOUNT");
+		 completeLine.append("0001 ").append(vllData.getItemID());
+         completeLine.append(" 400 0 |").append(vllData.getCodeMagasin());
+         completeLine.append("| 401 0 |").append(vllData.getDebutPromo());
+         completeLine.append("| 402 0 |").append(vllData.getFinPromo());
+         completeLine.append("| 218 0 |").append(vllData.getQteLot());
+         completeLine.append("| 217 0 |").append(vllData.getPricePromoLot());
+         completeLine.append("| 403 0 |").append(vllData.getNameLot());
 
                  
          completeLine.append("|,");
          
         //System.out.println( completeLine.toString());
-       // datafile_Update.println(completeLine.toString());
-        //datafile_Update.flush();
+         datafile_Update.println(completeLine.toString());
+         datafile_Update.flush();
 
 		}
 			catch (IndexOutOfBoundsException indx){
@@ -261,7 +260,6 @@ public class ThreadCheckVLL extends Thread {
 
 		new File(temporaryFolder + "\\" + vllFileName).delete();
 
-		new File(temporaryFolder + "\\" + vllFileName.replace("*", "")).delete();
 
 		
 		

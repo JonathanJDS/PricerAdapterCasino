@@ -288,7 +288,7 @@ public class ThreadCheckCDiscount extends Thread {
 		
 		
 		System.out.println("delete file " + temporaryFolder + "\\" + cdiscountFileName);
-		new File(temporaryFolder + "\\" + cdiscountFileName.replace("*", "")).delete();
+		new File(temporaryFolder + "\\" + cdiscountFileName).delete();
 	
 		
 		
