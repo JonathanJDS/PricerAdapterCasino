@@ -78,14 +78,13 @@ public class ThreadCheckCDiscount extends Thread {
 
 					logger.warn ("File is present in temporary Folder !! priority for that !!!!");
 					// processing all files from temporary.
-					for (String fileNameFilter : lstFilesTemporary) {
 						try {
-							ProcessFile(temporaryFolder + "\\" + fileNameFilter);
+							ProcessFile(temporaryFolder + "\\" + cdiscountFileName);
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-					}
+					
 
 				}
 
@@ -97,23 +96,26 @@ public class ThreadCheckCDiscount extends Thread {
 					
 					//System.out.println("Path source file before completeWithSIC : "+ sourceFile);
 			
-					for (String fileNameFilter : lstFiles) {
+					if(lstFiles.size() != 0) {
 						// process only one file in temporary (one by one ) .
 						if (lstFilesTemporary.size() == 0) {
 							
-							String sourceFile = sourceFolder + "\\" +fileNameFilter;
-							utility.ZipFile(sourceFolder, "BO"+fileNameFilter, temporaryFolder, fileNameFilter, cdiscountArchiveFolder);
+							String sourceFile = sourceFolder + "\\" +cdiscountFileName;
+							utility.ZipFile(sourceFolder, "BO"+cdiscountFileName, temporaryFolder, cdiscountFileName, cdiscountArchiveFolder);
 							completeWithSIC.completeWithSic(sourceFile, "S", "0", "0", "45");
 							
-							utility.ZipFile(sourceFolder, "PRICER"+fileNameFilter, temporaryFolder, fileNameFilter, cdiscountArchiveFolder);
-							utility.MoveFile(sourceFolder + "\\" + fileNameFilter, temporaryFolder + "\\" + fileNameFilter);
+							utility.ZipFile(sourceFolder, "PRICER"+cdiscountFileName, temporaryFolder, cdiscountFileName, cdiscountArchiveFolder);
+							utility.MoveFile(sourceFolder + "\\" + cdiscountFileName, temporaryFolder + "\\" + cdiscountFileName);
 						}
 							try {
-								ProcessFile(temporaryFolder + "\\" + fileNameFilter);
+								ProcessFile(temporaryFolder + "\\" + cdiscountFileName);
 							} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
+							logger.fatal("File not found !!" + e);
 							}
+					}else {
+						logger.info("No CDiscount file found at this loop, waiting ...");
 					}
 
 				}

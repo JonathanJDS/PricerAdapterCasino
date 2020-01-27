@@ -95,7 +95,7 @@ public class ThreadCheckVLL extends Thread {
 					
 					//System.out.println("Path source file before completeWithSIC : "+ sourceFile);
 			
-					for (String fileNameFilter : lstFiles) {
+					if(lstFiles.size() != 0) {
 						// process only one file in temporary (one by one ) .
 						if (lstFilesTemporary.size() == 0) {
 							
@@ -111,8 +111,13 @@ public class ThreadCheckVLL extends Thread {
 							} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
+							logger.fatal("No file found !! " +e);
 							}
+					}else {
+						logger.info("No VLL file found at this loop, waiting ...");
 					}
+						
+					
 
 				}
 
