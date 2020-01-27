@@ -178,14 +178,13 @@ public class ThreadCheckCDiscount extends Thread {
 		
 
 		List<String> lstMapFile = fpTemporaryFile.fileToMap();
-		
-		
+
+
 		for (String line : lstMapFile) {
 			
-		//System.out.println("line = " + line);
-			
-			
-			
+		System.out.println("line = " + line);
+		
+
 			List<String> splitedTabLine = splitLine(line, ";");
 
 			  try {
