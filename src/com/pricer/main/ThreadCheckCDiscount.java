@@ -182,7 +182,7 @@ public class ThreadCheckCDiscount extends Thread {
 		
 		for (String line : lstMapFile) {
 			
-		System.out.println("line = " + line);
+		//System.out.println("line = " + line);
 			
 			
 			

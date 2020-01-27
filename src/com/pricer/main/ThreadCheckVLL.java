@@ -10,7 +10,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.StringTokenizer;
 import java.util.Timer;
 import java.util.TimerTask;
 import org.apache.logging.log4j.*;
@@ -77,14 +76,14 @@ public class ThreadCheckVLL extends Thread {
 
 					logger.warn ("File is present in temporary Folder !! priority for that !!!!");
 					// processing all files from temporary.
-					for (String fileNameFilter : lstFilesTemporary) {
+
 						try {
-							ProcessFile(temporaryFolder + "\\" + fileNameFilter);
+							ProcessFile(temporaryFolder + "\\" + vllFileName);
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-					}
+					
 
 				}
 
@@ -100,15 +99,15 @@ public class ThreadCheckVLL extends Thread {
 						// process only one file in temporary (one by one ) .
 						if (lstFilesTemporary.size() == 0) {
 							
-							String sourceFile = sourceFolder + "\\" +fileNameFilter;
-							utility.ZipFile(sourceFolder, "BO"+fileNameFilter, temporaryFolder, fileNameFilter, vllArchiveFolder);
+							String sourceFile = sourceFolder + "\\" +vllFileName;
+							utility.ZipFile(sourceFolder, "BO"+vllFileName, temporaryFolder, vllFileName, vllArchiveFolder);
 							completeWithSIC.completeWithSic(sourceFile, "F", "5", "18", "307");
 							
-							utility.ZipFile(sourceFolder, "PRICER"+fileNameFilter, temporaryFolder, fileNameFilter, vllArchiveFolder);
-							utility.MoveFile(sourceFolder + "\\" + fileNameFilter, temporaryFolder + "\\" + fileNameFilter);
+							utility.ZipFile(sourceFolder, "PRICER"+vllFileName, temporaryFolder, vllFileName, vllArchiveFolder);
+							utility.MoveFile(sourceFolder + "\\" + vllFileName, temporaryFolder + "\\" + vllFileName);
 						}
 							try {
-								ProcessFile(temporaryFolder + "\\" + fileNameFilter);
+								ProcessFile(temporaryFolder + "\\" + vllFileName);
 							} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -181,11 +180,10 @@ public class ThreadCheckVLL extends Thread {
 		
 		for (String line : lstMapFile) {
 			
-			//System.out.println("line = " + line);
+			System.out.println("line = " + line);
+						
 			
-			
-			
-			List<String> splitedTabLine = splitLine(line, ";");
+			//List<String> splitedTabLine = splitLine(line, ";");
 
 			  try {
 			 
@@ -211,22 +209,30 @@ public class ThreadCheckVLL extends Thread {
 		
 		vllData = new ProductVLL();
 		
-		vllData.setCodeMagasin(splitedTabLine.get(0));
+		vllData.setCodeMagasin(line.substring(0, 5));
+		vllData.setItemID(line.substring(5,14));
+		vllData.setDebutPromo(line.substring(14, 26));
+		vllData.setFinPromo(line.substring(26, 38));
+		vllData.setQteLot(line.substring(38, 42));
+		vllData.setPricePromoLot(line.substring(42, 48));
+		vllData.setQteLot(line.substring(48, 303));
+		
 
 		        
-		 
+		 System.out.println("Code magasin = " +vllData.getCodeMagasin());
+		 System.out.println("Item id + " + vllData.getItemID());
 		 
 
 				
-		 completeLine.append("0001 ").append(vllData.getItemID());
-         completeLine.append(" 121 0 |").append("CDISCOUNT");
+		 //completeLine.append("0001 ").append(vllData.getItemID());
+        // completeLine.append(" 121 0 |").append("CDISCOUNT");
 
                  
          completeLine.append("|,");
          
         //System.out.println( completeLine.toString());
-        datafile_Update.println(completeLine.toString());
-        datafile_Update.flush();
+       // datafile_Update.println(completeLine.toString());
+        //datafile_Update.flush();
 
 		}
 			catch (IndexOutOfBoundsException indx){
@@ -282,28 +288,7 @@ public class ThreadCheckVLL extends Thread {
 		}
 		
 	}
-	
-	private static List<String> splitLine(String sLine, String sSeparator) {
-		
-		List<String> lSplitLine = new ArrayList<String>();
-		String tmp;
-		boolean pipetmp = false;
-		StringTokenizer st = new StringTokenizer(sLine, sSeparator, true);
-		while (st.hasMoreTokens()) {
-			
-			tmp = st.nextToken();
-			if (tmp.equals(sSeparator)) {
-				if (pipetmp == true) {
-					lSplitLine.add("");
-				}
-				pipetmp = true;
-			} else {
-				pipetmp = false;
-				lSplitLine.add(tmp);
-			}
-		}
-		return lSplitLine;
-	}
+
 	
 
 }

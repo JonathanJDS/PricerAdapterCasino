@@ -7,6 +7,7 @@ public class ProductVLL extends ProductBase{
 	private String finPromo;
 	private String qteLot;
 	private String nameLot;
+	private String pricePromoLot;
 	
 	
 	public String getCodeMagasin() {
@@ -15,29 +16,40 @@ public class ProductVLL extends ProductBase{
 	public void setCodeMagasin(String codeMagasin) {
 		this.codeMagasin = codeMagasin;
 	}
+	
 	public String getDebutPromo() {
 		return debutPromo;
 	}
 	public void setDebutPromo(String debutPromo) {
 		this.debutPromo = debutPromo;
 	}
+	
 	public String getFinPromo() {
 		return finPromo;
 	}
 	public void setFinPromo(String finPromo) {
 		this.finPromo = finPromo;
 	}
+	
 	public String getQteLot() {
 		return qteLot;
 	}
 	public void setQteLot(String qteLot) {
 		this.qteLot = qteLot;
 	}
+	
 	public String getNameLot() {
 		return nameLot;
 	}
 	public void setNameLot(String nameLot) {
 		this.nameLot = nameLot;
+	}
+
+	public String getPricePromoLot() {
+		return pricePromoLot;
+	}
+	public void setPricePromoLot(String pricePromoLot) {
+		this.pricePromoLot = pricePromoLot;
 	}
 	
 	
