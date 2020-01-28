@@ -16,10 +16,12 @@ import java.util.TimerTask;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+//import org.apache.log4j.Logger;
 import org.ini4j.InvalidFileFormatException;
 import org.ini4j.Wini;
 
 import com.pricer.model.FileUtility;
+import com.pricer.product.ProductCDiscount;
 import com.pricer.product.ProductGestion;
 
 public class ThreadCheckGestFiles extends Thread {
@@ -36,10 +38,6 @@ public class ThreadCheckGestFiles extends Thread {
 	static String pricerDataFilesFolder;
 	static String pricerMessageFilesFolder;
 	static String pricerResultFilesFolder;
-	static String hostAPI;
-	static String portAPI;
-	static String userAPI;
-	static String keyAPI;
 	
 	Timer timer = new Timer();
 	FileUtility utility = new FileUtility();
@@ -65,12 +63,6 @@ public class ThreadCheckGestFiles extends Thread {
 		pricerDataFilesFolder 		= ini.get("Folders", "PricerDataFiles");
 		pricerMessageFilesFolder 	= ini.get("Folders", "PricerMessageFiles");
 		pricerResultFilesFolder		= ini.get("Folders", "PricerResultFiles");
-		
-		/******** API **************/
-		hostAPI	= ini.get("API", "Host");
-		portAPI = ini.get("API", "Port");
-		userAPI = ini.get("API", "API_USER");
-		keyAPI	= ini.get("API", "API_KEY");		
 
 		
 		
@@ -132,9 +124,9 @@ public class ThreadCheckGestFiles extends Thread {
        	PrintStream messagefile_Update	=	null;
        	StringBuffer completeLine ;
         
-        dataFileName_Update		=	pricerDataFilesFolder		+ "\\"	+ "data_stock02_" + dateOfFile + ".i1";
-        messageFileName_Update	=	pricerMessageFilesFolder	+ "\\"	+ "data_stock02_" + dateOfFile + ".m1";
-        resultFileName_Update	=	pricerResultFilesFolder		+ "\\"	+ "data_stock02_" + dateOfFile + ".r7";
+        dataFileName_Update		=	pricerDataFilesFolder		+ "\\"	+ "data_stock_" + dateOfFile + ".i1";
+        messageFileName_Update	=	pricerMessageFilesFolder	+ "\\"	+ "data_stock_" + dateOfFile + ".m1";
+        resultFileName_Update	=	pricerResultFilesFolder		+ "\\"	+ "data_stock_" + dateOfFile + ".r7";
         
         contentMessageFile_Update = "UPDATE,0001,," + dataFileName_Update + "," + resultFileName_Update;
 		
@@ -157,9 +149,6 @@ public class ThreadCheckGestFiles extends Thread {
 		System.out.println(FtemporaryFile.getPathFilename());
 		
 		List<String> lstMapFile = FtemporaryFile.fileToMap();
-		
-		PricerPublicAPI_5_0 pricerInterfaceR5 = null;
-		String[] lineSplited2 = null;
 
 
 		for (String line : lstMapFile) {
@@ -194,7 +183,6 @@ public class ThreadCheckGestFiles extends Thread {
 		
 		
 					productGestion = new ProductGestion();
-					productGestion.setCodeMagasinGes(splitedTabLine.get(0));
 		
 
 		        
