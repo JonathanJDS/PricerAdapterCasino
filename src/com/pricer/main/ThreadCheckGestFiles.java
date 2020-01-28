@@ -36,6 +36,10 @@ public class ThreadCheckGestFiles extends Thread {
 	static String pricerDataFilesFolder;
 	static String pricerMessageFilesFolder;
 	static String pricerResultFilesFolder;
+	static String hostAPI;
+	static String portAPI;
+	static String userAPI;
+	static String keyAPI;
 	
 	Timer timer = new Timer();
 	FileUtility utility = new FileUtility();
@@ -61,6 +65,12 @@ public class ThreadCheckGestFiles extends Thread {
 		pricerDataFilesFolder 		= ini.get("Folders", "PricerDataFiles");
 		pricerMessageFilesFolder 	= ini.get("Folders", "PricerMessageFiles");
 		pricerResultFilesFolder		= ini.get("Folders", "PricerResultFiles");
+		
+		/******** API **************/
+		hostAPI	= ini.get("API", "Host");
+		portAPI = ini.get("API", "Port");
+		userAPI = ini.get("API", "API_USER");
+		keyAPI	= ini.get("API", "API_KEY");		
 
 		
 		
@@ -147,6 +157,9 @@ public class ThreadCheckGestFiles extends Thread {
 		System.out.println(FtemporaryFile.getPathFilename());
 		
 		List<String> lstMapFile = FtemporaryFile.fileToMap();
+		
+		PricerPublicAPI_5_0 pricerInterfaceR5 = null;
+		String[] lineSplited2 = null;
 
 
 		for (String line : lstMapFile) {
