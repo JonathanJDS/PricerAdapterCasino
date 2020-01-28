@@ -87,8 +87,8 @@ public class ThreadCheckPriceFiles extends Thread {
 					if (FdataFile.FileExist() && !FTemporaryFile.FileExist()) {
 						utility.ZipFile(sourceFolder, FdataFile.getFileName(), priceArchiveFolder, FdataFile.getFileName());
 						utility.MoveFile(sourceFolder + "\\" + FdataFile.getFileName(), temporaryFolder + "\\" + FdataFile.getFileName());
-						ProcessFile(FTemporaryFile);
-					}
+
+
 
 
 					// check and zip list of product to print
@@ -97,6 +97,11 @@ public class ThreadCheckPriceFiles extends Thread {
 						utility.MoveFile(sourceFolder + "\\" + FEEGEANFile.getFileName(), temporaryFolder + "\\" + FEEGEANFile.getFileName());
 					}
 
+
+					ProcessFile(FTemporaryFile);
+
+
+					}
 				}
 
 			}
@@ -454,7 +459,7 @@ public class ThreadCheckPriceFiles extends Thread {
 		if (FTemporaryEEGEANFile.FileExist()  && !FTemporaryEEGEANFile.fileIsGrowing()) {
 
 			lstEANTOPrint = FTemporaryEEGEANFile.fileToMap();
-
+			logger.info("Print File is present in temporary : " + FTemporaryEEGEANFile.getPathFilename());
 
 		}
 
@@ -468,7 +473,10 @@ public class ThreadCheckPriceFiles extends Thread {
 			FileUtility messageFileUpdateUnderProcess	= new FileUtility(	messageFileName_UpdateUnderProcess);
 
 
-			while(messageFile.FileExist()==true || messageFileUpdateUnderProcess.FileExist()==true) {
+
+			while(messageFile.FileExist()==true || messageFileUpdateUnderProcess.FileExist()==true ) {
+
+
 
 
 				try {
@@ -490,12 +498,15 @@ public class ThreadCheckPriceFiles extends Thread {
 			// attente creation du fichier result  resultFileName_Update
 			FileUtility fpResultFileName_Update= new FileUtility(resultFileName_Update);
 
-			while(fpResultFileName_Update.FileExist()==false) {
+			int i=0;
 
-
+			//max = 1 hour
+			while(fpResultFileName_Update.FileExist()==false || i>=360 ) {
+				i+=1;
+				System.out.println("i = " + i + "--> result exist = " + fpResultFileName_Update.FileExist() );
 				try {
 					logger.info("Waiting for Result file : " + fpResultFileName_Update.getFileName());
-					Thread.sleep(5000);
+					Thread.sleep(10000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					logger.error(e.getMessage() + "..." + e.getCause());
@@ -514,6 +525,24 @@ public class ThreadCheckPriceFiles extends Thread {
 			java.text.SimpleDateFormat sdf3 = new java.text.SimpleDateFormat("yyMMdd_HHmmss");
 
 			PricerPublicAPI50 pricerInterfaceR5  = new R5WSAPI(API_USER,API_KEY).getPricerInterfaceR5();
+
+
+			try {
+
+				System.out.println("Pricer Version = " + pricerInterfaceR5.getSystemVersion().getVersion());
+
+			}
+
+			catch (Exception ex) {
+				logger.fatal("unable to connect to the Pricer api with this apikey : " + API_KEY + " Please check your credentials !!!");
+				logger.fatal("deleting  data File : " + FtemporaryFile.getFileName()  + " From Temporary Folder !!!");
+				FtemporaryFile.deleteFile();
+				logger.fatal("deleting  EEGEAN File : " + FTemporaryEEGEANFile.getFileName() + " From Temporary Folder !!!");
+				FTemporaryEEGEANFile.deleteFile();
+
+			return;
+			}
+
 
 
 			String itemID;
@@ -536,8 +565,6 @@ public class ThreadCheckPriceFiles extends Thread {
 					String[] splitItemID= line.split(" ");
 
 					itemID= splitItemID[0].trim();
-
-
 					logger.info("ItemID For remote Printing = " + itemID);
 					//se.pricer.r3_3.remote.RemotePrintRequest rpq = new se.pricer.r3_3.remote.RemotePrintRequest(batchName, noOfCopies, modelName, orderNumber, aisle, itemId, userId, itemName, transmit)
 
@@ -552,15 +579,13 @@ public class ThreadCheckPriceFiles extends Thread {
 
 						for (PropertyValue propertyValue : lstitemproperty){
 
-							//System.out.println("checking property : " + propertyValue.getValue());
+							System.out.println("checking property : " + propertyValue.getValue());
 
 							if (propertyValue.getId().getName().equalsIgnoreCase("FORMAT_LABEL")){
 
 
-								//System.out.println("found default model Id from   = " + itemID + " : " + propertyValue.getValue());
+								System.out.println("found default model Id from   = " + itemID + " : " + propertyValue.getValue());
 								defaultModelIdFromCasino = propertyValue.getValue();
-
-
 
 							}
 
