@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,15 +15,17 @@ import java.util.StringTokenizer;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-//import org.apache.log4j.Logger;
 import org.ini4j.InvalidFileFormatException;
 import org.ini4j.Wini;
 
 import com.pricer.model.FileUtility;
-import com.pricer.product.ProductCDiscount;
 import com.pricer.product.ProductGestion;
+
+import se.pricer._interface.public_5_0.ItemESLLinkList;
+import se.pricer._interface.public_5_0.PricerPublicAPI50;
 
 public class ThreadCheckGestFiles extends Thread {
 
@@ -38,6 +41,10 @@ public class ThreadCheckGestFiles extends Thread {
 	static String pricerDataFilesFolder;
 	static String pricerMessageFilesFolder;
 	static String pricerResultFilesFolder;
+	static String hostAPI;
+	static String portAPI;
+	static String userAPI;
+	static String keyAPI;
 	
 	Timer timer = new Timer();
 	FileUtility utility = new FileUtility();
@@ -63,6 +70,12 @@ public class ThreadCheckGestFiles extends Thread {
 		pricerDataFilesFolder 		= ini.get("Folders", "PricerDataFiles");
 		pricerMessageFilesFolder 	= ini.get("Folders", "PricerMessageFiles");
 		pricerResultFilesFolder		= ini.get("Folders", "PricerResultFiles");
+		
+		/******** API **************/
+		hostAPI	= ini.get("API", "Host");
+		portAPI = ini.get("API", "Port");
+		userAPI = ini.get("API", "API_USER");
+		keyAPI	= ini.get("API", "API_KEY");		
 
 		
 		
@@ -122,11 +135,11 @@ public class ThreadCheckGestFiles extends Thread {
         
         PrintStream datafile_Update		=	null;
        	PrintStream messagefile_Update	=	null;
-       	StringBuffer completeLine ;
+       	StringBuffer completeLine = null ;
         
-        dataFileName_Update		=	pricerDataFilesFolder		+ "\\"	+ "data_stock_" + dateOfFile + ".i1";
-        messageFileName_Update	=	pricerMessageFilesFolder	+ "\\"	+ "data_stock_" + dateOfFile + ".m1";
-        resultFileName_Update	=	pricerResultFilesFolder		+ "\\"	+ "data_stock_" + dateOfFile + ".r7";
+        dataFileName_Update		=	pricerDataFilesFolder		+ "\\"	+ "data_stock02_" + dateOfFile + ".i1";
+        messageFileName_Update	=	pricerMessageFilesFolder	+ "\\"	+ "data_stock02_" + dateOfFile + ".m1";
+        resultFileName_Update	=	pricerResultFilesFolder		+ "\\"	+ "data_stock02_" + dateOfFile + ".r7";
         
         contentMessageFile_Update = "UPDATE,0001,," + dataFileName_Update + "," + resultFileName_Update;
 		
@@ -149,16 +162,68 @@ public class ThreadCheckGestFiles extends Thread {
 		System.out.println(FtemporaryFile.getPathFilename());
 		
 		List<String> lstMapFile = FtemporaryFile.fileToMap();
+		List<String> lstFile  =	new ArrayList<String>();
+		String[] lineSplited2 = null;
+		List<String> lstItems;
+		PricerPublicAPI50 pricerInterfaceR5  = null;
+		
+		try {
+			pricerInterfaceR5 = new R5WSAPI(userAPI,keyAPI).getPricerInterfaceR5();
+		}catch (Exception ex) 			
+			{	
+				ex.printStackTrace();	
+				logger.fatal("Exception when trying to connect to the API : " +ex);
+			}
 
-
+		
 		for (String line : lstMapFile) {
+			
+
+			lineSplited2 = line.split(";");
+			
+
+			if (lineSplited2.length >=15) {
+				
+				lstItems = new ArrayList<String>();
+				lstItems.add(lineSplited2[1].trim());
+				List<ItemESLLinkList> lstItemLinks;
+				try {
+					lstItemLinks = pricerInterfaceR5.getItemLinks(lstItems);
+				
+				for (ItemESLLinkList status : lstItemLinks) {
+
+					if (status.getLinks().size()>0) {
+					System.out.println("Item is linked, adding to the map... : " + lineSplited2[1]);	
+					lstFile.add(line);	
+				}
+				else {
+					System.out.println("product is not linked to an esl  : " + lineSplited2[1]);
+					logger.log(Level.getLevel("REJECTED"),"Line is rejected because the item " +lineSplited2[1]+" is not linked to an ESL");
+				}
+					
+					
+					
+				}
+			
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					System.out.println("item id does not exist : " + lineSplited2[1]);
+				}
+				
+				
+			}
+
+		}
+		
+		
+
+
+		for (String line : lstFile) {
 			
 		//System.out.println("line = " + line);
 		
 
 			List<String> splitedTabLine = splitLine(line, ";");
-			
-			if(splitedTabLine.size()>=15) {
 
 			  try {
 			 
@@ -179,32 +244,61 @@ public class ThreadCheckGestFiles extends Thread {
 			completeLine = new StringBuffer(); 
 			
 			
-				try {		
+	try {		
 		
 		
-					productGestion = new ProductGestion();
+		productGestion = new ProductGestion();
+		productGestion.setCodeMagasinGes(splitedTabLine.get(0));
+		productGestion.setItemIDGest(splitedTabLine.get(1));
+		productGestion.setPresentationStock(splitedTabLine.get(2));
+		productGestion.setFacing(splitedTabLine.get(3));
+		productGestion.setQteInStock(splitedTabLine.get(4));
+		productGestion.setCommandeEnCours(splitedTabLine.get(5));
+		productGestion.setQteDerniereLivraison(splitedTabLine.get(6));
 		
-
+		try {
+			
+			productGestion.setDateDerniereLivraison(sAfter.format(sBefore.parse(splitedTabLine.get(7))));
+			
+		} catch (ParseException e){
+			productGestion.setDateDerniereLivraison("");
+		}
+		
+		productGestion.setQteProchaineLivraison(splitedTabLine.get(8));
+		
+		try {
+			
+			productGestion.setDateProchaineLivraison(sAfter.format(sBefore.parse(splitedTabLine.get(9))));
+			
+		} catch (ParseException e) {
+			productGestion.setDateProchaineLivraison("");
+		}
+		
+		productGestion.setDateDernierComptage(splitedTabLine.get(10));
+		productGestion.setQteDernierComptage(splitedTabLine.get(11));
+		productGestion.setArticleSupprime(splitedTabLine.get(12));
+		productGestion.setAffichage(splitedTabLine.get(13));
+		productGestion.setPointSmiles(splitedTabLine.get(14));
 		        
 		 
 		 
 
 				
-					completeLine.append("0001 ").append("ITEMID EN DUR");
+		 completeLine.append("0001 ").append(productGestion.getItemIDGest());
 
                  
-					completeLine.append("|,");
+         completeLine.append("|,");
          
-					//System.out.println( completeLine.toString());
-					datafile_Update.println(completeLine.toString());
-					datafile_Update.flush();
+        System.out.println( completeLine.toString());
+        //datafile_Update.println(completeLine.toString());
+        //datafile_Update.flush();
 
-				}
-				catch (IndexOutOfBoundsException indx){
-				logger.warn("line empty or out of bound...." + line);			 
-				} 
-			
 		}
+			catch (IndexOutOfBoundsException indx){
+			logger.warn("line empty or out of bound...." + line);
+			 
+		 } 
+			
 		}
 		
 		
@@ -224,13 +318,30 @@ public class ThreadCheckGestFiles extends Thread {
 		
 		System.out.println("delete file " + temporaryFolder + "\\" + GestFileName);
 		new File(temporaryFolder + "\\" + GestFileName).delete();
+	
 		
 		
 		
+	}
 		
-		
-		
-		
+	
+	public void InitializeIni() {
+		try {
+			ini = new Wini(new File("preference.ini"));
+		} catch (InvalidFileFormatException e1) {
+
+			logger.fatal("Unable to Read Preference.ini File, check your configuration cause : " + e1.getCause() + "/"
+					+ e1.getMessage());
+			logger.fatal("Exit Application");
+			System.exit(1);
+
+		} catch (IOException e1) {
+			logger.fatal("Unable to Read Preference.ini File, check your configuration cause : " + e1.getCause() + "/"
+					+ e1.getMessage());
+			logger.fatal("Exit Application");
+			System.exit(1);
+
+		}
 		
 	}
 	
@@ -254,26 +365,6 @@ public class ThreadCheckGestFiles extends Thread {
 			}
 		}
 		return lSplitLine;
-	}
-	
-	public void InitializeIni() {
-		try {
-			ini = new Wini(new File("preference.ini"));
-		} catch (InvalidFileFormatException e1) {
-
-			logger.fatal("Unable to Read Preference.ini File, check your configuration cause : " + e1.getCause() + "/"
-					+ e1.getMessage());
-			logger.fatal("Exit Application");
-			System.exit(1);
-
-		} catch (IOException e1) {
-			logger.fatal("Unable to Read Preference.ini File, check your configuration cause : " + e1.getCause() + "/"
-					+ e1.getMessage());
-			logger.fatal("Exit Application");
-			System.exit(1);
-
-		}
-		
 	}
 	
 
