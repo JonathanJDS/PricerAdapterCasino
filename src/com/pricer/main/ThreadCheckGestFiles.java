@@ -15,7 +15,6 @@ import java.util.StringTokenizer;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ini4j.InvalidFileFormatException;
@@ -41,6 +40,7 @@ public class ThreadCheckGestFiles extends Thread {
 	static String pricerDataFilesFolder;
 	static String pricerMessageFilesFolder;
 	static String pricerResultFilesFolder;
+	static String internalCodeSize;
 	static String hostAPI;
 	static String portAPI;
 	static String userAPI;
@@ -70,6 +70,10 @@ public class ThreadCheckGestFiles extends Thread {
 		pricerDataFilesFolder 		= ini.get("Folders", "PricerDataFiles");
 		pricerMessageFilesFolder 	= ini.get("Folders", "PricerMessageFiles");
 		pricerResultFilesFolder		= ini.get("Folders", "PricerResultFiles");
+		
+		/*****Format DATA ***********/
+		
+		internalCodeSize	= ini.get("FormatData", "InternalCodeSize");
 		
 		/******** API **************/
 		hostAPI	= ini.get("API", "Host");
@@ -167,6 +171,7 @@ public class ThreadCheckGestFiles extends Thread {
 		List<String> lstItems;
 		PricerPublicAPI50 pricerInterfaceR5  = null;
 		
+		
 		try {
 			pricerInterfaceR5 = new R5WSAPI(userAPI,keyAPI).getPricerInterfaceR5();
 		}catch (Exception ex) 			
@@ -176,6 +181,8 @@ public class ThreadCheckGestFiles extends Thread {
 			}
 
 		
+		logger.info("Getting linked items ...");
+		
 		for (String line : lstMapFile) {
 			
 
@@ -184,27 +191,25 @@ public class ThreadCheckGestFiles extends Thread {
 
 			if (lineSplited2.length >=15) {
 				
+				
+				
 				lstItems = new ArrayList<String>();
 				lstItems.add(lineSplited2[1].trim());
 				List<ItemESLLinkList> lstItemLinks;
 				try {
 					lstItemLinks = pricerInterfaceR5.getItemLinks(lstItems);
 				
-				for (ItemESLLinkList status : lstItemLinks) {
-
-					if (status.getLinks().size()>0) {
-					System.out.println("Item is linked, adding to the map... : " + lineSplited2[1]);	
-					lstFile.add(line);	
-				}
-				else {
-					System.out.println("product is not linked to an esl  : " + lineSplited2[1]);
-					logger.log(Level.getLevel("REJECTED"),"Line is rejected because the item " +lineSplited2[1]+" is not linked to an ESL");
-				}
-					
-					
-					
-				}
-			
+				
+					for (ItemESLLinkList status : lstItemLinks) {
+						
+						
+						if (status.getLinks().size()>0) {
+							System.out.println("Item is linked, adding to the map... : " + lineSplited2[1]);	
+							lstFile.add(line);	
+						}
+						
+						
+					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					System.out.println("item id does not exist : " + lineSplited2[1]);
@@ -212,9 +217,11 @@ public class ThreadCheckGestFiles extends Thread {
 				
 				
 			}
-
+			
+		
 		}
 		
+		System.out.println("Getting items linked 100% processed, generating i1 file ...");
 		
 
 
@@ -284,14 +291,25 @@ public class ThreadCheckGestFiles extends Thread {
 		 
 
 				
-		 completeLine.append("0001 ").append(productGestion.getItemIDGest());
+		 completeLine.append("0001 ").append(String.format("%"+internalCodeSize+"d",Integer.parseInt(productGestion.getItemIDGest()) ));
+		 completeLine.append(" 324 0 |").append(productGestion.getPresentationStock().trim());
+		 completeLine.append("| 154 0 |").append(productGestion.getFacing());
+		 completeLine.append("| 323 0 |").append(productGestion.getQteInStock());
+		 completeLine.append("| 326 0 |").append(productGestion.getCommandeEnCours());
+		 completeLine.append("| 325 0 |").append(productGestion.getQteDerniereLivraison());
+		 completeLine.append("| 327 0 |").append(productGestion.getDateDerniereLivraison());
+		 completeLine.append("| 320 0 |").append(productGestion.getQteProchaineLivraison());
+		 completeLine.append("| 318 0 |").append(productGestion.getDateProchaineLivraison());
+		 completeLine.append("| 249 0 |").append(productGestion.getDateDernierComptage());
+		 completeLine.append("| 248 0 |").append(productGestion.getQteDernierComptage());
+		 completeLine.append("| 200 0 |").append(productGestion.getArticleSupprime());
 
                  
          completeLine.append("|,");
          
-        System.out.println( completeLine.toString());
-        //datafile_Update.println(completeLine.toString());
-        //datafile_Update.flush();
+       // System.out.println( completeLine.toString());
+        datafile_Update.println(completeLine.toString());
+        datafile_Update.flush();
 
 		}
 			catch (IndexOutOfBoundsException indx){
