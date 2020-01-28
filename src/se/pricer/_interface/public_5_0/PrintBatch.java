@@ -7,8 +7,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-import se.pricer.interfaces.public_5_0.PrintRequest_5_0;
-
+//import se.pricer.interfaces.public_5_0.PrintRequest_5_0;
+import se.pricer._interface.public_5_0.PrintRequest;
 
 /**
  * <p>Classe Java pour PrintBatch complex type.

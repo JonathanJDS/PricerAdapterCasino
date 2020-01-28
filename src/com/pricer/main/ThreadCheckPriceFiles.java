@@ -151,7 +151,7 @@ public class ThreadCheckPriceFiles extends Thread {
 		PrintStream datafile_Delete		=	null;
 		PrintStream messagefile_Delete	=	null;
 
-		StringBuffer completeLine ;
+		//StringBuffer completeLine ;
 
 
 		String model1 = "|XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX|XXXXXXXX|XXXXXXXX|XXXXXXXX|X|XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX|XXXXX|XXXXXXXXXXXXXXX|XXXXXXXXXXXXXXX|XXXXXXXXXXXXXXX|XXXXXXXXXXXXXXX|XX|XX|XXXXX|XX|";
@@ -224,7 +224,7 @@ public class ThreadCheckPriceFiles extends Thread {
 
 			  }
 
-			completeLine = new StringBuffer(); 
+			//completeLine = new StringBuffer();
 			
 	try {
 
@@ -328,12 +328,12 @@ public class ThreadCheckPriceFiles extends Thread {
 
 		product.setLstEANsic(lstEANSics);
 		lstProducts.add(product);
-		StringBuffer completeLine2 = new StringBuffer();
+		StringBuffer completeLine2 = null;
 
 
 
 		for (ProductPrice produit : lstProducts) {
-
+			completeLine2 = new StringBuffer();
 			try {
 
 
@@ -415,11 +415,14 @@ public class ThreadCheckPriceFiles extends Thread {
 				System.out.println("Produit is null");
 			}
 
-
+			datafile_Update.println(completeLine2.toString());
+			datafile_Update.flush();
 		}
-	}
-		datafile_Update.println(completeLine.toString());
+
+
 		logger.info("datafile (" +  dataFileName_Update + ") is written......");
+
+	}
 
 
 	}
@@ -428,7 +431,7 @@ public class ThreadCheckPriceFiles extends Thread {
 		 }
 
 
-			datafile_Update.flush();
+
 
 
 
