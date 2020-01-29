@@ -46,7 +46,7 @@ public class ThreadCheckHistoryFolder extends Thread {
 		
 		GetIni();
     	   		
-    		gestArchiveFolder		= ini.get("Folders", "ArchiveFolder");
+    		gestArchiveFolder	= ini.get("Folders", "ArchiveFolder");
     		priceArchiveFolder	= ini.get("Folders", "PriceArchiveFolder");
     		dataFileName		= ini.get("Files","PriceFileName").replace("*", "");
     		stockFileName		= ini.get("Files","StockFileName");

@@ -48,13 +48,7 @@ public class Start {
 		Scheduler scheduler = new Scheduler();
 		it.sauronsoftware.cron4j.Predictor predictor = new Predictor(cronValue);
 		logger.info("Next execution date for Checking old files in Archives Folder : " + predictor.nextMatchingDate());
-		logger.debug("test debug");
-logger.warn("warning");
-logger.debug("debug");
-logger.fatal("fatal");
-logger.error("error");
 
-		logger.log(Level.getLevel("REJECTED"),"line rejected");
 
 		try {
 

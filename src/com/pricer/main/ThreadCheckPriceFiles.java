@@ -218,7 +218,7 @@ public class ThreadCheckPriceFiles extends Thread {
 						lineToCheck = lineToCheck + splitedTabLine.get(k) + "|";
 					} catch (IndexOutOfBoundsException iobe) {
 						logger.warn("anomalie the line is not formated correctly : rejected " + "==>" + lstMapFile.get(i));
-
+						logger.log(Level.getLevel("REJECTED"),"line rejected" + lstMapFile.get(i));
 					}
 
 				}
@@ -306,6 +306,7 @@ public class ThreadCheckPriceFiles extends Thread {
 
 			catch (IndexOutOfBoundsException indx){
 				logger.log(Level.getLevel("REJECTED"),"line rejected" + lstMapFile.get(i));
+
 			}
 
 
@@ -361,7 +362,9 @@ public class ThreadCheckPriceFiles extends Thread {
 					dateApplicationFormatted = formatter2.format(formatter.parse(produit.getDateApplication().replace("{", "").trim()));
 				} catch (ParseException e) {
 					logger.fatal("unable to parse date for " + produit.getDateApplication() + "=> " + e.getMessage() + "..." + e.getCause());
-					e.printStackTrace();
+					//logger.warn("anomalie the line is not formated correctly : rejected " + "==>" + lstMapFile.get(i));
+					logger.log(Level.getLevel("REJECTED"),"Product rejected" + product.getCodeInterne());
+
 				}
 
 				if (produit.getLstEANsic().size() > 0) {
@@ -464,21 +467,16 @@ public class ThreadCheckPriceFiles extends Thread {
 		}
 
 
-
 		// si il y a des eans à imprimer, créer une liste d'impression
 		if (lstEANTOPrint != null && lstEANTOPrint.size()>0) {
-
 
 			FileUtility messageFile	= new FileUtility(	messageFileName_Update);
 			FileUtility messageFileUpdateUnderProcess	= new FileUtility(	messageFileName_UpdateUnderProcess);
 
-
-
-			while(messageFile.FileExist()==true || messageFileUpdateUnderProcess.FileExist()==true ) {
-
-
-
-
+			int j=0;
+			//Max 1 Hour
+			while((messageFile.FileExist()==true || messageFileUpdateUnderProcess.FileExist()==true) && j < 360 ) {
+			j+=1;
 				try {
 					logger.info("Waiting for m1 file integration : " + messageFile.getFileName());
 					Thread.sleep(5000);
@@ -489,21 +487,15 @@ public class ThreadCheckPriceFiles extends Thread {
 
 			}
 
-
-
 			// ok fichier message supprim?, cr?er la liste d'impression.
-
-
-
 			// attente creation du fichier result  resultFileName_Update
 			FileUtility fpResultFileName_Update= new FileUtility(resultFileName_Update);
 
 			int i=0;
 
 			//max = 1 hour
-			while(fpResultFileName_Update.FileExist()==false || i>=360 ) {
+			while(fpResultFileName_Update.FileExist()==false && i< 360 ) {
 				i+=1;
-				System.out.println("i = " + i + "--> result exist = " + fpResultFileName_Update.FileExist() );
 				try {
 					logger.info("Waiting for Result file : " + fpResultFileName_Update.getFileName());
 					Thread.sleep(10000);
@@ -524,20 +516,20 @@ public class ThreadCheckPriceFiles extends Thread {
 			ArrayList<PrintRequest> lstRemotePrint = new ArrayList<PrintRequest>();
 			java.text.SimpleDateFormat sdf3 = new java.text.SimpleDateFormat("yyMMdd_HHmmss");
 
-			PricerPublicAPI50 pricerInterfaceR5  = new R5WSAPI(API_USER,API_KEY).getPricerInterfaceR5();
+			PricerPublicAPI50 pricerInterfaceR5 ;
 
 
 			try {
-
+				pricerInterfaceR5  = new R5WSAPI(API_USER,API_KEY).getPricerInterfaceR5();
 				System.out.println("Pricer Version = " + pricerInterfaceR5.getSystemVersion().getVersion());
 
 			}
 
 			catch (Exception ex) {
-				logger.fatal("unable to connect to the Pricer api with this apikey : " + API_KEY + " Please check your credentials !!!");
-				logger.fatal("deleting  data File : " + FtemporaryFile.getFileName()  + " From Temporary Folder !!!");
+				logger.fatal("unable to connect to the Pricer api with this apikey : " + API_KEY + " Please check your credentials or running service !!!");
+				logger.fatal("deleting  data File : " + FtemporaryFile.getFileName()  + " From Temporary Folder !!!, you will be able to find it in Archives Folder");
 				FtemporaryFile.deleteFile();
-				logger.fatal("deleting  EEGEAN File : " + FTemporaryEEGEANFile.getFileName() + " From Temporary Folder !!!");
+				logger.fatal("deleting  EEGEAN File : " + FTemporaryEEGEANFile.getFileName() + " From Temporary Folder !!!, you will be able to find it in Archives Folder");
 				FTemporaryEEGEANFile.deleteFile();
 
 			return;
@@ -568,20 +560,19 @@ public class ThreadCheckPriceFiles extends Thread {
 					logger.info("ItemID For remote Printing = " + itemID);
 					//se.pricer.r3_3.remote.RemotePrintRequest rpq = new se.pricer.r3_3.remote.RemotePrintRequest(batchName, noOfCopies, modelName, orderNumber, aisle, itemId, userId, itemName, transmit)
 
-
+				try {
 
 					item50 = pricerInterfaceR5.getItem(itemID);
-					isItemExist = true;
 
 
-					if (isItemExist==true) {
+					if (item50 != null) {
 						lstitemproperty = item50.getItemProperties();
 
-						for (PropertyValue propertyValue : lstitemproperty){
+						for (PropertyValue propertyValue : lstitemproperty) {
 
 							System.out.println("checking property : " + propertyValue.getValue());
 
-							if (propertyValue.getId().getName().equalsIgnoreCase("FORMAT_LABEL")){
+							if (propertyValue.getId().getName().equalsIgnoreCase("FORMAT_LABEL")) {
 
 
 								System.out.println("found default model Id from   = " + itemID + " : " + propertyValue.getValue());
@@ -590,21 +581,16 @@ public class ThreadCheckPriceFiles extends Thread {
 							}
 
 
-
 						}
 
 						// now we need to find format label name from xml config file
 
-
-
 						defaultModelNameFromCasino = lstFormatLabels.get(defaultModelIdFromCasino);
 						lstESLModels = pricerInterfaceR5.getEslModels();
 
-
-
 						for (ESLModel ESLmodel : lstESLModels) {
 
-							if (    ESLmodel.getName().equalsIgnoreCase(defaultModelNameFromCasino)) {
+							if (ESLmodel.getName().equalsIgnoreCase(defaultModelNameFromCasino)) {
 
 
 								defaultModel = ESLmodel.getId();
@@ -622,17 +608,23 @@ public class ThreadCheckPriceFiles extends Thread {
 						//se.pricer.r3_3.remote.RemotePrintRequest rpq = new se.pricer.r3_3.remote.RemotePrintRequest("REL_" + sdf3.format(new Date()), "1", "Default", "1", "1", itemID, "config", "", false);
 						lstRemotePrint.add(rpq);
 						//	System.out.println(itemID + " added in remote print list " + "print_" + sdf3.format(new Date()));
-
 						logger.info(" added in remote print list " + "print_" + sdf3.format(new Date()));
 
 
+					} else {
+
+						logger.warn("item not exist for Batch Print : " + itemID);
 					}
 
 
-					else if(isItemExist==false) {
+				}
+				catch (NullPointerException npe) {
 
-						logger.warn("item not exist : " + itemID);
-					}
+					logger.warn("Exception, unable to add product into Batch_Print , item is null for barcode : " + itemID + " , cause : " + npe.getMessage() +  " " + npe.getCause());
+				}
+
+
+
 
 				}
 
@@ -642,7 +634,6 @@ public class ThreadCheckPriceFiles extends Thread {
 
 
 			logger.info("SaveOverlayRequest lstRemotePrint, Nbre of products =  " + lstRemotePrint.size());
-
 
 			//PrintBatch printBatch = new PrintBatch("REL_" + sdf3.format(new Date()), "config", lstRemotePrint);
 			PrintBatch printBatch = new PrintBatch();
@@ -660,9 +651,28 @@ public class ThreadCheckPriceFiles extends Thread {
 
 
 		System.out.println("delete file " + temporaryFolder + "\\" + priceFileName);
-		FtemporaryFile.deleteFile();
+
+		if (FtemporaryFile.FileExist()) {
+			try {
+				FtemporaryFile.deleteFile();
+				logger.info("file deleted : " + FtemporaryFile.getPathFilename());
+			}
+			catch (Exception ioex) {
+				logger.error("unable to delete file : " + FtemporaryFile.getPathFilename());
+			}
+
+		}
 
 
+		if (FTemporaryEEGEANFile.FileExist()) {
+			try {
+			FTemporaryEEGEANFile.deleteFile();
+				logger.info("file deleted : " + FTemporaryEEGEANFile.getPathFilename());
+			}
+			catch (Exception ioex) {
+				logger.error("unable to delete file : " + FTemporaryEEGEANFile.getPathFilename());
+			}
+		}
 
 	}
 
