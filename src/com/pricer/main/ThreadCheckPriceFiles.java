@@ -509,7 +509,6 @@ public class ThreadCheckPriceFiles extends Thread {
 
 			logger.info("create printer List");
 
-
 			final String API_USER = ini.get("API","API_USER");
 			final String API_KEY = ini.get("API","API_KEY");
 			final String pricerServerAddress = ini.get("API","Host");
@@ -517,7 +516,6 @@ public class ThreadCheckPriceFiles extends Thread {
 			java.text.SimpleDateFormat sdf3 = new java.text.SimpleDateFormat("yyMMdd_HHmmss");
 
 			PricerPublicAPI50 pricerInterfaceR5 ;
-
 
 			try {
 				pricerInterfaceR5  = new R5WSAPI(API_USER,API_KEY).getPricerInterfaceR5();
@@ -564,16 +562,13 @@ public class ThreadCheckPriceFiles extends Thread {
 
 					item50 = pricerInterfaceR5.getItem(itemID);
 
-
 					if (item50 != null) {
 						lstitemproperty = item50.getItemProperties();
 
 						for (PropertyValue propertyValue : lstitemproperty) {
-
 							System.out.println("checking property : " + propertyValue.getValue());
 
 							if (propertyValue.getId().getName().equalsIgnoreCase("FORMAT_LABEL")) {
-
 
 								System.out.println("found default model Id from   = " + itemID + " : " + propertyValue.getValue());
 								defaultModelIdFromCasino = propertyValue.getValue();
@@ -591,8 +586,6 @@ public class ThreadCheckPriceFiles extends Thread {
 						for (ESLModel ESLmodel : lstESLModels) {
 
 							if (ESLmodel.getName().equalsIgnoreCase(defaultModelNameFromCasino)) {
-
-
 								defaultModel = ESLmodel.getId();
 								break;
 							}
@@ -623,13 +616,10 @@ public class ThreadCheckPriceFiles extends Thread {
 					logger.warn("Exception, unable to add product into Batch_Print , item is null for barcode : " + itemID + " , cause : " + npe.getMessage() +  " " + npe.getCause());
 				}
 
-
-
-
-				}
-
-
 			}
+
+
+		}
 
 
 
@@ -641,9 +631,16 @@ public class ThreadCheckPriceFiles extends Thread {
 			printBatch.setRequests(lstRemotePrint);
 			//printBatch.setBatchId("config");
 
-			pricerInterfaceR5.savePrintBatch(printBatch);
-			//gui.saveOverlayRequest(lstRemotePrint);
+			try {
+				pricerInterfaceR5.savePrintBatch(printBatch);
+				//gui.saveOverlayRequest(lstRemotePrint);
+			}
 
+			catch (Exception exp) {
+
+				logger.fatal("Unable to create printBatch for file :" + FTemporaryEEGEANFile.getPathFilename());
+				logger.fatal("cause : " + exp.getMessage() + " " + exp.getCause());
+			}
 			logger.info("Operation Done ");
 
 
