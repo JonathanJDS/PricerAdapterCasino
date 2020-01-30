@@ -27,6 +27,7 @@ public class ThreadCheckPriceFiles extends Thread {
 	static String pricerDataFilesFolder;
 	static String pricerMessageFilesFolder;
 	static String pricerResultFilesFolder;
+	static String internalCodeSize;
 	static HashMap<String, String> lstFormatLabels;
 	Timer timer = new Timer();
 	FileUtility utility = new FileUtility();
@@ -45,6 +46,10 @@ public class ThreadCheckPriceFiles extends Thread {
 		/********* FileNames *************/
 		priceFileName 		= ini.get("Files","PriceFileName");
 		pricerRelFileName	= ini.get("Files","RelFileName");
+		
+		/*****Format DATA ***********/
+		
+		internalCodeSize	= ini.get("FormatData", "InternalCodeSize");
 
 
 		/*****Pricer Path **************/
@@ -333,7 +338,7 @@ public class ThreadCheckPriceFiles extends Thread {
 				}
 
 				completeLine2 = new StringBuffer();
-				completeLine2.append("0001 ").append(String.format("%06d", Integer.parseInt(produit.getCodeInterne())));
+				completeLine2.append("0001 ").append(String.format("%"+internalCodeSize+"d",Integer.parseInt(produit.getCodeInterne())));
 				completeLine2.append(" 7 0 |").append(produit.getLibelle().trim());
 				completeLine2.append("| 23 0 |").append(produit.getPrix().replace(",", ""));
 				completeLine2.append("| 45 0 |").append(produit.getPrixUnitaire().replace(",", ""));
@@ -368,7 +373,7 @@ public class ThreadCheckPriceFiles extends Thread {
 				}
 
 				if (produit.getLstEANsic().size() > 0) {
-					completeLine2.append("0001 ").append(String.format("%06d", Integer.parseInt(produit.getCodeInterne())));
+					completeLine2.append("0001 ").append(String.format("%"+internalCodeSize+"d", Integer.parseInt(produit.getCodeInterne())));
 					completeLine2.append("| 9510 0 |").append(produit.getEAN()).append(" ").append(produit.getLstEANsic().toString().replace("[", "").replace("]", "").replace(",", ""));
 
 				}
@@ -414,7 +419,7 @@ public class ThreadCheckPriceFiles extends Thread {
 				try {
 
 
-					completeLineDelete.append("0001 ").append(String.format("%06d",Integer.parseInt(productToDeletePFI.getCodeInterne()))).append(",").append(Newligne);
+					completeLineDelete.append("0001 ").append(String.format("%"+internalCodeSize+"d",Integer.parseInt(productToDeletePFI.getCodeInterne()))).append(",").append(Newligne);
 
 				}
 				catch(NumberFormatException nfe) {
@@ -511,14 +516,15 @@ public class ThreadCheckPriceFiles extends Thread {
 
 			final String API_USER = ini.get("API","API_USER");
 			final String API_KEY = ini.get("API","API_KEY");
-			final String pricerServerAddress = ini.get("API","Host");
+			final String API_HOST = ini.get("API","Host");
+			final String API_PORT = ini.get("API", "Port");
 			ArrayList<PrintRequest> lstRemotePrint = new ArrayList<PrintRequest>();
 			java.text.SimpleDateFormat sdf3 = new java.text.SimpleDateFormat("yyMMdd_HHmmss");
 
 			PricerPublicAPI50 pricerInterfaceR5 ;
 
 			try {
-				pricerInterfaceR5  = new R5WSAPI(API_USER,API_KEY).getPricerInterfaceR5();
+				pricerInterfaceR5  = new R5WSAPI(API_USER,API_KEY,API_HOST,API_PORT).getPricerInterfaceR5();
 				System.out.println("Pricer Version = " + pricerInterfaceR5.getSystemVersion().getVersion());
 
 			}
