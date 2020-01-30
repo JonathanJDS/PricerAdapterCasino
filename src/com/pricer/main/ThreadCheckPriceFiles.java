@@ -511,7 +511,6 @@ public class ThreadCheckPriceFiles extends Thread {
 		}
 
 
-		// si il y a des eans à imprimer, créer une liste d'impression
 		if (lstEANTOPrint != null && lstEANTOPrint.size()>0) {
 
 			FileUtility messageFile	= new FileUtility(	messageFileName_Update);
