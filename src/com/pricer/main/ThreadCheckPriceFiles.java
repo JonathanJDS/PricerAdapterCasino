@@ -163,6 +163,12 @@ public class ThreadCheckPriceFiles extends Thread {
 		messageFileName_UpdateUnderProcess	=	pricerMessageFilesFolder 	+ "\\"  + "UnderProcess\\data_price" + dateOfFile + ".m1";
 		resultFileName_Update				=	pricerResultFilesFolder		+ "\\"	+ "data_price_" 			 + dateOfFile + ".r7";
 
+
+		dataFileName_Delete					=	pricerDataFilesFolder		+ "\\"	+	"delete_"		+ dateOfFile + ".i1";
+		messageFileName_Delete				=	pricerMessageFilesFolder	+ "\\"	+ 	"delete_"	+ dateOfFile + ".m1";
+		resultFileName_Delete				=	pricerResultFilesFolder		+ "\\"	+	"delete_"	+ dateOfFile + ".r7";
+
+
 		contentMessageFile_Update = "UPDATE,0001,," + dataFileName_Update + "," + resultFileName_Update;
 		String contentMessageFile_Delete 	=	"DELETE,0001,,"	+	dataFileName_Delete +	","	+	resultFileName_Delete;
 
