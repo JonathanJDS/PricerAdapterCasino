@@ -189,4 +189,39 @@ public class OperationOnDB {
 
 
 
+	public void deleteItemSIC(StringBuffer requete){
+
+
+		Statement statement = null;
+		ResultSet resultSet = null;
+
+		System.out.println("request for delete  = " + requete);
+		try {
+			statement = connection.createStatement();
+			boolean rs = statement.execute(requete.toString());
+			//boolean rs = statement.execute(strRequest);
+
+			if(rs){
+
+
+				resultSet = statement.getResultSet();
+
+			}else{
+				int nbTuples = statement.getUpdateCount();
+				logger.info("deleted operation done...." + nbTuples + " Product(s)");
+
+			}
+
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			logger.fatal("Unable to execute Request for deleting items");
+		}
+
+
+	}
+
+
+
 }

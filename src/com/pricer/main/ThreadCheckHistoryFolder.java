@@ -19,11 +19,6 @@ public class ThreadCheckHistoryFolder extends Thread {
 
 
 
-
-
-
-
-
 	private void GetIni() {
 		try {
 			ini = new Wini(new File("preference.ini"));
@@ -83,10 +78,6 @@ public class ThreadCheckHistoryFolder extends Thread {
 
 	
 	}
-
-
-
-
 
 
 

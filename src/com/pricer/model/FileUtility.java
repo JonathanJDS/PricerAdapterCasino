@@ -366,7 +366,7 @@ public boolean deleteFile() {
         if (pos > -1) {
             return this.file.getName().substring(0,pos);
         } else {
-            return this.file.getName().toString();
+            return this.file.getName();
         }
 
 }

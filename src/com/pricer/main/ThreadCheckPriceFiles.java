@@ -62,9 +62,9 @@ public class ThreadCheckPriceFiles extends Thread {
 		pricerRelArchiveFolder		= ini.get("Folders", "RelArchiveFolder");
 
 
-		this.lstFormatLabels = new HashMap<>();
+		lstFormatLabels = new HashMap<>();
 		for (String key : ini.get("FormatLabels").keySet()) {
-			this.lstFormatLabels.put(key, ini.get("FormatLabels").fetch(key));
+			lstFormatLabels.put(key, ini.get("FormatLabels").fetch(key));
 			System.out.println(key + ":" + ini.get("FormatLabels").fetch(key));
 		}
 
@@ -300,7 +300,7 @@ public class ThreadCheckPriceFiles extends Thread {
 
 
 				if (opCode.equals("03") && lineToCheck.equals(model1) == true && lineToCheck.equals(model2) == false && isnewProduct == false) {
-					if (splitedTabLine.get(1).toString().equals(product.getCodeInterne()) == true) {
+					if (splitedTabLine.get(1).equals(product.getCodeInterne()) == true) {
 						lstEANSics.add(splitedTabLine.get(2));
 						isnewProduct = false;
 					} else {
@@ -366,7 +366,7 @@ public class ThreadCheckPriceFiles extends Thread {
 				SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
 
 
-				String dateApplicationFormatted = new String();
+				String dateApplicationFormatted = "";
 
 
 				try {
@@ -468,6 +468,39 @@ public class ThreadCheckPriceFiles extends Thread {
 		}
 
 
+
+		if (lstDelete.size()>0) {
+
+
+			// suppressions des items
+			StringBuffer deleteRequest =new StringBuffer();
+
+			deleteRequest.append("delete from item_sic where (");
+			OperationOnDB operationondbDelete = new OperationOnDB();
+			for (ProductToDelete productToDelete04 : lstDelete) {
+
+
+				//System.out.println( "product code interne : " + productToDelete04.getCodeInterne() + " // EAN :" + productToDelete04.getEAN());
+
+
+
+				deleteRequest.append( "SIC=").append("'").append(String.format("%"+internalCodeSize+"d",Integer.parseInt(productToDelete04.getCodeInterne()))).append("'").append(" And ITEMID=").append("'").append(productToDelete04.getEAN()).append("'").append(")").append(" OR (");
+
+
+
+
+			}
+
+			StringBuffer strDelete = new StringBuffer();
+			strDelete.append( deleteRequest.substring(0, deleteRequest.length()-4).toString());
+			strDelete.append(";");
+			//System.out.println("request delete = " + strDelete);
+			operationondbDelete.deleteItemSIC(strDelete);
+
+		}
+
+
+
 		FileUtility FTemporaryEEGEANFile = new FileUtility(temporaryFolder + "\\" + pricerRelFileName);
 
 		if (FTemporaryEEGEANFile.FileExist()  && !FTemporaryEEGEANFile.fileIsGrowing()) {
@@ -520,10 +553,11 @@ public class ThreadCheckPriceFiles extends Thread {
 
 			logger.info("create printer List");
 
-			final String API_USER = ini.get("API","API_USER");
-			final String API_KEY = ini.get("API","API_KEY");
-			final String API_HOST = ini.get("API","Host");
-			final String API_PORT = ini.get("API", "Port");
+			final String API_USER	= ini.get("API","API_USER");
+			final String API_KEY	= ini.get("API","API_KEY");
+			final String API_HOST	= ini.get("API","Host");
+			final String API_PORT	= ini.get("API","Port");
+
 			ArrayList<PrintRequest> lstRemotePrint = new ArrayList<PrintRequest>();
 			java.text.SimpleDateFormat sdf3 = new java.text.SimpleDateFormat("yyMMdd_HHmmss");
 

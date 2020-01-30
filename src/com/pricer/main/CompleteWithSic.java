@@ -55,7 +55,7 @@ public class CompleteWithSic {
         System.out.println("itemPositionBegin = " + ItemPositionBegin);
         System.out.println("itemPositionEnd = " + ItemPositionEnd);
         
-        final TreeMap<String, String> lstItemSics = (TreeMap<String, String>)new OperationOnDB().getlstItemSics();
+        final TreeMap<String, String> lstItemSics = new OperationOnDB().getlstItemSics();
         
         System.out.println("nbre of linked items = " + lstItemSics.size());    
         logger.info(("nbre of SIC items in dtabase = " + lstItemSics.size()));
@@ -63,7 +63,7 @@ public class CompleteWithSic {
         final File fFileSource = new File(FileSource);
         PrintStream datafile = null;
         try {
-            datafile = new PrintStream(new BufferedOutputStream(new FileOutputStream(String.valueOf(FileSource) + ".tmp", true)));
+            datafile = new PrintStream(new BufferedOutputStream(new FileOutputStream(FileSource + ".tmp", true)));
         }
         catch (FileNotFoundException e1) {
             e1.printStackTrace();
@@ -127,7 +127,7 @@ public class CompleteWithSic {
             e4.printStackTrace();
         }
         logger.info("Rename Temp File to Source File ");
-        final File ancien_nom = new File(String.valueOf(FileSource) + ".tmp");
+        final File ancien_nom = new File(FileSource + ".tmp");
         final File nouveau_nom = new File(FileSource);
         ancien_nom.renameTo(nouveau_nom);
         System.out.println("End Operation : " + new Date());

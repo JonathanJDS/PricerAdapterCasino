@@ -35,7 +35,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "isAlive", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.IsAlive")
     @ResponseWrapper(localName = "isAliveResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.IsAliveResponse")
-    public Boolean isAlive(
+    Boolean isAlive(
             @WebParam(name = "level", targetNamespace = "")
                     int level);
 
@@ -51,7 +51,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "print", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.Print")
     @ResponseWrapper(localName = "printResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.PrintResponse")
-    public String print(
+    String print(
             @WebParam(name = "batch", targetNamespace = "")
                     PrintBatch batch,
             @WebParam(name = "printerName", targetNamespace = "")
@@ -69,7 +69,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getItem", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetItem")
     @ResponseWrapper(localName = "getItemResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetItemResponse")
-    public Item getItem(
+    Item getItem(
             @WebParam(name = "itemId", targetNamespace = "")
                     String itemId);
 
@@ -85,7 +85,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "unlink", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.Unlink")
     @ResponseWrapper(localName = "unlinkResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.UnlinkResponse")
-    public LinkStatus unlink(
+    LinkStatus unlink(
             @WebParam(name = "barcode", targetNamespace = "")
                     String barcode,
             @WebParam(name = "homeSubcellId", targetNamespace = "")
@@ -102,7 +102,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getSystemVersion", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetSystemVersion")
     @ResponseWrapper(localName = "getSystemVersionResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetSystemVersionResponse")
-    public SystemVersion getSystemVersion();
+    SystemVersion getSystemVersion();
 
     /**
      * 
@@ -113,7 +113,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "refreshAllLabels", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.RefreshAllLabels")
     @ResponseWrapper(localName = "refreshAllLabelsResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.RefreshAllLabelsResponse")
-    public String refreshAllLabels();
+    String refreshAllLabels();
 
     /**
      * 
@@ -125,7 +125,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "deleteItem", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.DeleteItem")
     @ResponseWrapper(localName = "deleteItemResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.DeleteItemResponse")
-    public String deleteItem(
+    String deleteItem(
             @WebParam(name = "itemId", targetNamespace = "")
                     String itemId);
 
@@ -139,7 +139,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "updateItems", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.UpdateItems")
     @ResponseWrapper(localName = "updateItemsResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.UpdateItemsResponse")
-    public String updateItems(
+    String updateItems(
             @WebParam(name = "items", targetNamespace = "")
                     List<Item> items);
 
@@ -153,7 +153,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getUpdateStatus", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetUpdateStatus")
     @ResponseWrapper(localName = "getUpdateStatusResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetUpdateStatusResponse")
-    public UpdateStatus getUpdateStatus(
+    UpdateStatus getUpdateStatus(
             @WebParam(name = "fileId", targetNamespace = "")
                     int fileId);
 
@@ -167,7 +167,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getPickList", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetPickList")
     @ResponseWrapper(localName = "getPickListResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetPickListResponse")
-    public PickList getPickList(
+    PickList getPickList(
             @WebParam(name = "arg0", targetNamespace = "")
                     String arg0);
 
@@ -182,7 +182,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getPickLists", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetPickLists")
     @ResponseWrapper(localName = "getPickListsResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetPickListsResponse")
-    public List<PickList> getPickLists(
+    List<PickList> getPickLists(
             @WebParam(name = "arg0", targetNamespace = "")
                     Page arg0,
             @WebParam(name = "arg1", targetNamespace = "")
@@ -198,7 +198,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "removePickList", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.RemovePickList")
     @ResponseWrapper(localName = "removePickListResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.RemovePickListResponse")
-    public String removePickList(
+    String removePickList(
             @WebParam(name = "arg0", targetNamespace = "")
                     long arg0);
 
@@ -216,7 +216,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "postImage", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.PostImage")
     @ResponseWrapper(localName = "postImageResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.PostImageResponse")
-    public String postImage(
+    String postImage(
             @WebParam(name = "itemId", targetNamespace = "")
                     String itemId,
             @WebParam(name = "page", targetNamespace = "")
@@ -238,7 +238,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getNoOfESLs", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetNoOfESLs")
     @ResponseWrapper(localName = "getNoOfESLsResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetNoOfESLsResponse")
-    public Integer getNoOfESLs(
+    Integer getNoOfESLs(
             @WebParam(name = "subset", targetNamespace = "")
                     int subset);
 
@@ -252,7 +252,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getTransceivers", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetTransceivers")
     @ResponseWrapper(localName = "getTransceiversResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetTransceiversResponse")
-    public List<TransceiverInfo> getTransceivers(
+    List<TransceiverInfo> getTransceivers(
             @WebParam(name = "name", targetNamespace = "")
                     String name);
 
@@ -266,7 +266,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "forceUpdate", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.ForceUpdate")
     @ResponseWrapper(localName = "forceUpdateResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.ForceUpdateResponse")
-    public String forceUpdate(
+    String forceUpdate(
             @WebParam(name = "barcodes", targetNamespace = "")
                     List<String> barcodes);
 
@@ -282,7 +282,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "link", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.Link")
     @ResponseWrapper(localName = "linkResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.LinkResponse")
-    public LinkStatus link(
+    LinkStatus link(
             @WebParam(name = "itemId", targetNamespace = "")
                     String itemId,
             @WebParam(name = "barcode", targetNamespace = "")
@@ -300,7 +300,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "setGlobalParameter", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.SetGlobalParameter")
     @ResponseWrapper(localName = "setGlobalParameterResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.SetGlobalParameterResponse")
-    public String setGlobalParameter(
+    String setGlobalParameter(
             @WebParam(name = "globalParameter", targetNamespace = "")
                     GlobalParameter globalParameter);
 
@@ -314,7 +314,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "updateLinkProperties", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.UpdateLinkProperties")
     @ResponseWrapper(localName = "updateLinkPropertiesResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.UpdateLinkPropertiesResponse")
-    public String updateLinkProperties(
+    String updateLinkProperties(
             @WebParam(name = "esls", targetNamespace = "")
                     List<ESL> esls);
 
@@ -327,7 +327,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getLastUpdateStatus", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetLastUpdateStatus")
     @ResponseWrapper(localName = "getLastUpdateStatusResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetLastUpdateStatusResponse")
-    public UpdateStatus getLastUpdateStatus();
+    UpdateStatus getLastUpdateStatus();
 
     /**
      * 
@@ -339,7 +339,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "updateEslProperties", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.UpdateEslProperties")
     @ResponseWrapper(localName = "updateEslPropertiesResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.UpdateEslPropertiesResponse")
-    public String updateEslProperties(
+    String updateEslProperties(
             @WebParam(name = "esls", targetNamespace = "")
                     List<ESL> esls);
 
@@ -353,7 +353,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getItems", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetItems")
     @ResponseWrapper(localName = "getItemsResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetItemsResponse")
-    public List<Item> getItems(
+    List<Item> getItems(
             @WebParam(name = "itemIds", targetNamespace = "")
                     List<String> itemIds);
 
@@ -368,7 +368,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getESLs", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetESLs")
     @ResponseWrapper(localName = "getESLsResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetESLsResponse")
-    public List<String> getESLs(
+    List<String> getESLs(
             @WebParam(name = "limit", targetNamespace = "")
                     Limit limit,
             @WebParam(name = "subset", targetNamespace = "")
@@ -384,7 +384,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getLastUpdateStatusByFileName", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetLastUpdateStatusByFileName")
     @ResponseWrapper(localName = "getLastUpdateStatusByFileNameResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetLastUpdateStatusByFileNameResponse")
-    public UpdateStatus getLastUpdateStatusByFileName(
+    UpdateStatus getLastUpdateStatusByFileName(
             @WebParam(name = "dataFileName", targetNamespace = "")
                     String dataFileName);
 
@@ -398,7 +398,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getESL", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetESL")
     @ResponseWrapper(localName = "getESLResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetESLResponse")
-    public ESL getESL(
+    ESL getESL(
             @WebParam(name = "barcode", targetNamespace = "")
                     String barcode);
 
@@ -411,7 +411,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getBasicServerStatus", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetBasicServerStatus")
     @ResponseWrapper(localName = "getBasicServerStatusResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetBasicServerStatusResponse")
-    public BasicServerStatus getBasicServerStatus();
+    BasicServerStatus getBasicServerStatus();
 
     /**
      * 
@@ -423,7 +423,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "setGlobalParameters", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.SetGlobalParameters")
     @ResponseWrapper(localName = "setGlobalParametersResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.SetGlobalParametersResponse")
-    public String setGlobalParameters(
+    String setGlobalParameters(
             @WebParam(name = "globalParameters", targetNamespace = "")
                     List<GlobalParameter> globalParameters);
 
@@ -436,7 +436,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getGlobalParameters", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetGlobalParameters")
     @ResponseWrapper(localName = "getGlobalParametersResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetGlobalParametersResponse")
-    public List<GlobalParameter> getGlobalParameters();
+    List<GlobalParameter> getGlobalParameters();
 
     /**
      * 
@@ -447,7 +447,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getServerJarVersions", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetServerJarVersions")
     @ResponseWrapper(localName = "getServerJarVersionsResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetServerJarVersionsResponse")
-    public List<VersionEntry> getServerJarVersions();
+    List<VersionEntry> getServerJarVersions();
 
     /**
      * 
@@ -458,7 +458,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getPrcConfigurations", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetPrcConfigurations")
     @ResponseWrapper(localName = "getPrcConfigurationsResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetPrcConfigurationsResponse")
-    public List<BackupConfiguration> getPrcConfigurations();
+    List<BackupConfiguration> getPrcConfigurations();
 
     /**
      * 
@@ -470,7 +470,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getPosterTemplateConfiguration", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetPosterTemplateConfiguration")
     @ResponseWrapper(localName = "getPosterTemplateConfigurationResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetPosterTemplateConfigurationResponse")
-    public PosterTemplateConfiguration getPosterTemplateConfiguration(
+    PosterTemplateConfiguration getPosterTemplateConfiguration(
             @WebParam(name = "templateName", targetNamespace = "")
                     String templateName);
 
@@ -484,7 +484,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getReportNames", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetReportNames")
     @ResponseWrapper(localName = "getReportNamesResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetReportNamesResponse")
-    public List<String> getReportNames(
+    List<String> getReportNames(
             @WebParam(name = "all", targetNamespace = "")
                     boolean all);
 
@@ -498,7 +498,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getPoster", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetPoster")
     @ResponseWrapper(localName = "getPosterResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetPosterResponse")
-    public Poster getPoster(
+    Poster getPoster(
             @WebParam(name = "posterId", targetNamespace = "")
                     String posterId);
 
@@ -511,7 +511,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getAllSubcells", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetAllSubcells")
     @ResponseWrapper(localName = "getAllSubcellsResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetAllSubcellsResponse")
-    public List<SubcellInfo> getAllSubcells();
+    List<SubcellInfo> getAllSubcells();
 
     /**
      * 
@@ -523,7 +523,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getPosterItems", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetPosterItems")
     @ResponseWrapper(localName = "getPosterItemsResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetPosterItemsResponse")
-    public List<PosterItem> getPosterItems(
+    List<PosterItem> getPosterItems(
             @WebParam(name = "posterId", targetNamespace = "")
                     String posterId);
 
@@ -537,7 +537,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getPrcFile", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetPrcFile")
     @ResponseWrapper(localName = "getPrcFileResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetPrcFileResponse")
-    public byte[] getPrcFile(
+    byte[] getPrcFile(
             @WebParam(name = "name", targetNamespace = "")
                     String name);
 
@@ -551,7 +551,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "generatePrc", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GeneratePrc")
     @ResponseWrapper(localName = "generatePrcResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GeneratePrcResponse")
-    public String generatePrc(
+    String generatePrc(
             @WebParam(name = "configuration", targetNamespace = "")
                     BackupConfiguration configuration);
 
@@ -564,7 +564,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "forceUpdateAll", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.ForceUpdateAll")
     @ResponseWrapper(localName = "forceUpdateAllResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.ForceUpdateAllResponse")
-    public String forceUpdateAll();
+    String forceUpdateAll();
 
     /**
      * 
@@ -576,7 +576,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getLinkStatus", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetLinkStatus")
     @ResponseWrapper(localName = "getLinkStatusResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetLinkStatusResponse")
-    public LinkStatus getLinkStatus(
+    LinkStatus getLinkStatus(
             @WebParam(name = "linkStatus", targetNamespace = "")
                     LinkStatus linkStatus);
 
@@ -590,7 +590,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getLinkedESLs", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetLinkedESLs")
     @ResponseWrapper(localName = "getLinkedESLsResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetLinkedESLsResponse")
-    public List<ESL> getLinkedESLs(
+    List<ESL> getLinkedESLs(
             @WebParam(name = "itemId", targetNamespace = "")
                     String itemId);
 
@@ -607,7 +607,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "flashLedOn", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.FlashLedOn")
     @ResponseWrapper(localName = "flashLedOnResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.FlashLedOnResponse")
-    public String flashLedOn(
+    String flashLedOn(
             @WebParam(name = "arg0", targetNamespace = "")
                     String arg0,
             @WebParam(name = "arg1", targetNamespace = "")
@@ -628,7 +628,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "flashLedOff", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.FlashLedOff")
     @ResponseWrapper(localName = "flashLedOffResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.FlashLedOffResponse")
-    public String flashLedOff(
+    String flashLedOff(
             @WebParam(name = "arg0", targetNamespace = "")
                     String arg0,
             @WebParam(name = "arg1", targetNamespace = "")
@@ -644,7 +644,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getPrintBatch", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetPrintBatch")
     @ResponseWrapper(localName = "getPrintBatchResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetPrintBatchResponse")
-    public PrintBatch getPrintBatch(
+    PrintBatch getPrintBatch(
             @WebParam(name = "batchId", targetNamespace = "")
                     int batchId);
 
@@ -658,7 +658,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "savePrintBatch", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.SavePrintBatch")
     @ResponseWrapper(localName = "savePrintBatchResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.SavePrintBatchResponse")
-    public Integer savePrintBatch(
+    Integer savePrintBatch(
             @WebParam(name = "batch", targetNamespace = "")
                     PrintBatch batch);
 
@@ -673,7 +673,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "createPfiBackup", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.CreatePfiBackup")
     @ResponseWrapper(localName = "createPfiBackupResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.CreatePfiBackupResponse")
-    public Boolean createPfiBackup(
+    Boolean createPfiBackup(
             @WebParam(name = "includeItems", targetNamespace = "")
                     boolean includeItems,
             @WebParam(name = "includeLinks", targetNamespace = "")
@@ -688,7 +688,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getAllPrintBatches", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetAllPrintBatches")
     @ResponseWrapper(localName = "getAllPrintBatchesResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetAllPrintBatchesResponse")
-    public List<PrintBatch> getAllPrintBatches();
+    List<PrintBatch> getAllPrintBatches();
 
     /**
      * 
@@ -701,7 +701,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getTaskToLightLists", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetTaskToLightLists")
     @ResponseWrapper(localName = "getTaskToLightListsResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetTaskToLightListsResponse")
-    public List<TaskToLightList> getTaskToLightLists(
+    List<TaskToLightList> getTaskToLightLists(
             @WebParam(name = "arg0", targetNamespace = "")
                     Page arg0,
             @WebParam(name = "arg1", targetNamespace = "")
@@ -717,7 +717,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getTaskToLightList", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetTaskToLightList")
     @ResponseWrapper(localName = "getTaskToLightListResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetTaskToLightListResponse")
-    public TaskToLightList getTaskToLightList(
+    TaskToLightList getTaskToLightList(
             @WebParam(name = "arg0", targetNamespace = "")
                     long arg0);
 
@@ -734,7 +734,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "createTaskToLightList", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.CreateTaskToLightList")
     @ResponseWrapper(localName = "createTaskToLightListResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.CreateTaskToLightListResponse")
-    public TaskToLightList createTaskToLightList(
+    TaskToLightList createTaskToLightList(
             @WebParam(name = "arg0", targetNamespace = "")
                     String arg0,
             @WebParam(name = "arg1", targetNamespace = "")
@@ -754,7 +754,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "removeTaskToLightList", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.RemoveTaskToLightList")
     @ResponseWrapper(localName = "removeTaskToLightListResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.RemoveTaskToLightListResponse")
-    public String removeTaskToLightList(
+    String removeTaskToLightList(
             @WebParam(name = "arg0", targetNamespace = "")
                     long arg0);
 
@@ -768,7 +768,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getLoginChallenge", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetLoginChallenge")
     @ResponseWrapper(localName = "getLoginChallengeResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetLoginChallengeResponse")
-    public String getLoginChallenge(
+    String getLoginChallenge(
             @WebParam(name = "user", targetNamespace = "")
                     String user);
 
@@ -782,7 +782,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "generateReportUsingDefaultLocale", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GenerateReportUsingDefaultLocale")
     @ResponseWrapper(localName = "generateReportUsingDefaultLocaleResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GenerateReportUsingDefaultLocaleResponse")
-    public String generateReportUsingDefaultLocale(
+    String generateReportUsingDefaultLocale(
             @WebParam(name = "name", targetNamespace = "")
                     String name);
 
@@ -798,7 +798,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "printByBatchId", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.PrintByBatchId")
     @ResponseWrapper(localName = "printByBatchIdResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.PrintByBatchIdResponse")
-    public String printByBatchId(
+    String printByBatchId(
             @WebParam(name = "batchId", targetNamespace = "")
                     int batchId,
             @WebParam(name = "printerName", targetNamespace = "")
@@ -816,7 +816,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "deletePrintBatch", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.DeletePrintBatch")
     @ResponseWrapper(localName = "deletePrintBatchResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.DeletePrintBatchResponse")
-    public String deletePrintBatch(
+    String deletePrintBatch(
             @WebParam(name = "batchId", targetNamespace = "")
                     int batchId);
 
@@ -831,7 +831,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "unlinkItem", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.UnlinkItem")
     @ResponseWrapper(localName = "unlinkItemResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.UnlinkItemResponse")
-    public LinkStatus unlinkItem(
+    LinkStatus unlinkItem(
             @WebParam(name = "itemId", targetNamespace = "")
                     String itemId,
             @WebParam(name = "homeSubcellId", targetNamespace = "")
@@ -846,7 +846,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getAllPrinters", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetAllPrinters")
     @ResponseWrapper(localName = "getAllPrintersResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetAllPrintersResponse")
-    public List<String> getAllPrinters();
+    List<String> getAllPrinters();
 
     /**
      * 
@@ -858,7 +858,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getItemRange", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetItemRange")
     @ResponseWrapper(localName = "getItemRangeResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetItemRangeResponse")
-    public List<Item> getItemRange(
+    List<Item> getItemRange(
             @WebParam(name = "limit", targetNamespace = "")
                     Limit limit);
 
@@ -872,7 +872,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getAllLinks", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetAllLinks")
     @ResponseWrapper(localName = "getAllLinksResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetAllLinksResponse")
-    public List<ItemESLLink> getAllLinks(
+    List<ItemESLLink> getAllLinks(
             @WebParam(name = "limit", targetNamespace = "")
                     Limit limit);
 
@@ -886,7 +886,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getItemLinks", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetItemLinks")
     @ResponseWrapper(localName = "getItemLinksResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetItemLinksResponse")
-    public List<ItemESLLinkList> getItemLinks(
+    List<ItemESLLinkList> getItemLinks(
             @WebParam(name = "itemIds", targetNamespace = "")
                     List<String> itemIds);
 
@@ -900,7 +900,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "refreshLabels", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.RefreshLabels")
     @ResponseWrapper(localName = "refreshLabelsResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.RefreshLabelsResponse")
-    public String refreshLabels(
+    String refreshLabels(
             @WebParam(name = "barcodes", targetNamespace = "")
                     List<String> barcodes);
 
@@ -913,7 +913,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getEslModels", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetEslModels")
     @ResponseWrapper(localName = "getEslModelsResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetEslModelsResponse")
-    public List<ESLModel> getEslModels();
+    List<ESLModel> getEslModels();
 
     /**
      * 
@@ -924,7 +924,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getAllPosters", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetAllPosters")
     @ResponseWrapper(localName = "getAllPostersResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetAllPostersResponse")
-    public List<Poster> getAllPosters();
+    List<Poster> getAllPosters();
 
     /**
      * 
@@ -937,7 +937,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "setPosterItems", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.SetPosterItems")
     @ResponseWrapper(localName = "setPosterItemsResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.SetPosterItemsResponse")
-    public String setPosterItems(
+    String setPosterItems(
             @WebParam(name = "posterId", targetNamespace = "")
                     String posterId,
             @WebParam(name = "items", targetNamespace = "")
@@ -953,7 +953,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getPrcStatus", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetPrcStatus")
     @ResponseWrapper(localName = "getPrcStatusResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetPrcStatusResponse")
-    public String getPrcStatus(
+    String getPrcStatus(
             @WebParam(name = "name", targetNamespace = "")
                     String name);
 
@@ -966,7 +966,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getPfiBackup", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetPfiBackup")
     @ResponseWrapper(localName = "getPfiBackupResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetPfiBackupResponse")
-    public byte[] getPfiBackup();
+    byte[] getPfiBackup();
 
     /**
      * 
@@ -981,7 +981,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "createPickList", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.CreatePickList")
     @ResponseWrapper(localName = "createPickListResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.CreatePickListResponse")
-    public PickList createPickList(
+    PickList createPickList(
             @WebParam(name = "arg0", targetNamespace = "")
                     String arg0,
             @WebParam(name = "arg1", targetNamespace = "")
@@ -1000,7 +1000,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getLastError", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetLastError")
     @ResponseWrapper(localName = "getLastErrorResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetLastErrorResponse")
-    public String getLastError();
+    String getLastError();
 
     /**
      * 
@@ -1011,7 +1011,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getAllBasestations", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetAllBasestations")
     @ResponseWrapper(localName = "getAllBasestationsResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetAllBasestationsResponse")
-    public List<BaseStationInfo> getAllBasestations();
+    List<BaseStationInfo> getAllBasestations();
 
     /**
      * 
@@ -1022,7 +1022,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getTotalNumberOfItems", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetTotalNumberOfItems")
     @ResponseWrapper(localName = "getTotalNumberOfItemsResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetTotalNumberOfItemsResponse")
-    public Integer getTotalNumberOfItems();
+    Integer getTotalNumberOfItems();
 
     /**
      * 
@@ -1034,7 +1034,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "refreshLinkedLabels", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.RefreshLinkedLabels")
     @ResponseWrapper(localName = "refreshLinkedLabelsResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.RefreshLinkedLabelsResponse")
-    public String refreshLinkedLabels(
+    String refreshLinkedLabels(
             @WebParam(name = "itemIds", targetNamespace = "")
                     List<String> itemIds);
 
@@ -1047,7 +1047,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getPfiBackupStatus", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetPfiBackupStatus")
     @ResponseWrapper(localName = "getPfiBackupStatusResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetPfiBackupStatusResponse")
-    public String getPfiBackupStatus();
+    String getPfiBackupStatus();
 
     /**
      * 
@@ -1058,7 +1058,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getAllEslPropertyIds", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetAllEslPropertyIds")
     @ResponseWrapper(localName = "getAllEslPropertyIdsResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetAllEslPropertyIdsResponse")
-    public List<PropertyId> getAllEslPropertyIds();
+    List<PropertyId> getAllEslPropertyIds();
 
     /**
      * 
@@ -1069,7 +1069,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getAllItemPropertyIds", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetAllItemPropertyIds")
     @ResponseWrapper(localName = "getAllItemPropertyIdsResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetAllItemPropertyIdsResponse")
-    public List<PropertyId> getAllItemPropertyIds();
+    List<PropertyId> getAllItemPropertyIds();
 
     /**
      * 
@@ -1080,7 +1080,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getAllLinkPropertyIds", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetAllLinkPropertyIds")
     @ResponseWrapper(localName = "getAllLinkPropertyIdsResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.GetAllLinkPropertyIdsResponse")
-    public List<PropertyId> getAllLinkPropertyIds();
+    List<PropertyId> getAllLinkPropertyIds();
 
     /**
      * 
@@ -1093,7 +1093,7 @@ public interface PricerPublicAPI50 {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "testLoginToken", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.TestLoginToken")
     @ResponseWrapper(localName = "testLoginTokenResponse", targetNamespace = "http://public_5_0.interface.pricer.se/", className = "se.pricer._interface.public_5_0.TestLoginTokenResponse")
-    public Boolean testLoginToken(
+    Boolean testLoginToken(
             @WebParam(name = "user", targetNamespace = "")
                     String user,
             @WebParam(name = "authenticationToken", targetNamespace = "")

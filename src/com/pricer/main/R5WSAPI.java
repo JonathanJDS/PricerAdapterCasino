@@ -4,6 +4,7 @@ package com.pricer.main;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.security.MessageDigest;
@@ -77,8 +78,8 @@ public class R5WSAPI  {
 	      System.err.println("challenge = " + challenge);
 
 	      MessageDigest digest = MessageDigest.getInstance("SHA-256");
-	      digest.update(challenge.getBytes(Charset.forName("UTF-8")));
-	      digest.update(key.getBytes(Charset.forName("UTF-8")));
+	      digest.update(challenge.getBytes(StandardCharsets.UTF_8));
+	      digest.update(key.getBytes(StandardCharsets.UTF_8));
 	      String hash = Base64.getEncoder().encodeToString(digest.digest());
 
 	      System.err.println("hash=" + hash);
@@ -94,7 +95,7 @@ public class R5WSAPI  {
 	     
 	    
 		
-		return (PricerPublicAPI50) api;
+		return api;
 
 	}
 
