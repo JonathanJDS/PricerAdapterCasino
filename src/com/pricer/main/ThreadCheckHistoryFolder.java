@@ -50,14 +50,14 @@ public class ThreadCheckHistoryFolder extends Thread {
 
 		String	priceArchiveFolder		= ini.get("Folders", "PriceArchiveFolder");
 		String 	gestArchiveFolder		= ini.get("Folders", "GestArchiveFolder");
-		String	cDiscountArchiveFolder	= ini.get("Folders", "CDiscountArchiveFolder");
+		String	technicalArchiveFolder	= ini.get("Folders", "TechnicalArchiveFolder");
 		String	vllArchiveFolder		= ini.get("Folders", "VLLArchiveFolder");
 		String 	relArchiveFolder		= ini.get("Folders", "RelArchiveFolder");
 
 
 		String	priceFilterName		= ini.get("Files","PriceFileName");
 		String	gestFilterName		= ini.get("Files","GestFileName");
-		String  cDiscountFilterName	= ini.get("Files","CDiscountFileName");
+		String  technicalFilterName	= ini.get("Files","TechnicalFileName");
 		String  relFilterName		= ini.get("Files","RelFileName");
 		String	vllFilterName		= ini.get("Files","VLLFileName");
 
@@ -67,7 +67,7 @@ public class ThreadCheckHistoryFolder extends Thread {
 
 
 		 List<String> lstFileNamePrice 		= listFilesFromDirectory(priceArchiveFolder + "\\",priceFilterName + "*.*" );
-		 List<String> lstFileNameCDiscount	= listFilesFromDirectory(cDiscountArchiveFolder + "\\",cDiscountFilterName  + "*.*" );
+		 List<String> lstFileNameTechnical	= listFilesFromDirectory(technicalArchiveFolder + "\\",technicalFilterName  + "*.*" );
 		 List<String> lstFileNameGest		= listFilesFromDirectory(gestArchiveFolder + "\\",gestFilterName  + "*.*" );
 		 List<String> lstFileNameVLL		= listFilesFromDirectory(vllArchiveFolder + "\\",vllFilterName  + "*.*" );
 		 List<String> lstFileNameRel		= listFilesFromDirectory(relArchiveFolder + "\\",relFilterName  + "*.*" );
@@ -76,7 +76,7 @@ public class ThreadCheckHistoryFolder extends Thread {
 
 		PurgeHistoryFolder purgeHistory = new PurgeHistoryFolder();
 		purgeHistory.purgeFilesFromDirectory(lstFileNamePrice,priceArchiveFolder + "\\",nbrOfDayTokeep);
-		purgeHistory.purgeFilesFromDirectory(lstFileNameCDiscount,cDiscountArchiveFolder + "\\",nbrOfDayTokeep);
+		purgeHistory.purgeFilesFromDirectory(lstFileNameTechnical,technicalArchiveFolder + "\\",nbrOfDayTokeep);
 		purgeHistory.purgeFilesFromDirectory(lstFileNameGest,gestArchiveFolder + "\\",nbrOfDayTokeep);
 		purgeHistory.purgeFilesFromDirectory(lstFileNameVLL,vllArchiveFolder + "\\",nbrOfDayTokeep);
 		purgeHistory.purgeFilesFromDirectory(lstFileNameRel,relArchiveFolder + "\\",nbrOfDayTokeep);

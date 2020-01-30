@@ -27,8 +27,8 @@ public class ThreadCheckTechnicalFiles extends Thread {
 	static Logger logger =  LogManager.getLogger(ThreadCheckTechnicalFiles.class);
 
 	static Wini ini;
-	static String cdiscountArchiveFolder;	
-	static String cdiscountFileName;
+	static String technicalArchiveFolder;	
+	static String technicalFileName;
 	
 	static int tempo;
 	static String sourceFolder;
@@ -47,10 +47,10 @@ public class ThreadCheckTechnicalFiles extends Thread {
 		InitializeIni();
 		
 		/*******Archive folders **********/
-		cdiscountArchiveFolder		= ini.get("Folders", "CDiscountArchiveFolder");
+		technicalArchiveFolder		= ini.get("Folders", "TechnicalArchiveFolder");
 		
 		/********* FileNames *************/
-		cdiscountFileName 		= ini.get("Files","CDiscountFileName");
+		technicalFileName 		= ini.get("Files","TechnicalFileName");
 		
 		/*****Pricer Path **************/
 		tempo 						= Integer.valueOf(ini.get("Files", "timer"));
@@ -68,8 +68,8 @@ public class ThreadCheckTechnicalFiles extends Thread {
 			@Override
 			public void run() {
 				
-				FileUtility FdataFile = new FileUtility(sourceFolder + "\\" +  cdiscountFileName);
-				FileUtility FTemporaryFile = new FileUtility(temporaryFolder + "\\" + cdiscountFileName);
+				FileUtility FdataFile = new FileUtility(sourceFolder + "\\" +  technicalFileName);
+				FileUtility FTemporaryFile = new FileUtility(temporaryFolder + "\\" + technicalFileName);
 
 				// check first if something is present in temporary Folder, if not process source Folder
 
@@ -95,11 +95,11 @@ public class ThreadCheckTechnicalFiles extends Thread {
 					if(FdataFile.FileExist() && !FTemporaryFile.FileExist()) {
 
 							
-							String sourceFile = sourceFolder + "\\" +cdiscountFileName;
-							utility.ZipFile(sourceFolder, "BO"+cdiscountFileName, cdiscountArchiveFolder, cdiscountFileName);
+							String sourceFile = sourceFolder + "\\" +technicalFileName;
+							utility.ZipFile(sourceFolder, "BO"+technicalFileName, technicalArchiveFolder, technicalFileName);
 							completeWithSIC.completeWithSic(sourceFile, "S", "0", "0", "45");
 							
-							utility.ZipFile(sourceFolder, "PRICER"+cdiscountFileName, cdiscountArchiveFolder, cdiscountFileName);
+							utility.ZipFile(sourceFolder, "PRICER"+technicalFileName, technicalArchiveFolder, technicalFileName);
 							utility.MoveFile(sourceFolder + "\\" + FdataFile.getFileName(), temporaryFolder + "\\" + FdataFile.getFileName());
 							try {
 								ProcessFile(FTemporaryFile);
@@ -286,8 +286,8 @@ public class ThreadCheckTechnicalFiles extends Thread {
 	 	}
 		
 		
-		System.out.println("delete file " + temporaryFolder + "\\" + cdiscountFileName);
-		new File(temporaryFolder + "\\" + cdiscountFileName).delete();
+		System.out.println("delete file " + temporaryFolder + "\\" + technicalFileName);
+		new File(temporaryFolder + "\\" + technicalFileName).delete();
 	
 		
 		
