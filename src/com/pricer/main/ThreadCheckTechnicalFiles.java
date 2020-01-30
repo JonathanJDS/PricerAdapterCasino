@@ -20,11 +20,11 @@ import org.ini4j.InvalidFileFormatException;
 import org.ini4j.Wini;
 
 import com.pricer.model.FileUtility;
-import com.pricer.product.ProductCDiscount;
+import com.pricer.product.ProductTechnicalFile;
 
-public class ThreadCheckCDiscount extends Thread {
+public class ThreadCheckTechnicalFiles extends Thread {
 
-	static Logger logger =  LogManager.getLogger(ThreadCheckCDiscount.class);
+	static Logger logger =  LogManager.getLogger(ThreadCheckTechnicalFiles.class);
 
 	static Wini ini;
 	static String cdiscountArchiveFolder;	
@@ -40,7 +40,7 @@ public class ThreadCheckCDiscount extends Thread {
 	Timer timer = new Timer();
 	FileUtility utility = new FileUtility();
 	
-	public ThreadCheckCDiscount() {
+	public ThreadCheckTechnicalFiles() {
 
 		logger.info("Starting Thread ThreadCheckDataFiles");
 		
@@ -127,7 +127,7 @@ public class ThreadCheckCDiscount extends Thread {
 		logger.info("Processing data file : " + FtemporaryFile.getFileName() );
 		
 		boolean bdatafile_Update_opened=false;
-		ProductCDiscount cdiscountData = null;
+		ProductTechnicalFile technicalData = null;
 		
 		Date d = new Date(); 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_Hmmss");
@@ -203,54 +203,59 @@ public class ThreadCheckCDiscount extends Thread {
 	try {		
 		
 		
-		cdiscountData = new ProductCDiscount();
+		technicalData = new ProductTechnicalFile();
 		
-		cdiscountData.setItemID(splitedTabLine.get(1));
-		cdiscountData.setProductID(splitedTabLine.get(2));
-		cdiscountData.setItemNameCDiscount(splitedTabLine.get(6));
-		cdiscountData.setUrlFicheTechnique(splitedTabLine.get(7));
-		cdiscountData.setGarantie(splitedTabLine.get(9));
-		cdiscountData.setPictoTitre1(splitedTabLine.get(10));
-		cdiscountData.setPictoValeur1(splitedTabLine.get(11));
-		cdiscountData.setPictoTitre2(splitedTabLine.get(12));
-		cdiscountData.setPictoValeur2(splitedTabLine.get(13));
-		cdiscountData.setPictoTitre3(splitedTabLine.get(14));
-		cdiscountData.setPictoValeur3(splitedTabLine.get(15));
-		cdiscountData.setPictoTitre4(splitedTabLine.get(16));
-		cdiscountData.setPictoValeur4(splitedTabLine.get(17));
-		cdiscountData.setPictoTitre5(splitedTabLine.get(18));
-		cdiscountData.setPictoValeur5(splitedTabLine.get(19));
-		cdiscountData.setFlagSoldes(splitedTabLine.get(37));
-		cdiscountData.setNoteMoyenne(splitedTabLine.get(40));
-		cdiscountData.setNbreAvisClients(splitedTabLine.get(41));
-		cdiscountData.setPrixPrecoFournisseur(splitedTabLine.get(42));
-		cdiscountData.setDispoPiecesDetachees(splitedTabLine.get(43));
+		technicalData.setItemID(splitedTabLine.get(1));
+		technicalData.setProductID(splitedTabLine.get(2));
+		technicalData.setItemNameCDiscount(splitedTabLine.get(6));
+		technicalData.setUrlFicheTechnique(splitedTabLine.get(7));
+		technicalData.setGarantie(splitedTabLine.get(9));
+		technicalData.setPictoTitre1(splitedTabLine.get(10));
+		technicalData.setPictoValeur1(splitedTabLine.get(11));
+		technicalData.setPictoTitre2(splitedTabLine.get(12));
+		technicalData.setPictoValeur2(splitedTabLine.get(13));
+		technicalData.setPictoTitre3(splitedTabLine.get(14));
+		technicalData.setPictoValeur3(splitedTabLine.get(15));
+		technicalData.setPictoTitre4(splitedTabLine.get(16));
+		technicalData.setPictoValeur4(splitedTabLine.get(17));
+		technicalData.setPictoTitre5(splitedTabLine.get(18));
+		technicalData.setPictoValeur5(splitedTabLine.get(19));
+		technicalData.setFlagSoldes(splitedTabLine.get(37));
+		technicalData.setNoteMoyenne(splitedTabLine.get(40));
+		technicalData.setNbreAvisClients(splitedTabLine.get(41));
+		technicalData.setPrixPrecoFournisseur(splitedTabLine.get(42));
+		technicalData.setDispoPiecesDetachees(splitedTabLine.get(43));
+		technicalData.setCommercialInfo(splitedTabLine.get(44));
+		technicalData.setWeigherKey(splitedTabLine.get(45));
+		
 		        
 		 
 		 
 
 				
-		 completeLine.append("0001 ").append(cdiscountData.getItemID());
+		 completeLine.append("0001 ").append(technicalData.getItemID());
          completeLine.append(" 121 0 |").append("CDISCOUNT");
-         completeLine.append("| 244 0 |").append(cdiscountData.getProductID());
-         completeLine.append("| 239 0 |").append(cdiscountData.getUrlFicheTechnique());
-         completeLine.append("| 237 0 |").append(cdiscountData.getGarantie());
-         completeLine.append("| 227 0 |").append(cdiscountData.getPictoTitre1());
-         completeLine.append("| 228 0 |").append(cdiscountData.getPictoValeur1());
-         completeLine.append("| 229 0 |").append(cdiscountData.getPictoTitre2());
-         completeLine.append("| 230 0 |").append(cdiscountData.getPictoValeur2());
-         completeLine.append("| 231 0 |").append(cdiscountData.getPictoTitre3());
-         completeLine.append("| 232 0 |").append(cdiscountData.getPictoValeur3());
-         completeLine.append("| 233 0 |").append(cdiscountData.getPictoTitre4());
-         completeLine.append("| 234 0 |").append(cdiscountData.getPictoValeur4());
-         completeLine.append("| 235 0 |").append(cdiscountData.getPictoTitre5());
-         completeLine.append("| 236 0 |").append(cdiscountData.getPictoValeur5());
-         completeLine.append("| 240 0 |").append(cdiscountData.getNoteMoyenne());
-         completeLine.append("| 241 0 |").append(cdiscountData.getNbreAvisClients());
-         completeLine.append("| 245 0 |").append(cdiscountData.getPrixPrecoFournisseur());
-         completeLine.append("| 238 0 |").append(cdiscountData.getDispoPiecesDetachees());
-         completeLine.append("| 300 0 |").append(cdiscountData.getItemNameCDiscount());
-         completeLine.append("| 500 0 |").append(cdiscountData.getFlagSoldes());
+         completeLine.append("| 244 0 |").append(technicalData.getProductID());
+         completeLine.append("| 239 0 |").append(technicalData.getUrlFicheTechnique());
+         completeLine.append("| 237 0 |").append(technicalData.getGarantie());
+         completeLine.append("| 227 0 |").append(technicalData.getPictoTitre1());
+         completeLine.append("| 228 0 |").append(technicalData.getPictoValeur1());
+         completeLine.append("| 229 0 |").append(technicalData.getPictoTitre2());
+         completeLine.append("| 230 0 |").append(technicalData.getPictoValeur2());
+         completeLine.append("| 231 0 |").append(technicalData.getPictoTitre3());
+         completeLine.append("| 232 0 |").append(technicalData.getPictoValeur3());
+         completeLine.append("| 233 0 |").append(technicalData.getPictoTitre4());
+         completeLine.append("| 234 0 |").append(technicalData.getPictoValeur4());
+         completeLine.append("| 235 0 |").append(technicalData.getPictoTitre5());
+         completeLine.append("| 236 0 |").append(technicalData.getPictoValeur5());
+         completeLine.append("| 240 0 |").append(technicalData.getNoteMoyenne());
+         completeLine.append("| 241 0 |").append(technicalData.getNbreAvisClients());
+         completeLine.append("| 245 0 |").append(technicalData.getPrixPrecoFournisseur());
+         completeLine.append("| 238 0 |").append(technicalData.getDispoPiecesDetachees());
+         completeLine.append("| 300 0 |").append(technicalData.getItemNameCDiscount());
+         completeLine.append("| 500 0 |").append(technicalData.getFlagSoldes());
+         completeLine.append("| 94 0 |").append(technicalData.getWeigherKey());
+         completeLine.append("| 605 0 |").append(technicalData.getCommercialInfo());
                  
          completeLine.append("|,");
          

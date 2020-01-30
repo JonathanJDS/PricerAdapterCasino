@@ -1,6 +1,6 @@
 package com.pricer.product;
 
-public class ProductCDiscount extends ProductBase{
+public class ProductTechnicalFile extends ProductBase{
 	
 	private String productID;
 	private String urlFicheTechnique;
@@ -21,6 +21,8 @@ public class ProductCDiscount extends ProductBase{
 	private String dispoPiecesDetachees;
 	private String itemNameCDiscount;
 	private String flagSoldes;
+	private String weigherKey;
+	private String commercialInfo;
 	
 	
 	public String getProductID() {
@@ -136,6 +138,18 @@ public class ProductCDiscount extends ProductBase{
 	}
 	public void setFlagSoldes(String flagSoldes) {
 		this.flagSoldes = flagSoldes;
+	}
+	public String getWeigherKey() {
+		return weigherKey;
+	}
+	public void setWeigherKey(String weigherKey) {
+		this.weigherKey = weigherKey;
+	}
+	public String getCommercialInfo() {
+		return commercialInfo;
+	}
+	public void setCommercialInfo(String commercialInfo) {
+		this.commercialInfo = commercialInfo;
 	}
 	
 	
