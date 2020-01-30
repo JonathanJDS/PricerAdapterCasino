@@ -42,7 +42,7 @@ public class ThreadCheckTechnicalFiles extends Thread {
 	
 	public ThreadCheckTechnicalFiles() {
 
-		logger.info("Starting Thread ThreadCheckDataFiles");
+		logger.info("Starting Thread ThreadCheckTechnicalFiles");
 		
 		InitializeIni();
 		
@@ -123,7 +123,7 @@ public class ThreadCheckTechnicalFiles extends Thread {
 	
 	private void ProcessFile(FileUtility FtemporaryFile) throws IOException {
 		
-		System.out.println("Processing CDiscount file");
+		System.out.println("Processing Technical file");
 		logger.info("Processing data file : " + FtemporaryFile.getFileName() );
 		
 		boolean bdatafile_Update_opened=false;
@@ -146,9 +146,9 @@ public class ThreadCheckTechnicalFiles extends Thread {
        	       	       	
        	
         
-        dataFileName_Update		=	pricerDataFilesFolder		+ "\\"	+ "data_cdiscount_" + dateOfFile + ".i1";
-        messageFileName_Update	=	pricerMessageFilesFolder	+ "\\"	+ "data_cdiscount_" + dateOfFile + ".m1";
-        resultFileName_Update	=	pricerResultFilesFolder		+ "\\"	+ "data_cdiscount_" + dateOfFile + ".r7";
+        dataFileName_Update		=	pricerDataFilesFolder		+ "\\"	+ "data_technical_" + dateOfFile + ".i1";
+        messageFileName_Update	=	pricerMessageFilesFolder	+ "\\"	+ "data_technical_" + dateOfFile + ".m1";
+        resultFileName_Update	=	pricerResultFilesFolder		+ "\\"	+ "data_technical_" + dateOfFile + ".r7";
         
         contentMessageFile_Update = "UPDATE,0001,," + dataFileName_Update + "," + resultFileName_Update;
 		
