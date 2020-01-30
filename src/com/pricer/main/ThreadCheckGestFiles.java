@@ -169,16 +169,21 @@ public class ThreadCheckGestFiles extends Thread {
 		List<String> lstFile  =	new ArrayList<String>();
 		String[] lineSplited2 = null;
 		List<String> lstItems;
-		PricerPublicAPI50 pricerInterfaceR5  = null;
-		
-		
+		PricerPublicAPI50 pricerInterfaceR5 ;
+
 		try {
-			pricerInterfaceR5 = new R5WSAPI(userAPI,keyAPI).getPricerInterfaceR5();
-		}catch (Exception ex) 			
-			{	
-				ex.printStackTrace();	
-				logger.fatal("Exception when trying to connect to the API : " +ex);
-			}
+			pricerInterfaceR5  = new R5WSAPI(userAPI,keyAPI,hostAPI,portAPI).getPricerInterfaceR5();
+			System.out.println("Pricer Version = " + pricerInterfaceR5.getSystemVersion().getVersion());
+
+		}
+
+		catch (Exception ex) {
+			logger.fatal("unable to connect to the Pricer api with this apikey : " + keyAPI + " Please check your credentials or running service !!!");
+			logger.fatal("deleting  data File : " + FtemporaryFile.getFileName()  + " From Temporary Folder !!!, you will be able to find it in Archives Folder");
+			FtemporaryFile.deleteFile();
+
+		return;
+		}
 
 		
 		logger.info("Getting linked items ...");

@@ -84,7 +84,7 @@ public class Start {
 		getGestFiles.start();
 		
 
-		ThreadCheckCDiscount getCDiscountFiles = new ThreadCheckCDiscount();
+		ThreadCheckTechnicalFiles getCDiscountFiles = new ThreadCheckTechnicalFiles();
 		getCDiscountFiles.setPriority(1);
 		getCDiscountFiles.start();
 		

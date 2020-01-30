@@ -40,12 +40,12 @@ public class R5WSAPI  {
 		this.pricerInterfaceR5 = pricerInterfaceR5;
 	}
 
-	public R5WSAPI(String API_USER, String API_KEY) {
+	public R5WSAPI(String API_USER, String API_KEY, String API_HOST, String API_PORT) {
 		super();
 
 		try {
 			try {
-				this.pricerInterfaceR5 = getR5WSAPI(API_USER, API_KEY);
+				this.pricerInterfaceR5 = getR5WSAPI(API_USER, API_KEY, API_HOST, API_PORT);
 			} catch (MalformedURLException | RemoteException | NotBoundException e) {
 
 			System.out.println("API Connection Exception ==> cause :" + e.getMessage() + "(" + e.getCause() + ")" );
@@ -61,10 +61,10 @@ public class R5WSAPI  {
 		// TODO Auto-generated constructor stub
 	}
 
-	private PricerPublicAPI50 getR5WSAPI(final String user, final String key)
+	private PricerPublicAPI50 getR5WSAPI(final String user, final String key, final String host, final String port)
 			throws NotBoundException, MalformedURLException, RemoteException, NoSuchAlgorithmException {
 		
-		 String WS_URL = "http://localhost:11097/pricer_5_0?wsdl";
+		 String WS_URL = "http://"+host+":"+port+"/pricer_5_0?wsdl";
 		 String AUTHENTICATION_TOKEN_HEADER = "authentication-token";
 		 String USERNAME_HEADER = "username";
 
