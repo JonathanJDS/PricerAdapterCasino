@@ -6,9 +6,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 //import org.apache.log4j.Logger;
-import org.apache.logging.log4j.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.pricer.model.JDBCConnector;
 import com.pricer.product.ProductBase;
 
@@ -69,60 +72,65 @@ public class OperationOnDB {
 		}
 	}
 	
-	public List<ProductBase> getCdiscountSic(String listEAN){
+	public TreeSet<String> lstLinkedItems () {
 
-		Statement statement = null;
-		ResultSet resultSet = null;
-		ProductBase sic = null;
-		List<ProductBase> lstSIC = new ArrayList<ProductBase>();
-		
-		String request = ""; 
-		 
-		try {
-			statement = connection.createStatement();
-			
-			request = "SELECT ITEMID,SIC FROM ITEM_SIC WHERE SIC IN ("+listEAN+");";
-			System.out.println("Here the request to get SIC for CDiscount file : " + request);
-			
-			resultSet = statement.executeQuery(request.toLowerCase());
-			
-			}catch (SQLException e) {
-				e.printStackTrace();
-				System.out.println("SQLException : " +e);
-				
-			}catch (NullPointerException n) {
-				n.printStackTrace();
-				System.out.println("NullPointerException : " +n);
-			}
-		
-		try {
-			
-			while(resultSet.next()) {
-				
-				sic = new ProductBase();
-				sic.setItemID(resultSet.getString("ITEMID"));
-				sic.setEAN(resultSet.getString("SIC"));
+		Statement st = null;
+		ResultSet rs = null;
+		String request ;
+		TreeSet<String> lstLinkedItems = new TreeSet<String>();
 
-								
-				lstSIC.add(sic);
-			}
+		try {
+			st = connection.createStatement();
+
+			request = "select linitemidref from eclink";
 			
-		}catch (SQLException e) {
+
+			rs = st.executeQuery(request.toLowerCase());
+
+			//System.out.println("here is the request : " + request.toLowerCase());
+
+		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("SQLException : " +e);
+			logger.fatal("SQLException when trying to get linked items : " +e);
+
+		} catch (NullPointerException n) {
+			n.printStackTrace();
+			logger.fatal("SQLException when trying to get linked items : " +n);
+		}
+
+		try {
+
+			while (rs.next()) {
+				
+				lstLinkedItems.add(rs.getString("linitemidref"));
+					
+				}							
+		}
+
+		catch (SQLException e) {
+
+			e.printStackTrace();
+			logger.fatal("SQL Exception when trying to add itemid to a map");
+
+		}
+
+		try {
+			st.close();
+			rs.close();
+			//connection.close();
+			
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+			logger.fatal("SQL Exception when trying to close statement and resultset !");
 		}
 		
-		try {
-			statement.close();
-			resultSet.close();
-		}catch(SQLException e) {
-			e.printStackTrace();
-			System.out.println("SQLException : " +e);
-		}
-				
-		return lstSIC;
-	
+
+
+		return lstLinkedItems;
+
 	}
+	
 
 	public TreeMap<String, String> getlstItemSics() {
 

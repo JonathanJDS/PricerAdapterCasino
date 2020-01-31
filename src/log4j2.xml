@@ -7,7 +7,7 @@
     <Appenders>
         <RollingFile name="MainLogFile" fileName="logs/adapter.log" filePattern="logs/adapter-%d{yyyy-MM-dd}-%i.log">
         <PatternLayout>
-            <pattern>%c %d{MM-dd-yyyy HH:mm:ss,SSS}|%p|%m%n</pattern>
+            <pattern>%d{MM-dd-yyyy HH:mm:ss,SSS}|%p|%m%n</pattern>
         </PatternLayout>
         <Policies>
             <SizeBasedTriggeringPolicy size="5 MB" />

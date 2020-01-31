@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.TreeSet;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,12 +24,10 @@ import org.ini4j.Wini;
 import com.pricer.model.FileUtility;
 import com.pricer.product.ProductGestion;
 
-import se.pricer._interface.public_5_0.ItemESLLinkList;
-import se.pricer._interface.public_5_0.PricerPublicAPI50;
 
 public class ThreadCheckGestFiles extends Thread {
 
-	static Logger logger =  LogManager.getLogger(Start.class);
+	static Logger logger =  LogManager.getLogger(ThreadCheckGestFiles.class);
 
 	static Wini ini;
 	static String gestArchiveFolder ;	
@@ -51,7 +50,7 @@ public class ThreadCheckGestFiles extends Thread {
 	
 	public ThreadCheckGestFiles() {
 
-		logger.info("Starting Thread ThreadCheckDataFiles");
+		logger.info("Starting Thread ThreadCheckGestFiles");
 		
 		InitializeIni();
 		System.out.println("init ini");
@@ -103,7 +102,7 @@ public class ThreadCheckGestFiles extends Thread {
 
 						// process only one file in temporary (one by one ) .
 						if (FdataFile.FileExist() && !FTemporaryFile.FileExist()) {
-							utility.ZipFile(sourceFolder, FdataFile.getFileName(), FdataFile.getFileName(), gestArchiveFolder);
+							utility.ZipFile(sourceFolder, FdataFile.getFileName(), gestArchiveFolder, FdataFile.getFileName());
 							utility.MoveFile(sourceFolder + "\\" + FdataFile.getFileName(), temporaryFolder + "\\" + FdataFile.getFileName());
 							ProcessFile(FTemporaryFile);
 						}
@@ -121,6 +120,7 @@ public class ThreadCheckGestFiles extends Thread {
 	private void ProcessFile(FileUtility FtemporaryFile) {
 		
 		System.out.println("Processing gest file");
+		logger.info("Processing Gest file : " + FtemporaryFile.getFileName() );
 		
 		
 	    SimpleDateFormat sBefore	=	new SimpleDateFormat("ddMMyyyy");
@@ -169,66 +169,32 @@ public class ThreadCheckGestFiles extends Thread {
 		List<String> lstFile  =	new ArrayList<String>();
 		String[] lineSplited2 = null;
 		List<String> lstItems;
-		PricerPublicAPI50 pricerInterfaceR5 ;
-
-		try {
-			pricerInterfaceR5  = new R5WSAPI(userAPI,keyAPI,hostAPI,portAPI).getPricerInterfaceR5();
-			System.out.println("Pricer Version = " + pricerInterfaceR5.getSystemVersion().getVersion());
-
-		}
-
-		catch (Exception ex) {
-			logger.fatal("unable to connect to the Pricer api with this apikey : " + keyAPI + " Please check your credentials or running service !!!");
-			logger.fatal("deleting  data File : " + FtemporaryFile.getFileName()  + " From Temporary Folder !!!, you will be able to find it in Archives Folder");
-			FtemporaryFile.deleteFile();
-
-		return;
-		}
 
 		
-		logger.info("Getting linked items ...");
+		logger.info("Purging gest file, getting linked items ... ");
+
+		TreeSet<String> lstLinkedItems = new OperationOnDB().lstLinkedItems();
 		
-		for (String line : lstMapFile) {
+		for(String line : lstMapFile) {
 			
-
 			lineSplited2 = line.split(";");
 			
-
-			if (lineSplited2.length >=15) {
-				
-				
-				
-				lstItems = new ArrayList<String>();
-				lstItems.add(lineSplited2[1].trim());
-				List<ItemESLLinkList> lstItemLinks;
-				try {
-					lstItemLinks = pricerInterfaceR5.getItemLinks(lstItems);
-				
-				
-					for (ItemESLLinkList status : lstItemLinks) {
-						
-						
-						if (status.getLinks().size()>0) {
-							System.out.println("Item is linked, adding to the map... : " + lineSplited2[1]);	
-							lstFile.add(line);	
-						}
-						
-						
-					}
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					System.out.println("item id does not exist : " + lineSplited2[1]);
-				}
-				
-				
-			}
+			lstItems = new ArrayList<String>();
+			lstItems.add(lineSplited2[1].trim());
 			
-		
+				for(String itemid : lstItems) {
+					
+					if(lstLinkedItems.contains(itemid)) {
+						lstFile.add(line);
+					}
+					
+				}
+			
+			
+			
 		}
 		
-		System.out.println("Getting items linked 100% processed, generating i1 file ...");
-		
-
+		logger.info("Generating i1 file ...");
 
 		for (String line : lstFile) {
 			
@@ -312,7 +278,7 @@ public class ThreadCheckGestFiles extends Thread {
                  
          completeLine.append("|,");
          
-       // System.out.println( completeLine.toString());
+        //System.out.println( completeLine.toString());
         datafile_Update.println(completeLine.toString());
         datafile_Update.flush();
 
