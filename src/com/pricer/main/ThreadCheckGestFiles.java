@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.TreeSet;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,7 +24,6 @@ import org.ini4j.Wini;
 import com.pricer.model.FileUtility;
 import com.pricer.product.ProductGestion;
 
-import se.pricer._interface.public_5_0.ItemESLLinkList;
 import se.pricer._interface.public_5_0.PricerPublicAPI50;
 
 public class ThreadCheckGestFiles extends Thread {
@@ -103,7 +103,7 @@ public class ThreadCheckGestFiles extends Thread {
 
 						// process only one file in temporary (one by one ) .
 						if (FdataFile.FileExist() && !FTemporaryFile.FileExist()) {
-							utility.ZipFile(sourceFolder, FdataFile.getFileName(), FdataFile.getFileName(), gestArchiveFolder);
+							utility.ZipFile(sourceFolder, FdataFile.getFileName(), gestArchiveFolder, FdataFile.getFileName());
 							utility.MoveFile(sourceFolder + "\\" + FdataFile.getFileName(), temporaryFolder + "\\" + FdataFile.getFileName());
 							ProcessFile(FTemporaryFile);
 						}
@@ -185,54 +185,33 @@ public class ThreadCheckGestFiles extends Thread {
 
 		return;
 		}
-
 		
-//		logger.info("Getting linked items ...");
-//		
-//		for (String line : lstMapFile) {
-//			
-//
-//			lineSplited2 = line.split(";");
-//			
-//
-//			if (lineSplited2.length >=15) {
-//				
-//				
-//				
-//				lstItems = new ArrayList<String>();
-//				lstItems.add(lineSplited2[1].trim());
-//				List<ItemESLLinkList> lstItemLinks;
-//				try {
-//					lstItemLinks = pricerInterfaceR5.getItemLinks(lstItems);
-//				
-//				
-//					for (ItemESLLinkList status : lstItemLinks) {
-//						
-//						
-//						if (status.getLinks().size()>0) {
-//							System.out.println("Item is linked, adding to the map... : " + lineSplited2[1]);	
-//							lstFile.add(line);	
-//						}
-//						
-//						
-//					}
-//				} catch (Exception e) {
-//					// TODO Auto-generated catch block
-//					System.out.println("item id does not exist : " + lineSplited2[1]);
-//				}
-//				
-//				
-//			}
-//			
-//		
-//		}
-//		
-//		System.out.println("Getting items linked 100% processed, generating i1 file ...");
-//		logger.info("Gettings items linked 100% processed, generating i1 file ...");
+		logger.info("ThreadGestFile : Purging gest file, getting linked items ... ");
+
+		TreeSet<String> lstLinkedItems = new OperationOnDB().lstLinkedItems();
 		
+		for(String line : lstMapFile) {
+			
+			lineSplited2 = line.split(";");
+			
+			lstItems = new ArrayList<String>();
+			lstItems.add(lineSplited2[1].trim());
+			
+				for(String itemid : lstItems) {
+					
+					if(lstLinkedItems.contains(itemid)) {
+						lstFile.add(line);
+					}
+					
+				}
+			
+			
+			
+		}
+		
+		logger.info("ThreadGestFile : Generation i1 file ...");
 
-
-		for (String line : lstMapFile) {
+		for (String line : lstFile) {
 			
 		//System.out.println("line = " + line);
 		
@@ -314,7 +293,7 @@ public class ThreadCheckGestFiles extends Thread {
                  
          completeLine.append("|,");
          
-       // System.out.println( completeLine.toString());
+        //System.out.println( completeLine.toString());
         datafile_Update.println(completeLine.toString());
         datafile_Update.flush();
 

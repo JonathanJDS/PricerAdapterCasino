@@ -6,9 +6,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 //import org.apache.log4j.Logger;
-import org.apache.logging.log4j.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.pricer.model.JDBCConnector;
 import com.pricer.product.ProductBase;
 
@@ -67,6 +70,69 @@ public class OperationOnDB {
 				}
 			}
 		}
+	}
+	
+	public TreeSet<String> lstLinkedItems () {
+
+		Statement st = null;
+		ResultSet rs = null;
+		String request ;
+		TreeSet<String> lstLinkedItems = new TreeSet<String>();
+
+		try {
+			st = connection.createStatement();
+
+			request = "select linitemidref from eclink";
+			
+
+			rs = st.executeQuery(request.toLowerCase());
+
+			//System.out.println("here is the request : " + request.toLowerCase());
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		} catch (NullPointerException n) {
+			n.printStackTrace();
+		}
+
+		try {
+
+			while (rs.next()) {
+
+				
+				lstLinkedItems.add(rs.getString("linitemidref"));
+				
+				
+				
+					
+				}
+				
+							
+				
+			
+		}
+
+		catch (SQLException e) {
+
+			e.printStackTrace();
+
+		}
+
+		try {
+			st.close();
+			rs.close();
+			//connection.close();
+			
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		
+
+
+		return lstLinkedItems;
+
 	}
 	
 	public List<ProductBase> getCdiscountSic(String listEAN){
