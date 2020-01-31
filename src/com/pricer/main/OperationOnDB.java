@@ -91,31 +91,26 @@ public class OperationOnDB {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			logger.fatal("SQLException when trying to get linked items : " +e);
 
 		} catch (NullPointerException n) {
 			n.printStackTrace();
+			logger.fatal("SQLException when trying to get linked items : " +n);
 		}
 
 		try {
 
 			while (rs.next()) {
-
 				
 				lstLinkedItems.add(rs.getString("linitemidref"));
-				
-				
-				
 					
-				}
-				
-							
-				
-			
+				}							
 		}
 
 		catch (SQLException e) {
 
 			e.printStackTrace();
+			logger.fatal("SQL Exception when trying to add itemid to a map");
 
 		}
 
@@ -127,6 +122,7 @@ public class OperationOnDB {
 		} catch (SQLException e) {
 
 			e.printStackTrace();
+			logger.fatal("SQL Exception when trying to close statement and resultset !");
 		}
 		
 
@@ -135,60 +131,6 @@ public class OperationOnDB {
 
 	}
 	
-	public List<ProductBase> getCdiscountSic(String listEAN){
-
-		Statement statement = null;
-		ResultSet resultSet = null;
-		ProductBase sic = null;
-		List<ProductBase> lstSIC = new ArrayList<ProductBase>();
-		
-		String request = ""; 
-		 
-		try {
-			statement = connection.createStatement();
-			
-			request = "SELECT ITEMID,SIC FROM ITEM_SIC WHERE SIC IN ("+listEAN+");";
-			System.out.println("Here the request to get SIC for CDiscount file : " + request);
-			
-			resultSet = statement.executeQuery(request.toLowerCase());
-			
-			}catch (SQLException e) {
-				e.printStackTrace();
-				System.out.println("SQLException : " +e);
-				
-			}catch (NullPointerException n) {
-				n.printStackTrace();
-				System.out.println("NullPointerException : " +n);
-			}
-		
-		try {
-			
-			while(resultSet.next()) {
-				
-				sic = new ProductBase();
-				sic.setItemID(resultSet.getString("ITEMID"));
-				sic.setEAN(resultSet.getString("SIC"));
-
-								
-				lstSIC.add(sic);
-			}
-			
-		}catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("SQLException : " +e);
-		}
-		
-		try {
-			statement.close();
-			resultSet.close();
-		}catch(SQLException e) {
-			e.printStackTrace();
-			System.out.println("SQLException : " +e);
-		}
-				
-		return lstSIC;
-	
-	}
 
 	public TreeMap<String, String> getlstItemSics() {
 

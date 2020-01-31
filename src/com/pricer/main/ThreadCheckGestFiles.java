@@ -27,7 +27,7 @@ import com.pricer.product.ProductGestion;
 
 public class ThreadCheckGestFiles extends Thread {
 
-	static Logger logger =  LogManager.getLogger(Start.class);
+	static Logger logger =  LogManager.getLogger(ThreadCheckGestFiles.class);
 
 	static Wini ini;
 	static String gestArchiveFolder ;	
