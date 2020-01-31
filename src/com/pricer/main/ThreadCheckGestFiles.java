@@ -51,7 +51,7 @@ public class ThreadCheckGestFiles extends Thread {
 	
 	public ThreadCheckGestFiles() {
 
-		logger.info("Starting Thread ThreadCheckDataFiles");
+		logger.info("Starting Thread ThreadCheckGestFiles");
 		
 		InitializeIni();
 		System.out.println("init ini");
@@ -121,6 +121,7 @@ public class ThreadCheckGestFiles extends Thread {
 	private void ProcessFile(FileUtility FtemporaryFile) {
 		
 		System.out.println("Processing gest file");
+		logger.info("Processing Gest file : " + FtemporaryFile.getFileName() );
 		
 		
 	    SimpleDateFormat sBefore	=	new SimpleDateFormat("ddMMyyyy");
@@ -186,51 +187,52 @@ public class ThreadCheckGestFiles extends Thread {
 		}
 
 		
-		logger.info("Getting linked items ...");
+//		logger.info("Getting linked items ...");
+//		
+//		for (String line : lstMapFile) {
+//			
+//
+//			lineSplited2 = line.split(";");
+//			
+//
+//			if (lineSplited2.length >=15) {
+//				
+//				
+//				
+//				lstItems = new ArrayList<String>();
+//				lstItems.add(lineSplited2[1].trim());
+//				List<ItemESLLinkList> lstItemLinks;
+//				try {
+//					lstItemLinks = pricerInterfaceR5.getItemLinks(lstItems);
+//				
+//				
+//					for (ItemESLLinkList status : lstItemLinks) {
+//						
+//						
+//						if (status.getLinks().size()>0) {
+//							System.out.println("Item is linked, adding to the map... : " + lineSplited2[1]);	
+//							lstFile.add(line);	
+//						}
+//						
+//						
+//					}
+//				} catch (Exception e) {
+//					// TODO Auto-generated catch block
+//					System.out.println("item id does not exist : " + lineSplited2[1]);
+//				}
+//				
+//				
+//			}
+//			
+//		
+//		}
+//		
+//		System.out.println("Getting items linked 100% processed, generating i1 file ...");
+//		logger.info("Gettings items linked 100% processed, generating i1 file ...");
 		
+
+
 		for (String line : lstMapFile) {
-			
-
-			lineSplited2 = line.split(";");
-			
-
-			if (lineSplited2.length >=15) {
-				
-				
-				
-				lstItems = new ArrayList<String>();
-				lstItems.add(lineSplited2[1].trim());
-				List<ItemESLLinkList> lstItemLinks;
-				try {
-					lstItemLinks = pricerInterfaceR5.getItemLinks(lstItems);
-				
-				
-					for (ItemESLLinkList status : lstItemLinks) {
-						
-						
-						if (status.getLinks().size()>0) {
-							System.out.println("Item is linked, adding to the map... : " + lineSplited2[1]);	
-							lstFile.add(line);	
-						}
-						
-						
-					}
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					System.out.println("item id does not exist : " + lineSplited2[1]);
-				}
-				
-				
-			}
-			
-		
-		}
-		
-		System.out.println("Getting items linked 100% processed, generating i1 file ...");
-		
-
-
-		for (String line : lstFile) {
 			
 		//System.out.println("line = " + line);
 		
