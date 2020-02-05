@@ -7,7 +7,9 @@
     <Appenders>
         <RollingFile name="MainLogFile" fileName="logs/adapter.log" filePattern="logs/adapter-%d{yyyy-MM-dd}-%i.log">
         <PatternLayout>
+
             <pattern>%d{MM-dd-yyyy HH:mm:ss,SSS}|%p|%C{1}|%m%n</pattern>
+
         </PatternLayout>
         <Policies>
             <SizeBasedTriggeringPolicy size="5 MB" />
@@ -22,7 +24,7 @@
         <RollingFile name="Rejected" fileName="logs/rejected.log"
                      filePattern="logs/rejected-%d{yyyy-MM-dd}-%i.log">
             <PatternLayout>
-                <pattern>%d{MM-dd-yyyy HH:mm:ss,SSS}|%C{1}|%p|%m%n</pattern>
+                <pattern>%d{MM-dd-yyyy HH:mm:ss,SSS}|%p|%m%n</pattern>
             </PatternLayout>
             <Policies>
                 <SizeBasedTriggeringPolicy size="5 MB" />

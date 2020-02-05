@@ -37,7 +37,6 @@ public class ThreadCheckPriceFiles extends Thread {
 
 		logger.info("Starting Thread ThreadCheckPriceFiles");
 		InitializeIni();
-		System.out.println("init ini");
 
 
 		/*******Archive folders **********/
