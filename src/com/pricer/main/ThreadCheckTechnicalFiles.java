@@ -207,6 +207,7 @@ public class ThreadCheckTechnicalFiles extends Thread {
 		
 		technicalData.setItemID(splitedTabLine.get(1));
 		technicalData.setProductID(splitedTabLine.get(2));
+		technicalData.setItemNamePeche(splitedTabLine.get(3));
 		technicalData.setItemNameCDiscount(splitedTabLine.get(6));
 		technicalData.setUrlFicheTechnique(splitedTabLine.get(7));
 		technicalData.setGarantie(splitedTabLine.get(9));
@@ -256,6 +257,7 @@ public class ThreadCheckTechnicalFiles extends Thread {
          completeLine.append("| 500 0 |").append(technicalData.getFlagSoldes());
          completeLine.append("| 94 0 |").append(technicalData.getWeigherKey());
          completeLine.append("| 605 0 |").append(technicalData.getCommercialInfo());
+         completeLine.append("| 610 0 |").append(technicalData.getItemNamePeche());
                  
          completeLine.append("|,");
          

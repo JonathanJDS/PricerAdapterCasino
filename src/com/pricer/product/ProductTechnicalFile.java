@@ -23,6 +23,8 @@ public class ProductTechnicalFile extends ProductBase{
 	private String flagSoldes;
 	private String weigherKey;
 	private String commercialInfo;
+	private String itemNamePeche;
+	
 	
 	
 	public String getProductID() {
@@ -150,6 +152,12 @@ public class ProductTechnicalFile extends ProductBase{
 	}
 	public void setCommercialInfo(String commercialInfo) {
 		this.commercialInfo = commercialInfo;
+	}
+	public String getItemNamePeche() {
+		return itemNamePeche;
+	}
+	public void setItemNamePeche(String itemNamePeche) {
+		this.itemNamePeche = itemNamePeche;
 	}
 	
 	
