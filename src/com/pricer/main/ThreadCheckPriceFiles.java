@@ -252,7 +252,8 @@ public class ThreadCheckPriceFiles extends Thread {
 					product.setLstEANsic(lstEANSics);
 					lstProducts.add(product);
 					isnewProduct = true;
-
+					
+					
 				}
 
 
@@ -321,10 +322,13 @@ public class ThreadCheckPriceFiles extends Thread {
 
 
 		}
+		
+	lstProducts.add(product);
 
 
 
 		for (ProductPrice produit : lstProducts) {
+			
 
 			try {
 
@@ -341,6 +345,8 @@ public class ThreadCheckPriceFiles extends Thread {
 
 					bdatafile_Update_opened = true;
 				}
+				
+			//	System.out.println("bdatafile_update is true");
 
 				completeLine2 = new StringBuffer();
 				completeLine2.append("0001 ").append(String.format("%"+internalCodeSize+"d",Integer.parseInt(produit.getCodeInterne())));
@@ -359,6 +365,7 @@ public class ThreadCheckPriceFiles extends Thread {
 				completeLine2.append("| 453 0 |").append(produit.getFlagPrixKilo());
 				completeLine2.append("| 40 0 |").append(produit.getMontantECOPART());
 				completeLine2.append("| 41 0 |").append(produit.getFlagECOPART());
+				
 
 
 				SimpleDateFormat formatter = new SimpleDateFormat("ddMMyy");
@@ -391,6 +398,7 @@ public class ThreadCheckPriceFiles extends Thread {
 			} catch (NullPointerException ex) {
 				System.out.println("Produit is null");
 			}
+			//System.out.println("data is :"+ completeLine2.toString());
 			datafile_Update.println(completeLine2.toString());
 		}
 
