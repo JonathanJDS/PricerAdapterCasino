@@ -309,7 +309,7 @@ public class ThreadCheckPriceFiles extends Thread {
 
 					}
 
-					product.setLstEANsic(lstEANSics);
+					
 
 				}
 
@@ -323,6 +323,7 @@ public class ThreadCheckPriceFiles extends Thread {
 
 		}
 		
+	product.setLstEANsic(lstEANSics);	
 	lstProducts.add(product);
 
 
@@ -383,6 +384,16 @@ public class ThreadCheckPriceFiles extends Thread {
 					logger.log(Level.getLevel("REJECTED"),"Product rejected" + product.getCodeInterne());
 
 				}
+				
+				  if (produit.getLstEANsic().size()==0) {
+					  
+					  completeLine2.append("0001 ").append(String.format("%06d",Integer.parseInt(produit.getCodeInterne()) ));
+						 // completeLine2.append("0001 ").append(produit.getCodeInterne());
+					  completeLine2.append("| 9510 0 |").append(produit.getEAN());
+					  //completeLine2.append("|");
+
+					  
+					  }
 
 				if (produit.getLstEANsic().size() > 0) {
 					completeLine2.append("0001 ").append(String.format("%"+internalCodeSize+"d", Integer.parseInt(produit.getCodeInterne())));
@@ -644,11 +655,16 @@ public class ThreadCheckPriceFiles extends Thread {
 
 
 						}
+						
+						if(defaultModel == null) {
+							defaultModel = 5;
+						}
 
 
 						PrintRequest rpq = new PrintRequest();
 						rpq.setItemId(itemID);
 						rpq.setModelId(defaultModel);
+						//System.out.println("default model pour print request : " +defaultModel);
 						rpq.setNumOfCopies(1);
 						//se.pricer.r3_3.remote.RemotePrintRequest rpq = new se.pricer.r3_3.remote.RemotePrintRequest("REL_" + sdf3.format(new Date()), "1", "Default", "1", "1", itemID, "config", "", false);
 						lstRemotePrint.add(rpq);
