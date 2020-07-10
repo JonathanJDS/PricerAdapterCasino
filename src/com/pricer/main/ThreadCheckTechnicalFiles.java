@@ -97,7 +97,7 @@ public class ThreadCheckTechnicalFiles extends Thread {
 							
 							String sourceFile = sourceFolder + "\\" +technicalFileName;
 							utility.ZipFile(sourceFolder, "BO"+technicalFileName, technicalArchiveFolder, technicalFileName);
-							completeWithSIC.completeWithSic(sourceFile, "S", "0", "0", "45");
+							completeWithSIC.completeWithSic(sourceFile, "S", "0", "0", "46");
 							
 							utility.ZipFile(sourceFolder, "PRICER"+technicalFileName, technicalArchiveFolder, technicalFileName);
 							utility.MoveFile(sourceFolder + "\\" + FdataFile.getFileName(), temporaryFolder + "\\" + FdataFile.getFileName());

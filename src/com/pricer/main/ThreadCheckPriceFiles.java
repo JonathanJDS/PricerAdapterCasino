@@ -198,6 +198,8 @@ public class ThreadCheckPriceFiles extends Thread {
 
 		// Map Iteration
 		for (int i=0;i<lstMapFile.size();i++) {
+			
+			//System.out.println(lstMapFile.get(i));
 
 			List<String> splitedTabLine = splitLine(lstMapFile.get(i), "|");
 
