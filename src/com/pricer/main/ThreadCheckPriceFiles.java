@@ -324,9 +324,25 @@ public class ThreadCheckPriceFiles extends Thread {
 
 
 		}
-		
-	product.setLstEANsic(lstEANSics);	
-	lstProducts.add(product);
+
+
+try {
+	if (lstEANSics != null) {
+
+
+		if (lstEANSics.size() > 0) {
+			product.setLstEANsic(lstEANSics);
+			lstProducts.add(product);
+		}
+
+	}
+
+}
+
+catch (NullPointerException npex) {
+
+	logger.warn("prevent empty value ....");
+}
 
 
 
@@ -416,9 +432,18 @@ public class ThreadCheckPriceFiles extends Thread {
 		}
 
 
-		datafile_Update.flush();
-		logger.info("datafile (" +  dataFileName_Update + ") is written......");
 
+		try {
+
+			datafile_Update.flush();
+			logger.info("datafile (" + dataFileName_Update + ") is written......");
+		}
+
+		catch (NullPointerException npex) {
+
+			logger.warn("file is empty ");
+
+		}
 
 
 		if (lstDeletePFI.size()>0){
