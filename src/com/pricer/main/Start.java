@@ -92,6 +92,9 @@ public class Start {
 		getVLLFiles.setPriority(1);
 		getVLLFiles.start();
 
+		ThreadCheckNewGest getNewGestFiles = new ThreadCheckNewGest();
+		getNewGestFiles.setPriority(1);
+		getNewGestFiles.start();
 		
 
 

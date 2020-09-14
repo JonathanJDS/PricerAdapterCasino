@@ -17,6 +17,22 @@ public class ProductGestion {
 	private String articleSupprime;
 	private String affichage;
 	private String pointSmiles;
+	private String masterEan;
+	private String prixPapier;
+	private String flagPapier;
+	private String flagS;
+	private String flagTriangle;
+	private String flagInfo;
+	private String flagD;
+	private String freeText1;
+	private String freeText2;
+	private String freeText3;
+	private String freeText4;
+	private String freeText5;
+	private String plu;
+	private String flagPromo;
+	
+	
 	
 	
 	
@@ -123,6 +139,90 @@ public class ProductGestion {
 	}
 	public void setPointSmiles(String pointSmiles) {
 		this.pointSmiles = pointSmiles;
+	}
+	public String getMasterEan() {
+		return masterEan;
+	}
+	public void setMasterEan(String masterEan) {
+		this.masterEan = masterEan;
+	}
+	public String getPrixPapier() {
+		return prixPapier;
+	}
+	public void setPrixPapier(String prixPapier) {
+		this.prixPapier = prixPapier;
+	}
+	public String getFlagPapier() {
+		return flagPapier;
+	}
+	public void setFlagPapier(String flagPapier) {
+		this.flagPapier = flagPapier;
+	}
+	public String getFlagS() {
+		return flagS;
+	}
+	public void setFlagS(String flagS) {
+		this.flagS = flagS;
+	}
+	public String getFlagTriangle() {
+		return flagTriangle;
+	}
+	public void setFlagTriangle(String flagTriangle) {
+		this.flagTriangle = flagTriangle;
+	}
+	public String getFlagInfo() {
+		return flagInfo;
+	}
+	public void setFlagInfo(String flagInfo) {
+		this.flagInfo = flagInfo;
+	}
+	public String getFlagD() {
+		return flagD;
+	}
+	public void setFlagD(String flagD) {
+		this.flagD = flagD;
+	}
+	public String getFreeText1() {
+		return freeText1;
+	}
+	public void setFreeText1(String freeText1) {
+		this.freeText1 = freeText1;
+	}
+	public String getFreeText2() {
+		return freeText2;
+	}
+	public void setFreeText2(String freeText2) {
+		this.freeText2 = freeText2;
+	}
+	public String getFreeText3() {
+		return freeText3;
+	}
+	public void setFreeText3(String freeText3) {
+		this.freeText3 = freeText3;
+	}
+	public String getFreeText4() {
+		return freeText4;
+	}
+	public void setFreeText4(String freeText4) {
+		this.freeText4 = freeText4;
+	}
+	public String getFreeText5() {
+		return freeText5;
+	}
+	public void setFreeText5(String freeText5) {
+		this.freeText5 = freeText5;
+	}
+	public String getPlu() {
+		return plu;
+	}
+	public void setPlu(String plu) {
+		this.plu = plu;
+	}
+	public String getFlagPromo() {
+		return flagPromo;
+	}
+	public void setFlagPromo(String flagPromo) {
+		this.flagPromo = flagPromo;
 	}
 	
 	
