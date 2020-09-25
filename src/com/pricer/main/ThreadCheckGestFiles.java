@@ -40,6 +40,7 @@ public class ThreadCheckGestFiles extends Thread {
 	static String pricerMessageFilesFolder;
 	static String pricerResultFilesFolder;
 	static String internalCodeSize;
+	static String disableCodeMagasin;
 	static String hostAPI;
 	static String portAPI;
 	static String userAPI;
@@ -73,6 +74,8 @@ public class ThreadCheckGestFiles extends Thread {
 		/*****Format DATA ***********/
 		
 		internalCodeSize	= ini.get("FormatData", "InternalCodeSize");
+		disableCodeMagasin = ini.get("FormatData", "DisableCodeMagasin");
+		
 		
 		/******** API **************/
 		hostAPI	= ini.get("API", "Host");
@@ -177,6 +180,14 @@ public class ThreadCheckGestFiles extends Thread {
 		
 		for(String line : lstMapFile) {
 			
+			if(disableCodeMagasin.equalsIgnoreCase("1")) {
+			
+				line = "99999"+line;
+				System.out.println("line = " + line);
+			
+			}
+
+			
 			lineSplited2 = line.split(";");
 			
 			lstItems = new ArrayList<String>();
@@ -198,9 +209,10 @@ public class ThreadCheckGestFiles extends Thread {
 
 		for (String line : lstFile) {
 			
-		//System.out.println("line = " + line);
 		
-
+		
+			//line = "9999" + line;
+			//System.out.println("line = " + line);
 			List<String> splitedTabLine = splitLine(line, ";");
 
 			  try {
