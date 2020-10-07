@@ -88,10 +88,10 @@ public class CompleteWithSic {
                             case "S": {
                                 line = "CDISCOUNT;" + line;
                                 itemIDFromFile = line.split(";")[ItemPositionBegin + 1];
-                                if (line.split(";").length != LineSizeWanted + 1) {
-                                    itemIDFromFile = "error";
-                                    logger.warn(("the number of elements (" + line.split(";").length + ") is different as expected " + (LineSizeWanted + 1) + " For this Line : " + line));
-                                }
+//                                if (line.split(";").length != LineSizeWanted + 1) {
+//                                    itemIDFromFile = "error";
+//                                  logger.warn(("the number of elements (" + line.split(";").length + ") is different as expected " + (LineSizeWanted + 1) + " For this Line : " + line));
+//                                }
                                 break Label_0769;
                             }
                             default:
