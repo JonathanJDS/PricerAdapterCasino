@@ -238,11 +238,15 @@ public class ThreadCheckPriceFiles extends Thread {
 
 
 
-				if (opCode.equals("14") && (splitedTabLine.get(5).trim().equals("{UE 27") ||splitedTabLine.get(5).trim().equals("{UE 26"))) {
+				if (opCode.equals("14") && (splitedTabLine.get(5).trim().equals("{UE 27") ||splitedTabLine.get(5).trim().equals("{UE 26")) ) {
+					try {
+						product.setCodeInterne( splitedTabLine.get(2) + String.format("%" + internalCodeSize + "d",Integer.parseInt(splitedTabLine.get(1))));
+					}
+					catch (NumberFormatException ex) {
+						System.out.println("rejected line" + lstMapFile.get(i));
+					}
 
-					product.setCodeInterne(splitedTabLine.get(2) + String.format("%"+internalCodeSize+"d",Integer.parseInt(splitedTabLine.get(1))));
-					//lstProducts.add(product);
-				}
+					}
 
 
 				if (opCode.equals("02") || opCode.equals("22")) {
@@ -263,8 +267,8 @@ public class ThreadCheckPriceFiles extends Thread {
 					product.setLstEANsic(lstEANSics);
 					lstProducts.add(product);
 					isnewProduct = true;
-					
-					
+
+
 				}
 
 
@@ -320,7 +324,7 @@ public class ThreadCheckPriceFiles extends Thread {
 
 					}
 
-					
+
 
 				}
 
@@ -356,7 +360,7 @@ catch (NullPointerException npex) {
 
 
 		for (ProductPrice produit : lstProducts) {
-			
+
 
 			try {
 
@@ -373,20 +377,19 @@ catch (NullPointerException npex) {
 
 					bdatafile_Update_opened = true;
 				}
-				
+
 			//	System.out.println("bdatafile_update is true");
 
 				completeLine2 = new StringBuffer();
-
-				if (produit.getCodeInterne().length()>9) {
-					completeLine2.append("0001 ").append(produit.getCodeInterne());
-				}
-				else {
-					completeLine2.append("0001 ").append(String.format("%" + internalCodeSize + "d", Integer.parseInt(produit.getCodeInterne())));
-
+				completeLine2.append("0001 ");
+				try {
+					completeLine2.append(String.format("%" + internalCodeSize + "d", Integer.parseInt(produit.getCodeInterne())));
 				}
 
+				catch (NumberFormatException ex){
+					completeLine2.append(String.format(produit.getCodeInterne()));
 
+				}
 
 				completeLine2.append(" 7 0 |").append(produit.getLibelle().trim());
 				completeLine2.append("| 23 0 |").append(produit.getPrix().replace(",", ""));
@@ -403,6 +406,7 @@ catch (NullPointerException npex) {
 				completeLine2.append("| 453 0 |").append(produit.getFlagPrixKilo());
 				completeLine2.append("| 40 0 |").append(produit.getMontantECOPART());
 				completeLine2.append("| 41 0 |").append(produit.getFlagECOPART());
+				//completeLine2.append(System.lineSeparator());
 				
 
 
@@ -423,24 +427,47 @@ catch (NullPointerException npex) {
 				}
 				
 				  if (produit.getLstEANsic().size()==0) {
-					  
-					  completeLine2.append("0001 ").append(String.format("%06d",Integer.parseInt(produit.getCodeInterne()) ));
-						 // completeLine2.append("0001 ").append(produit.getCodeInterne());
+					  completeLine2.append("|,");
+					  completeLine2.append(System.lineSeparator());
+
+					  completeLine2.append("0001 ");
+					  try {
+						  completeLine2.append(String.format("%" + internalCodeSize + "d", Integer.parseInt(produit.getCodeInterne())));
+
+					  } catch (NumberFormatException ex) {
+						  completeLine2.append(String.format(produit.getCodeInterne()));
+
+					  }
+					  // completeLine2.append("0001 ").append(produit.getCodeInterne());
 					  completeLine2.append("| 9510 0 |").append(produit.getEAN());
 					  //completeLine2.append("|");
 
-					  
+
+					  if (produit.getLstEANsic().size() > 0) {
+						  completeLine2.append("|,");
+						  completeLine2.append(System.lineSeparator());
+						  completeLine2.append("0001 ");
+						  try {
+							  completeLine2.append(String.format("%" + internalCodeSize + "d", Integer.parseInt(produit.getCodeInterne())));
+						  } catch (NumberFormatException ex) {
+							  completeLine2.append(String.format(produit.getCodeInterne()));
+
+						  }
+
+
+						  completeLine2.append("| 9510 0 |").append(produit.getEAN()).append(" ").append(produit.getLstEANsic().toString().replace("[", "").replace("]", "").replace(",", ""));
+
 					  }
 
-				if (produit.getLstEANsic().size() > 0) {
-					completeLine2.append("0001 ").append(String.format("%"+internalCodeSize+"d", Integer.parseInt(produit.getCodeInterne())));
-					completeLine2.append("| 9510 0 |").append(produit.getEAN()).append(" ").append(produit.getLstEANsic().toString().replace("[", "").replace("]", "").replace(",", ""));
-
-				}
+				  }
 
 
-				completeLine2.append("| 9500 0 |").append(dateApplicationFormatted + " 00:30:00");
-				completeLine2.append("|,");
+
+					completeLine2.append("| 9500 0 |").append(dateApplicationFormatted + " 00:30:00");
+					completeLine2.append("|,");
+
+
+
 
 
 			} catch (NullPointerException ex) {
