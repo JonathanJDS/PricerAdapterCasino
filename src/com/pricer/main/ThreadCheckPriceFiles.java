@@ -236,6 +236,15 @@ public class ThreadCheckPriceFiles extends Thread {
 				}
 
 
+
+
+				if (opCode.equals("14") && (splitedTabLine.get(5).trim().equals("{UE 27") ||splitedTabLine.get(5).trim().equals("{UE 26"))) {
+
+					product.setCodeInterne(splitedTabLine.get(2) + String.format("%"+internalCodeSize+"d",Integer.parseInt(splitedTabLine.get(1))));
+					//lstProducts.add(product);
+				}
+
+
 				if (opCode.equals("02") || opCode.equals("22")) {
 					ProductToDelete productToDeletePFI = new ProductToDelete();
 					productToDeletePFI.setCodeInterne(splitedTabLine.get(1));
@@ -368,7 +377,17 @@ catch (NullPointerException npex) {
 			//	System.out.println("bdatafile_update is true");
 
 				completeLine2 = new StringBuffer();
-				completeLine2.append("0001 ").append(String.format("%"+internalCodeSize+"d",Integer.parseInt(produit.getCodeInterne())));
+
+				if (produit.getCodeInterne().length()>9) {
+					completeLine2.append("0001 ").append(produit.getCodeInterne());
+				}
+				else {
+					completeLine2.append("0001 ").append(String.format("%" + internalCodeSize + "d", Integer.parseInt(produit.getCodeInterne())));
+
+				}
+
+
+
 				completeLine2.append(" 7 0 |").append(produit.getLibelle().trim());
 				completeLine2.append("| 23 0 |").append(produit.getPrix().replace(",", ""));
 				completeLine2.append("| 45 0 |").append(produit.getPrixUnitaire().replace(",", ""));
