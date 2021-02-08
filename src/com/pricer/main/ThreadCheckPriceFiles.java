@@ -439,7 +439,7 @@ catch (NullPointerException npex) {
 
 					  }
 					  // completeLine2.append("0001 ").append(produit.getCodeInterne());
-					  completeLine2.append("| 9510 0 |").append(produit.getEAN());
+					  completeLine2.append(" 9510 0 |").append(produit.getEAN());
 					  //completeLine2.append("|");
 
 
@@ -455,7 +455,7 @@ catch (NullPointerException npex) {
 						  }
 
 
-						  completeLine2.append("| 9510 0 |").append(produit.getEAN()).append(" ").append(produit.getLstEANsic().toString().replace("[", "").replace("]", "").replace(",", ""));
+						  completeLine2.append(" 9510 0 |").append(produit.getEAN()).append(" ").append(produit.getLstEANsic().toString().replace("[", "").replace("]", "").replace(",", ""));
 
 					  }
 
@@ -463,7 +463,7 @@ catch (NullPointerException npex) {
 
 
 
-					completeLine2.append("| 9500 0 |").append(dateApplicationFormatted + " 00:30:00");
+					completeLine2.append("| 9500 0 |").append(dateApplicationFormatted + " 00:05:00");
 					completeLine2.append("|,");
 
 
