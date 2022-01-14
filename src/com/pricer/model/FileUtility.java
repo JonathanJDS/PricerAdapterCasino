@@ -29,6 +29,8 @@ public class FileUtility {
 	
 
 	
+	
+	
 	public void MoveFile(String source, String destination) {
 		
 		
@@ -323,7 +325,7 @@ public boolean deleteFile() {
     
     /**
      * Taille du fichier
-     * @return unité byte
+     * @return unitÃ© byte
      */
     public Long getSize() {
         return this.file.length();

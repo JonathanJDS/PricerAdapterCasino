@@ -238,9 +238,9 @@ public class ThreadCheckNewGest extends Thread {
 		productGestion.setFlagInfo(splitedTabLine.get(13));
 		productGestion.setFlagD(splitedTabLine.get(15));
 		productGestion.setFreeText1(splitedTabLine.get(22));
-		productGestion.setFreeText2(splitedTabLine.get(23));
-		productGestion.setFreeText3(splitedTabLine.get(24));
-		productGestion.setFreeText4(splitedTabLine.get(25));
+		productGestion.setUnitPrice05(splitedTabLine.get(23));
+		productGestion.setUnitCode05(splitedTabLine.get(24));
+		productGestion.setEcoPart05(splitedTabLine.get(25));
 		productGestion.setFreeText5(splitedTabLine.get(26));
 
 		        
@@ -259,9 +259,9 @@ public class ThreadCheckNewGest extends Thread {
 		 completeLine.append("| 616 0 |").append(productGestion.getFlagInfo());
 		 completeLine.append("| 617 0 |").append(productGestion.getFlagD());
 		 completeLine.append("| 618 0 |").append(productGestion.getFreeText1());
-		 completeLine.append("| 619 0 |").append(productGestion.getFreeText2());
-		 completeLine.append("| 620 0 |").append(productGestion.getFreeText3());
-		 completeLine.append("| 621 0 |").append(productGestion.getFreeText4());
+		 completeLine.append("| 619 0 |").append(productGestion.getUnitPrice05());
+		 completeLine.append("| 620 0 |").append(productGestion.getUnitCode05());
+		 completeLine.append("| 621 0 |").append(productGestion.getEcoPart05());
 		 completeLine.append("| 622 0 |").append(productGestion.getFreeText5());
 
                  

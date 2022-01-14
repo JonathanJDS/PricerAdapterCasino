@@ -25,12 +25,13 @@ public class ProductGestion {
 	private String flagInfo;
 	private String flagD;
 	private String freeText1;
-	private String freeText2;
-	private String freeText3;
-	private String freeText4;
+	private String unitPrice05;
+	private String unitCode05;
+	private String ecoPart05;
 	private String freeText5;
 	private String plu;
 	private String flagPromo;
+	private String salesContractId;
 	
 	
 	
@@ -188,24 +189,6 @@ public class ProductGestion {
 	public void setFreeText1(String freeText1) {
 		this.freeText1 = freeText1;
 	}
-	public String getFreeText2() {
-		return freeText2;
-	}
-	public void setFreeText2(String freeText2) {
-		this.freeText2 = freeText2;
-	}
-	public String getFreeText3() {
-		return freeText3;
-	}
-	public void setFreeText3(String freeText3) {
-		this.freeText3 = freeText3;
-	}
-	public String getFreeText4() {
-		return freeText4;
-	}
-	public void setFreeText4(String freeText4) {
-		this.freeText4 = freeText4;
-	}
 	public String getFreeText5() {
 		return freeText5;
 	}
@@ -223,6 +206,30 @@ public class ProductGestion {
 	}
 	public void setFlagPromo(String flagPromo) {
 		this.flagPromo = flagPromo;
+	}
+	public String getSalesContractId() {
+		return salesContractId;
+	}
+	public void setSalesContractId(String salesContractId) {
+		this.salesContractId = salesContractId;
+	}
+	public String getEcoPart05() {
+		return ecoPart05;
+	}
+	public void setEcoPart05(String ecoPart05) {
+		this.ecoPart05 = ecoPart05;
+	}
+	public String getUnitCode05() {
+		return unitCode05;
+	}
+	public void setUnitCode05(String unitCode05) {
+		this.unitCode05 = unitCode05;
+	}
+	public String getUnitPrice05() {
+		return unitPrice05;
+	}
+	public void setUnitPrice05(String unitPrice05) {
+		this.unitPrice05 = unitPrice05;
 	}
 	
 	

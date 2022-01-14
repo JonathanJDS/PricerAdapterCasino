@@ -15,6 +15,49 @@ public class ProductTechnicalFile extends ProductBase{
 	private String pictoValeur4;
 	private String pictoTitre5;
 	private String pictoValeur5;
+	private String pictoTitre6;
+	private String pictoValeur6;
+	private String pictoTitre7;
+	private String pictoValeur7;
+	private String pictoTitre8;
+	private String pictoValeur8;
+	
+	public String getPictoTitre6() {
+		return pictoTitre6;
+	}
+	public void setPictoTitre6(String pictoTitre6) {
+		this.pictoTitre6 = pictoTitre6;
+	}
+	public String getPictoValeur6() {
+		return pictoValeur6;
+	}
+	public void setPictoValeur6(String pictoValeur6) {
+		this.pictoValeur6 = pictoValeur6;
+	}
+	public String getPictoTitre7() {
+		return pictoTitre7;
+	}
+	public void setPictoTitre7(String pictoTitre7) {
+		this.pictoTitre7 = pictoTitre7;
+	}
+	public String getPictoValeur7() {
+		return pictoValeur7;
+	}
+	public void setPictoValeur7(String pictoValeur7) {
+		this.pictoValeur7 = pictoValeur7;
+	}
+	public String getPictoTitre8() {
+		return pictoTitre8;
+	}
+	public void setPictoTitre8(String pictoTitre8) {
+		this.pictoTitre8 = pictoTitre8;
+	}
+	public String getPictoValeur8() {
+		return pictoValeur8;
+	}
+	public void setPictoValeur8(String pictoValeur8) {
+		this.pictoValeur8 = pictoValeur8;
+	}
 	private String noteMoyenne;
 	private String nbreAvisClients;
 	private String prixPrecoFournisseur;

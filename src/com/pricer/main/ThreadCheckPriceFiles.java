@@ -1,6 +1,7 @@
 package com.pricer.main;
 
 
+import com.pricer.model.FileProperty;
 import com.pricer.model.FileUtility;
 import com.pricer.product.ProductPrice;
 import com.pricer.product.ProductToDelete;
@@ -73,16 +74,44 @@ public class ThreadCheckPriceFiles extends Thread {
 			@Override
 			public void run() {
 
+				FileProperty CurrentFile =null;
+				FileUtility lstFiles = new FileUtility();
 
+				
 				FileUtility FdataFile = new FileUtility(sourceFolder + "\\" +  priceFileName);
 				FileUtility FTemporaryFile = new FileUtility(temporaryFolder + "\\" + priceFileName);
+				FileUtility FTemporaryFileSplit = new FileUtility(FTemporaryFile.toString()+"_1");
 				FileUtility FEEGEANFile = new FileUtility(sourceFolder + "\\" + pricerRelFileName);
-				FileUtility FTemporaryEEGEANFile = new FileUtility(temporaryFolder + "\\" + pricerRelFileName);
+				FileUtility FTemporaryEEGEANFile = new FileUtility(temporaryFolder + "\\" + pricerRelFileName);				
+				
+				CurrentFile =new FileProperty(FTemporaryFile.getPathFilename());
 
 				// check first if something is present in temporary Folder, if not process source Folder
-				if (FTemporaryFile.FileExist()) {
-					logger.warn ("File is present in temporary Folder !! priority for that !!!!");
-					ProcessFile(FTemporaryFile);
+				if (FTemporaryFile.FileExist() ||  FTemporaryFileSplit.FileExist()) {
+					logger.warn ("File is present in temporary Folder !! priority for that !!!!");		
+					System.out.println("CurrentFile for split is :" +FTemporaryFile.getPathFilename());
+					CurrentFile.SplitFile(50000,temporaryFolder+"\\");
+					FTemporaryFile.deleteFile();
+					
+					File dir = new File(temporaryFolder);
+					File[] files = dir.listFiles(new FilenameFilter() {
+					    public boolean accept(File dir, String name) {
+					        return name.startsWith("EEG0101");
+					    }
+					});
+					
+					Arrays.sort(files, Comparator.comparingLong(File::lastModified));
+
+					
+					for(File name : files) {
+						//System.out.println(name.getName());
+						FileUtility splited = new FileUtility(name.toString());
+						ProcessFile(splited);
+					}
+					
+					
+					
+					//ProcessFile(FTemporaryFile);
 				}
 
 				else {
@@ -102,7 +131,26 @@ public class ThreadCheckPriceFiles extends Thread {
 					}
 
 
-					ProcessFile(FTemporaryFile);
+					CurrentFile.SplitFile(40000,temporaryFolder+"\\");
+					FTemporaryFile.deleteFile();
+					
+					File dir = new File(temporaryFolder);
+					File[] files = dir.listFiles(new FilenameFilter() {
+					    public boolean accept(File dir, String name) {
+					        return name.startsWith("EEG0101");
+					    }
+					});
+					
+					Arrays.sort(files, Comparator.comparingLong(File::lastModified));
+					
+					
+					for(File name : files) {
+						//System.out.println(name.getName());
+						FileUtility splited = new FileUtility(name.toString());
+						ProcessFile(splited);
+					}
+					
+					//ProcessFile(FTemporaryFile);
 
 
 					}
@@ -241,6 +289,7 @@ public class ThreadCheckPriceFiles extends Thread {
 				if (opCode.equals("14") && (splitedTabLine.get(5).trim().equals("{UE 27") ||splitedTabLine.get(5).trim().equals("{UE 26")) ) {
 					try {
 						product.setCodeInterne( splitedTabLine.get(2) + String.format("%" + internalCodeSize + "d",Integer.parseInt(splitedTabLine.get(1))));
+						product.setUv(splitedTabLine.get(12).substring(0,3));
 					}
 					catch (NumberFormatException ex) {
 						System.out.println("rejected line" + lstMapFile.get(i));
@@ -249,34 +298,33 @@ public class ThreadCheckPriceFiles extends Thread {
 					}
 
 
-				if (opCode.equals("02") || opCode.equals("22")) {
+				 if (opCode.equals("02") || opCode.equals("22")) {
 					ProductToDelete productToDeletePFI = new ProductToDelete();
 					productToDeletePFI.setCodeInterne(splitedTabLine.get(1));
 					lstDeletePFI.add(productToDeletePFI);
 				}
 
 
-				if (opCode.equals("04")) {
+				 if (opCode.equals("04")) {
 					ProductToDelete productToDelete04 = new ProductToDelete();
 					productToDelete04.setCodeInterne(splitedTabLine.get(0));
 					productToDelete04.setEAN(splitedTabLine.get(1));
 					lstDelete.add(productToDelete04);
 				}
 
-				if (opCode.equals("03") && lineToCheck.equals(model1) == false && lineToCheck.equals(model2) == false && isnewProduct == false) {
+				 if (opCode.equals("03") && lineToCheck.equals(model1) == false && lineToCheck.equals(model2) == false && isnewProduct == false) {
 					product.setLstEANsic(lstEANSics);
 					lstProducts.add(product);
 					isnewProduct = true;
 
-
 				}
 
 
-				if (opCode.equals("03") && lineToCheck.equals(model1) == false && lineToCheck.equals(model2) == false && isnewProduct == true) {
-
+				 if (opCode.equals("03") && lineToCheck.equals(model1) == false && lineToCheck.equals(model2) == false && isnewProduct == true) {
 
 					product = new ProductPrice();
 					product.setCodeInterne(splitedTabLine.get(1));
+					
 					product.setEAN(splitedTabLine.get(2));
 					product.setLibelle(splitedTabLine.get(3));
 					product.setPrix(splitedTabLine.get(4));
@@ -314,7 +362,9 @@ public class ThreadCheckPriceFiles extends Thread {
 				}
 
 
-				if (opCode.equals("03") && lineToCheck.equals(model1) == true && lineToCheck.equals(model2) == false && isnewProduct == false) {
+				 if (opCode.equals("03") && lineToCheck.equals(model1) == true && lineToCheck.equals(model2) == false && isnewProduct == false) {
+
+					
 					if (splitedTabLine.get(1).equals(product.getCodeInterne()) == true) {
 						lstEANSics.add(splitedTabLine.get(2));
 						isnewProduct = false;
@@ -340,15 +390,9 @@ public class ThreadCheckPriceFiles extends Thread {
 
 
 try {
-	if (lstEANSics != null) {
 
-
-		if (lstEANSics.size() > 0) {
 			product.setLstEANsic(lstEANSics);
 			lstProducts.add(product);
-		}
-
-	}
 
 }
 
@@ -357,6 +401,8 @@ catch (NullPointerException npex) {
 	logger.warn("prevent empty value ....");
 }
 
+
+	//System.out.println("lstProducts : " + lstProducts.size());
 
 
 		for (ProductPrice produit : lstProducts) {
@@ -406,9 +452,12 @@ catch (NullPointerException npex) {
 				completeLine2.append("| 453 0 |").append(produit.getFlagPrixKilo());
 				completeLine2.append("| 40 0 |").append(produit.getMontantECOPART());
 				completeLine2.append("| 41 0 |").append(produit.getFlagECOPART());
+				completeLine2.append("| 624 0 |").append(produit.getUv());
 				//completeLine2.append(System.lineSeparator());
 				
 
+				//System.out.println("complete line after get is : " + completeLine2);
+				
 
 				SimpleDateFormat formatter = new SimpleDateFormat("ddMMyy");
 				SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
@@ -442,7 +491,7 @@ catch (NullPointerException npex) {
 					  completeLine2.append(" 9510 0 |").append(produit.getEAN());
 					  //completeLine2.append("|");
 
-
+				  }
 					  if (produit.getLstEANsic().size() > 0) {
 						  completeLine2.append("|,");
 						  completeLine2.append(System.lineSeparator());
@@ -459,7 +508,7 @@ catch (NullPointerException npex) {
 
 					  }
 
-				  }
+//				  }
 
 
 
@@ -649,13 +698,14 @@ catch (NullPointerException npex) {
 			final String API_PORT	= ini.get("API","Port");
 
 			ArrayList<PrintRequest> lstRemotePrint = new ArrayList<PrintRequest>();
-			java.text.SimpleDateFormat sdf3 = new java.text.SimpleDateFormat("yyMMdd_HHmmss");
+			java.text.SimpleDateFormat sdf3 = new java.text.SimpleDateFormat("yyMMddHHmmss");
 
 			PricerPublicAPI50 pricerInterfaceR5 ;
 
 			try {
 				pricerInterfaceR5  = new R5WSAPI(API_USER,API_KEY,API_HOST,API_PORT).getPricerInterfaceR5();
 				System.out.println("Pricer Version = " + pricerInterfaceR5.getSystemVersion().getVersion());
+				System.out.println();
 
 			}
 
@@ -686,7 +736,7 @@ catch (NullPointerException npex) {
 			for (String line : lstEANTOPrint) {
 
 				if (line.trim()!="" && line!=null && line.trim().length()>4) {
-					//System.out.println("line of eegean = " + line);
+					System.out.println("line of eegean = " + line);
 
 					String[] splitItemID= line.split(" ");
 
@@ -770,11 +820,12 @@ catch (NullPointerException npex) {
 			PrintBatch printBatch = new PrintBatch();
 			printBatch.setBatchName("REL_" + sdf3.format(new Date()));
 			printBatch.setRequests(lstRemotePrint);
-			//printBatch.setBatchId("config");
+			printBatch.setBatchId(0);
+
 
 			try {
 				pricerInterfaceR5.savePrintBatch(printBatch);
-				//gui.saveOverlayRequest(lstRemotePrint);
+
 			}
 
 			catch (Exception exp) {

@@ -186,12 +186,22 @@ public class ThreadCheckGestFiles extends Thread {
 				System.out.println("line = " + line);
 			
 			}
+			
+
+			
+			
 
 			
 			lineSplited2 = line.split(";");
 			
 			lstItems = new ArrayList<String>();
-			lstItems.add(lineSplited2[1].trim());
+			
+			if(internalCodeSize.equalsIgnoreCase("09") && lineSplited2[1].trim().length() < 9) {
+				lstItems.add("000"+lineSplited2[1].trim());
+			}
+			else
+				lstItems.add(lineSplited2[1].trim());
+			
 			
 				for(String itemid : lstItems) {
 					
@@ -239,7 +249,10 @@ public class ThreadCheckGestFiles extends Thread {
 		
 		productGestion = new ProductGestion();
 		productGestion.setCodeMagasinGes(splitedTabLine.get(0));
-		productGestion.setItemIDGest(splitedTabLine.get(1));
+		if(internalCodeSize.equalsIgnoreCase("09")) {
+			productGestion.setItemIDGest("000"+splitedTabLine.get(1));
+		}else
+			productGestion.setItemIDGest(splitedTabLine.get(1));
 		productGestion.setPresentationStock(splitedTabLine.get(2));
 		productGestion.setFacing(splitedTabLine.get(3));
 		productGestion.setQteInStock(splitedTabLine.get(4));
@@ -269,8 +282,8 @@ public class ThreadCheckGestFiles extends Thread {
 		productGestion.setArticleSupprime(splitedTabLine.get(12));
 		productGestion.setAffichage(splitedTabLine.get(13));
 		productGestion.setPointSmiles(splitedTabLine.get(14));
+		productGestion.setSalesContractId(splitedTabLine.get(16));
 		        
-		 
 		 
 
 				
@@ -286,7 +299,7 @@ public class ThreadCheckGestFiles extends Thread {
 		 completeLine.append("| 249 0 |").append(productGestion.getDateDernierComptage());
 		 completeLine.append("| 248 0 |").append(productGestion.getQteDernierComptage());
 		 completeLine.append("| 200 0 |").append(productGestion.getArticleSupprime());
-
+		 completeLine.append("| 402 0 |").append(productGestion.getSalesContractId());
                  
          completeLine.append("|,");
          

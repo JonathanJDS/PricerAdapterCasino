@@ -26,6 +26,7 @@ public class ProductPrice {
     private String flagPrixKilo;
     private String prixDeVentePrecedent;
     private String prixDeVenteaLunite;
+    private String uv;
 
 
     //opcode = 14
@@ -103,6 +104,12 @@ public class ProductPrice {
 
     public String getFlagECOPART() 								{	return flagECOPART;						}
     public void setFlagECOPART(String flagECOPART)				{	this.flagECOPART = flagECOPART;			}
+	public String getUv() {
+		return uv;
+	}
+	public void setUv(String uv) {
+		this.uv = uv;
+	}
 
 
 

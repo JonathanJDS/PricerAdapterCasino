@@ -47,5 +47,7 @@
     <orderEntry type="library" name="mysql-connector-java-8.0.17" level="project" />
     <orderEntry type="library" name="log4j-api-2.13.0" level="project" />
     <orderEntry type="library" name="log4j-core-2.13.0" level="project" />
+    <orderEntry type="library" name="commons-net-3.6" level="project" />
+    <orderEntry type="library" name="WS" level="project" />
   </component>
 </module>

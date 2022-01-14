@@ -60,12 +60,8 @@
             <fileset 	dir="${basedir}\bin"/>
 
 
-            <zipfileset excludes="META-INF/*.SF" src="${basedir}\lib\commons-net-3.6.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${basedir}\lib\cron4j-2.2.5.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${basedir}\lib\ini4j-0.5.4.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${basedir}\lib\log4j-api-2.13.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${basedir}\lib\log4j-core-2.13.0.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${basedir}\lib\mysql-connector-java-8.0.17.jar"/>
+            <zipgroupfileset dir="${basedir}\lib" includes="**/*.jar" />
+            <zipgroupfileset dir="${basedir}\lib\WS" includes="**/*.jar" />
         </jar>
 
 

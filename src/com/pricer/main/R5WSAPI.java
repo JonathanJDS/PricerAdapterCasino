@@ -3,7 +3,6 @@ package com.pricer.main;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -89,7 +88,9 @@ public class R5WSAPI  {
 
 	      Map<String, List<String>> headers = new HashMap<>();
 	      headers.put(USERNAME_HEADER, Collections.singletonList(user));
+	      System.out.println("toto : " +Collections.singletonList(user));
 	      headers.put(AUTHENTICATION_TOKEN_HEADER, Collections.singletonList(hash));
+	      System.out.println("password is : "+Collections.singletonList(hash));
 	      req_ctx.put(MessageContext.HTTP_REQUEST_HEADERS, headers);
 
 	     

@@ -131,6 +131,66 @@ public class OperationOnDB {
 
 	}
 	
+	
+	public Integer getLastBatchId () {
+
+		Statement st = null;
+		ResultSet rs = null;
+		String request ;
+		int result = 0;
+
+		try {
+			st = connection.createStatement();
+
+			request = "SELECT MAX(batchid) AS result FROM ecprintbatchinfo;";
+			
+
+			rs = st.executeQuery(request.toLowerCase());
+
+			//System.out.println("here is the request : " + request.toLowerCase());
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			logger.fatal("SQLException when trying to get linked items : " +e);
+
+		} catch (NullPointerException n) {
+			n.printStackTrace();
+			logger.fatal("SQLException when trying to get linked items : " +n);
+		}
+
+		try {
+
+			while (rs.next()) {
+				
+				result = rs.getInt("result");
+					
+				}							
+		}
+
+		catch (SQLException e) {
+
+			e.printStackTrace();
+			logger.fatal("SQL Exception when trying to add itemid to a map");
+
+		}
+
+		try {
+			st.close();
+			rs.close();
+			//connection.close();
+			
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+			logger.fatal("SQL Exception when trying to close statement and resultset !");
+		}
+		
+
+
+		return result;
+
+	}
+	
 
 	public TreeMap<String, String> getlstItemSics() {
 
@@ -162,7 +222,7 @@ public class OperationOnDB {
 
 			while (rs.next()) {
 
-				lstItemSics.put(rs.getString("sic"),rs.getString("itemid"));
+				lstItemSics.put(rs.getString("itemid"),rs.getString("sic"));
 
 
 
