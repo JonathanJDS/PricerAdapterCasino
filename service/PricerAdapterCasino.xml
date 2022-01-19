@@ -66,20 +66,18 @@ Their modification will not take affect without the service re-installation.
     Supported actions: restart, reboot, none
   -->
   
-  <onfailure action="restart" delay="10 sec"/>
-<!--
-  <onfailure action="restart" delay="20 sec"/>
-  <onfailure action="reboot" />
-  -->
+	<onfailure action="restart" delay="30 sec"/>
+	<onfailure action="restart" delay="60 sec"/>
+	<onfailure action="none" />
   
   <!--
     OPTION: resetfailure
     Time, after which the Windows service resets the failure status.
     Default value: 1 day
   -->
-  <!--
-  <resetfailure>1 hour</resetfailure>
-  -->
+
+  <resetfailure>1 day</resetfailure>
+
 
   <!--
     OPTION: securityDescriptor

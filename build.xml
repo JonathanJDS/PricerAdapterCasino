@@ -21,7 +21,6 @@
         <echo message	=	"dist home 		: ${dist.home}"		        />
         <delete dir     =	"${dist.home}" 						        />
         <copy todir	    =	"${dist.home}\service"				><fileset dir="${basedir}\service"		/>	</copy>
-        <copy todir     =	"${dist.home}\lib"					><fileset dir="${basedir}\lib"	 		/>	</copy>
         <copyfile src	=	"${basedir}\preference.ini" dest="${dist.home}\preference.ini"/>
 
 
