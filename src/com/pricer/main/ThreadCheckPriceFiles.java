@@ -437,6 +437,22 @@ catch (NullPointerException npex) {
 
 				}
 
+				SimpleDateFormat formatter = new SimpleDateFormat("ddMMyy");
+				SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
+
+
+				String dateApplicationFormatted = "";
+
+
+				try {
+					dateApplicationFormatted = formatter2.format(formatter.parse(produit.getDateApplication().replace("{", "").trim()));
+				} catch (ParseException e) {
+					logger.fatal("unable to parse date for " + produit.getDateApplication() + "=> " + e.getMessage() + "..." + e.getCause());
+					//logger.warn("anomalie the line is not formated correctly : rejected " + "==>" + lstMapFile.get(i));
+					logger.log(Level.getLevel("REJECTED"),"Product rejected" + product.getCodeInterne());
+
+				}
+
 				completeLine2.append(" 7 0 |").append(produit.getLibelle().trim());
 				completeLine2.append("| 23 0 |").append(produit.getPrix().replace(",", ""));
 				completeLine2.append("| 45 0 |").append(produit.getPrixUnitaire().replace(",", ""));
@@ -453,27 +469,14 @@ catch (NullPointerException npex) {
 				completeLine2.append("| 40 0 |").append(produit.getMontantECOPART());
 				completeLine2.append("| 41 0 |").append(produit.getFlagECOPART());
 				completeLine2.append("| 624 0 |").append(produit.getUv());
+				completeLine2.append("| 9500 0 |").append(dateApplicationFormatted + " 00:05:00");
 				//completeLine2.append(System.lineSeparator());
 				
 
 				//System.out.println("complete line after get is : " + completeLine2);
 				
 
-				SimpleDateFormat formatter = new SimpleDateFormat("ddMMyy");
-				SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
 
-
-				String dateApplicationFormatted = "";
-
-
-				try {
-					dateApplicationFormatted = formatter2.format(formatter.parse(produit.getDateApplication().replace("{", "").trim()));
-				} catch (ParseException e) {
-					logger.fatal("unable to parse date for " + produit.getDateApplication() + "=> " + e.getMessage() + "..." + e.getCause());
-					//logger.warn("anomalie the line is not formated correctly : rejected " + "==>" + lstMapFile.get(i));
-					logger.log(Level.getLevel("REJECTED"),"Product rejected" + product.getCodeInterne());
-
-				}
 				
 				  if (produit.getLstEANsic().size()==0) {
 					  completeLine2.append("|,");
@@ -512,7 +515,7 @@ catch (NullPointerException npex) {
 
 
 
-					completeLine2.append("| 9500 0 |").append(dateApplicationFormatted + " 00:05:00");
+
 					completeLine2.append("|,");
 
 
