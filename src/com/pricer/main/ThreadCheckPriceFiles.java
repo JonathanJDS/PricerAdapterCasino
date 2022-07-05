@@ -116,6 +116,14 @@ public class ThreadCheckPriceFiles extends Thread {
 
 				else {
 
+					//System.out.println("Size of the current file is : " + FdataFile.getSize());
+
+					if(FdataFile.FileExist() && FdataFile.getSize() == 0){
+						FdataFile.deleteFile();
+						logger.warn("EEG0101 found but is empty, was deleted ...");
+					}
+
+
 					// process only one file in temporary (one by one ) .
 					if (FdataFile.FileExist() && !FTemporaryFile.FileExist()) {
 						utility.ZipFile(sourceFolder, FdataFile.getFileName(), priceArchiveFolder, FdataFile.getFileName());

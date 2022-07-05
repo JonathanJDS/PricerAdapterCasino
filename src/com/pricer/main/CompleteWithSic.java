@@ -89,7 +89,7 @@ public class CompleteWithSic {
                                 line = "CDISCOUNT;" + line;
                                 line = line.replace("|", " - ");
                                 itemIDFromFile = line.split(";")[ItemPositionBegin + 1];
-                               // System.out.println(itemIDFromFile);
+                               //System.out.println(itemIDFromFile);
 //                                if (line.split(";").length != LineSizeWanted + 1) {
 //                                    itemIDFromFile = "error";
 //                                  logger.warn(("the number of elements (" + line.split(";").length + ") is different as expected " + (LineSizeWanted + 1) + " For this Line : " + line));
@@ -102,9 +102,18 @@ public class CompleteWithSic {
                         itemIDFromFile = "error";
                         logger.warn(("line rejected : " + itemIDFromFile + " doesn't exist in database for line ==> " + line));
                     }
-                    if (!itemIDFromFile.equals("error") && lstItemSics.containsKey(itemIDFromFile)) {
-                      //  datafile.println(line.replace(itemIDFromFile, lstItemSics..get(itemIDFromFile)));
+                   // System.out.println("line = " + line);
+
+/*                    if (!itemIDFromFile.equals("error") && lstItemSics.containsKey(itemIDFromFile)) {
+                        System.out.println(("COntains itemID"));
+                    //    datafile.println(line.replace(itemIDFromFile, lstItemSics..get(itemIDFromFile)));
                     	datafile.println(line);
+                        datafile.flush();
+                    }*/
+                    if (!itemIDFromFile.equals("error") && lstItemSics.containsKey(itemIDFromFile)) {
+                        //System.out.println(("COntains itemID"));
+                        //    datafile.println(line.replace(itemIDFromFile, lstItemSics.get(itemIDFromFile)));
+                        datafile.println(line);
                         datafile.flush();
                     }
                     line = "";
